@@ -26,6 +26,8 @@ export type PetCategory =
   | 'nutrition'
   | 'training'
   | 'health'
+  | 'behavior'
+  | 'reviews'
   | 'product-guides'
   | 'stories';
 
@@ -60,16 +62,20 @@ export interface Article {
   status: 'published' | 'draft';
   isFeatured?: boolean;
   isPopular?: boolean;
+  isEditorPick?: boolean;
+  isTrending?: boolean;
+  isBehaviorHero?: boolean;
   isDogHighlight?: boolean;
   isCatHighlight?: boolean;
   seoTitle: string;
   seoDescription: string;
-  canonicalPath: string; // e.g. /dogs/puppy-training-tips
+  canonicalPath: string;
   sections: ArticleSection[];
   tableOfContents: { id: string; text: string; level: number }[];
   faqList: FAQItem[];
   relatedSlugs: string[];
   petType?: 'dog' | 'cat' | 'all';
+  sources?: string[];
 }
 
 export interface CategoryInfo {
@@ -80,4 +86,29 @@ export interface CategoryInfo {
   coverImage: string;
   iconName: string;
   subTopics: string[];
+  articleCount?: number;
+}
+
+export interface ProductReview {
+  id: string;
+  title: string;
+  slug: string;
+  category: 'dog-beds' | 'cat-toys' | 'pet-cameras' | 'grooming-tools' | 'leashes' | 'carriers' | 'water-fountains' | 'pet-accessories';
+  categoryLabel: string;
+  bestFor: string;
+  rating?: number;
+  featuredImage: string;
+  shortDescription: string;
+  pros: string[];
+  cons: string[];
+  priceRange: '$' | '$$' | '$$$';
+  affiliateNote?: string;
+}
+
+export interface FoodGuideItem {
+  name: string;
+  petType: 'dog' | 'cat' | 'both';
+  safety: 'safe' | 'toxic' | 'moderation';
+  notes: string;
+  icon: string;
 }
