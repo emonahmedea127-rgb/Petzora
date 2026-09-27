@@ -28,13 +28,21 @@ import { SearchPage } from './pages/SearchPage';
 import { SitemapPage } from './pages/SitemapPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
-// Scroll to top on route change
+// Scroll to top and track pageviews on route change
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [pathname]);
+
+    // Send SPA pageview to Google Analytics (gtag.js)
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+      (window as any).gtag('config', 'G-DKRVYNKDMK', {
+        page_path: pathname + search,
+        page_title: document.title,
+      });
+    }
+  }, [pathname, search]);
 
   return null;
 }
