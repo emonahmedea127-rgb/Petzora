@@ -21,6 +21,7 @@ import {
 import { allArticles, petCategories, petzoraPicks, foodGuideItems, editorialTeam } from '../data/mockData';
 import { SEO } from '../components/SEO';
 import { AdSenseSlot } from '../components/AdSenseSlot';
+import { SafeImage } from '../components/SafeImage';
 import { useSavedArticles } from '../context/SavedArticlesContext';
 
 export const HomePage: React.FC = () => {
@@ -180,10 +181,12 @@ export const HomePage: React.FC = () => {
             {/* Right Hero Image Composition */}
             <div className="lg:col-span-6 relative">
               <div className="relative mx-auto max-w-lg lg:max-w-none rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/10 dark:ring-white/10 group">
-                <img
-                  src="/src/assets/images/hero_dog_cat_home_1790494898814.jpg"
+                <SafeImage
+                  src="/images/hero-dog-cat.webp"
                   alt="Golden retriever and domestic tabby cat sleeping peacefully side by side in bright modern interior"
                   className="w-full h-[400px] sm:h-[480px] object-cover group-hover:scale-102 transition-transform duration-700"
+                  priority={true}
+                  fallbackSrc="/images/pet-fallback.webp"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/20 to-transparent flex flex-col justify-end p-6 sm:p-8 text-white">
                   <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-mono uppercase tracking-widest font-semibold w-max mb-2">
@@ -279,10 +282,12 @@ export const HomePage: React.FC = () => {
           {/* 1 Large Editorial Article */}
           <article className="lg:col-span-7 bg-white dark:bg-stone-900 rounded-3xl overflow-hidden border border-stone-200/90 dark:border-stone-800 shadow-md group hover:shadow-xl transition-all">
             <Link to={`/${editorsPickLead.category}/${editorsPickLead.slug}`} className="block relative aspect-video sm:aspect-[16/10] overflow-hidden">
-              <img
+              <SafeImage
                 src={editorsPickLead.featuredImage}
-                alt={editorsPickLead.imageAlt}
+                alt={editorsPickLead.imageAlt || editorsPickLead.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                fallbackSrc="/images/pet-fallback.webp"
               />
               <div className="absolute top-4 left-4">
                 <span className="px-3 py-1 rounded-full bg-[#D95D39] text-white text-[10px] font-mono uppercase tracking-wider font-bold shadow">
@@ -351,10 +356,12 @@ export const HomePage: React.FC = () => {
                   to={`/${subArt.category}/${subArt.slug}`}
                   className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden shrink-0"
                 >
-                  <img
+                  <SafeImage
                     src={subArt.featuredImage}
-                    alt={subArt.imageAlt}
+                    alt={subArt.imageAlt || subArt.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                    fallbackSrc="/images/pet-fallback.webp"
                   />
                 </Link>
                 <div className="min-w-0 flex-1 space-y-1">
@@ -405,10 +412,12 @@ export const HomePage: React.FC = () => {
                 className="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all aspect-[4/5] flex flex-col justify-end p-5 text-white"
               >
                 {/* Background Image */}
-                <img
+                <SafeImage
                   src={cat.coverImage}
                   alt={cat.name}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                  loading="lazy"
+                  fallbackSrc="/images/pet-fallback.webp"
                 />
                 {/* Dark Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/40 to-transparent" />
@@ -460,10 +469,12 @@ export const HomePage: React.FC = () => {
               className="bg-white dark:bg-stone-900 rounded-3xl overflow-hidden border border-stone-200/90 dark:border-stone-800 hover:shadow-lg transition-all flex flex-col group"
             >
               <Link to={`/${article.category}/${article.slug}`} className="block relative aspect-[16/10] overflow-hidden">
-                <img
+                <SafeImage
                   src={article.featuredImage}
-                  alt={article.imageAlt}
+                  alt={article.imageAlt || article.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  fallbackSrc="/images/pet-fallback.webp"
                 />
                 <div className="absolute top-3 left-3">
                   <span className="px-2.5 py-1 rounded-full bg-stone-950/80 backdrop-blur-md text-white text-[10px] font-mono font-bold uppercase tracking-wider">
@@ -534,10 +545,12 @@ export const HomePage: React.FC = () => {
                 className="bg-white dark:bg-stone-900 rounded-3xl overflow-hidden border border-stone-200/90 dark:border-stone-800 hover:shadow-lg transition-all flex flex-col group"
               >
                 <Link to={`/${article.category}/${article.slug}`} className="block relative aspect-[16/10] overflow-hidden">
-                  <img
+                  <SafeImage
                     src={article.featuredImage}
-                    alt={article.imageAlt}
+                    alt={article.imageAlt || article.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                    fallbackSrc="/images/pet-fallback.webp"
                   />
                   <div className="absolute top-3 left-3">
                     <span className="px-2.5 py-1 rounded-full bg-stone-950/80 backdrop-blur-md text-white text-[10px] font-mono font-bold uppercase tracking-wider">
@@ -688,10 +701,12 @@ export const HomePage: React.FC = () => {
                 className="bg-[#FAF7F2] dark:bg-stone-800/60 rounded-2xl overflow-hidden border border-stone-200/90 dark:border-stone-700/60 hover:shadow-md transition-all flex flex-col group p-4 space-y-3"
               >
                 <Link to={`/${article.category}/${article.slug}`} className="block aspect-video rounded-xl overflow-hidden">
-                  <img
+                  <SafeImage
                     src={article.featuredImage}
                     alt={article.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    loading="lazy"
+                    fallbackSrc="/images/pet-fallback.webp"
                   />
                 </Link>
                 <div className="space-y-1.5 flex-1">
@@ -843,10 +858,12 @@ export const HomePage: React.FC = () => {
                 className="bg-white dark:bg-stone-900 rounded-3xl overflow-hidden border border-stone-200/90 dark:border-stone-800 shadow-sm hover:shadow-xl transition-all grid grid-cols-1 sm:grid-cols-12 group"
               >
                 <Link to={`/${story.category}/${story.slug}`} className="sm:col-span-5 relative aspect-square sm:aspect-auto overflow-hidden">
-                  <img
+                  <SafeImage
                     src={story.featuredImage}
                     alt={story.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                    fallbackSrc="/images/pet-fallback.webp"
                   />
                 </Link>
                 <div className="sm:col-span-7 p-6 sm:p-7 flex flex-col justify-between space-y-3">
@@ -907,10 +924,12 @@ export const HomePage: React.FC = () => {
             >
               <div className="space-y-3">
                 <div className="aspect-video rounded-2xl overflow-hidden bg-stone-100 dark:bg-stone-800">
-                  <img
+                  <SafeImage
                     src={prod.featuredImage}
                     alt={prod.title}
                     className="w-full h-full object-cover"
+                    loading="lazy"
+                    fallbackSrc="/images/pet-fallback.webp"
                   />
                 </div>
                 <div className="flex items-center justify-between text-xs font-mono">

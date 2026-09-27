@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X, ArrowRight, BookOpen, Tag, History, Clock } from 'lucide-react';
 import { allArticles, petCategories } from '../data/mockData';
+import { SafeImage } from './SafeImage';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -162,10 +163,12 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                       className="w-full text-left p-3.5 rounded-2xl bg-white dark:bg-stone-800/80 hover:bg-orange-50/70 dark:hover:bg-stone-800 border border-stone-200/60 dark:border-stone-700/60 transition-colors flex items-center justify-between gap-3 group"
                     >
                       <div className="flex items-center gap-3.5 min-w-0">
-                        <img
+                        <SafeImage
                           src={article.featuredImage}
                           alt={article.title}
                           className="w-14 h-14 rounded-xl object-cover shrink-0"
+                          loading="lazy"
+                          fallbackSrc="/images/pet-fallback.webp"
                         />
                         <div className="min-w-0">
                           <p className="text-sm sm:text-base font-serif font-bold text-stone-900 dark:text-white group-hover:text-[#D95D39] transition-colors truncate">

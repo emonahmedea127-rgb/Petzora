@@ -4,6 +4,7 @@ import { BookOpen, Mail, Globe, ArrowRight, ShieldCheck, Award } from 'lucide-re
 import { editorialTeam, allArticles } from '../data/mockData';
 import { SEO } from '../components/SEO';
 import { AdSenseSlot } from '../components/AdSenseSlot';
+import { SafeImage } from '../components/SafeImage';
 
 export const AuthorPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -32,10 +33,12 @@ export const AuthorPage: React.FC = () => {
         <div className="rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 p-6 sm:p-10 lg:p-12 shadow-md">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
             <div className="relative shrink-0">
-              <img
+              <SafeImage
                 src={author.avatar}
                 alt={author.name}
                 className="w-36 h-36 sm:w-44 sm:h-44 rounded-3xl object-cover ring-4 ring-orange-500/30 shadow-xl"
+                priority={true}
+                fallbackSrc="/images/author-clara.webp"
               />
               <div
                 className="absolute -bottom-2 -right-2 w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center ring-4 ring-white dark:ring-stone-900 shadow"
@@ -139,10 +142,12 @@ export const AuthorPage: React.FC = () => {
                     to={`/${article.category}/${article.slug}`}
                     className="block relative aspect-video overflow-hidden"
                   >
-                    <img
+                    <SafeImage
                       src={article.featuredImage}
-                      alt={article.imageAlt}
+                      alt={article.imageAlt || article.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                      fallbackSrc="/images/pet-fallback.webp"
                     />
                     <div className="absolute top-3 left-3">
                       <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[11px] font-semibold uppercase">
@@ -195,10 +200,12 @@ export const AuthorPage: React.FC = () => {
                   to={`/author/${other.slug}`}
                   className="p-5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 hover:border-orange-500/50 hover:shadow-md transition-all flex items-center gap-4 group"
                 >
-                  <img
+                  <SafeImage
                     src={other.avatar}
                     alt={other.name}
                     className="w-16 h-16 rounded-2xl object-cover ring-2 ring-orange-500/20"
+                    loading="lazy"
+                    fallbackSrc="/images/author-clara.webp"
                   />
                   <div className="min-w-0 flex-1">
                     <h4 className="font-serif font-bold text-stone-900 dark:text-white group-hover:text-orange-600 transition-colors text-base">

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Heart, ShieldCheck, Award, CheckCircle2, Apple, Bone, ArrowRight } from 'lucide-react';
 import { editorialTeam } from '../data/mockData';
 import { SEO } from '../components/SEO';
+import { SafeImage } from '../components/SafeImage';
 
 export const AboutPage: React.FC = () => {
   return (
@@ -34,10 +35,12 @@ export const AboutPage: React.FC = () => {
 
         {/* Visual Break */}
         <div className="rounded-3xl overflow-hidden shadow-xl aspect-[16/9] border border-stone-200 dark:border-stone-800">
-          <img
-            src="/src/assets/images/hero_dog_cat_home_1790494898814.jpg"
+          <SafeImage
+            src="/images/hero-dog-cat.webp"
             alt="Golden retriever and tabby cat resting cozily at home"
             className="w-full h-full object-cover"
+            priority={true}
+            fallbackSrc="/images/pet-fallback.webp"
           />
         </div>
 
@@ -121,10 +124,12 @@ export const AboutPage: React.FC = () => {
                 key={author.id}
                 className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 flex flex-col items-center text-center space-y-3"
               >
-                <img
+                <SafeImage
                   src={author.avatar}
                   alt={author.name}
                   className="w-20 h-20 rounded-full object-cover ring-2 ring-orange-500/30"
+                  loading="lazy"
+                  fallbackSrc="/images/author-clara.webp"
                 />
                 <div>
                   <h3 className="font-serif font-bold text-stone-900 dark:text-white text-base">

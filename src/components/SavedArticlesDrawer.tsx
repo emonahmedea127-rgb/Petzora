@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { X, Bookmark, Trash2, ArrowRight, Clock } from 'lucide-react';
 import { useSavedArticles } from '../context/SavedArticlesContext';
+import { SafeImage } from './SafeImage';
 
 interface SavedArticlesDrawerProps {
   isOpen: boolean;
@@ -74,10 +75,12 @@ export const SavedArticlesDrawer: React.FC<SavedArticlesDrawerProps> = ({ isOpen
                     onClick={onClose}
                     className="w-16 h-16 rounded-xl overflow-hidden shrink-0 block"
                   >
-                    <img
+                    <SafeImage
                       src={article.featuredImage}
                       alt={article.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      loading="lazy"
+                      fallbackSrc="/images/pet-fallback.webp"
                     />
                   </Link>
 

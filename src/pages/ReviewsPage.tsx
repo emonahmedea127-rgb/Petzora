@@ -4,6 +4,7 @@ import { ShoppingBag, CheckCircle2, XCircle, ArrowRight, ShieldCheck, Heart, Spa
 import { petzoraPicks } from '../data/mockData';
 import { SEO } from '../components/SEO';
 import { AdSenseSlot } from '../components/AdSenseSlot';
+import { SafeImage } from '../components/SafeImage';
 
 export const ReviewsPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -94,10 +95,12 @@ export const ReviewsPage: React.FC = () => {
             >
               {/* Product Image */}
               <div className="relative aspect-video overflow-hidden bg-stone-100 dark:bg-stone-800">
-                <img
+                <SafeImage
                   src={product.featuredImage}
                   alt={product.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  fallbackSrc="/images/pet-reviews.webp"
                 />
                 <div className="absolute top-3 left-3">
                   <span className="px-3 py-1 rounded-full bg-stone-950/80 backdrop-blur-md text-white text-[10px] font-mono uppercase tracking-wider font-semibold">

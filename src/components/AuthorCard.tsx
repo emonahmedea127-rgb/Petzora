@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Globe, ShieldCheck, Award } from 'lucide-react';
 import { Author } from '../types';
+import { SafeImage } from './SafeImage';
 
 interface AuthorCardProps {
   author: Author;
@@ -13,10 +14,12 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({ author, compact = false 
     return (
       <div className="flex items-center gap-3">
         <Link to={`/author/${author.slug}`} className="shrink-0 group">
-          <img
+          <SafeImage
             src={author.avatar}
             alt={author.name}
             className="w-10 h-10 rounded-full object-cover ring-2 ring-orange-500/20 group-hover:ring-orange-500 transition-all"
+            loading="lazy"
+            fallbackSrc="/images/author-clara.webp"
           />
         </Link>
         <div>
@@ -38,10 +41,12 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({ author, compact = false 
     <section aria-labelledby="author-heading" className="p-6 sm:p-8 rounded-2xl bg-amber-50/50 dark:bg-stone-900/60 border border-amber-900/10 dark:border-stone-800 transition-colors">
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
         <Link to={`/author/${author.slug}`} className="shrink-0 relative group">
-          <img
+          <SafeImage
             src={author.avatar}
             alt={author.name}
             className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover ring-2 ring-orange-500/30 group-hover:ring-orange-500 transition-all shadow-md"
+            loading="lazy"
+            fallbackSrc="/images/author-clara.webp"
           />
         </Link>
         <div className="space-y-2 flex-1">

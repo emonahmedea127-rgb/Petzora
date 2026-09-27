@@ -4,6 +4,7 @@ import { ArrowRight, ChevronRight, Tag, BookOpen, Clock, ShieldCheck, Heart } fr
 import { allArticles, petCategories } from '../data/mockData';
 import { SEO } from '../components/SEO';
 import { AdSenseSlot } from '../components/AdSenseSlot';
+import { SafeImage } from '../components/SafeImage';
 import { PetCategory } from '../types';
 
 interface CategoryPageProps {
@@ -21,7 +22,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
     name: activeSlug.charAt(0).toUpperCase() + activeSlug.slice(1).replace('-', ' '),
     slug: activeSlug,
     description: `Expert pet care advice, veterinary-approved guides, and practical lifestyle tips for ${activeSlug.replace('-', ' ')}.`,
-    coverImage: '/src/assets/images/hero_dog_cat_home_1790494898814.jpg',
+    coverImage: '/images/hero-dog-cat.webp',
     iconName: 'Heart',
     subTopics: ['General Care', 'Health', 'Nutrition', 'Training', 'Lifestyle'],
   };
@@ -70,10 +71,12 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
         {/* Category Header Hero Banner */}
         <div className="relative rounded-3xl overflow-hidden shadow-xl bg-stone-900 text-white p-8 sm:p-12 lg:p-16 border border-stone-800">
           <div className="absolute inset-0 opacity-30 mix-blend-overlay">
-            <img
+            <SafeImage
               src={categoryInfo.coverImage}
               alt={categoryInfo.name}
               className="w-full h-full object-cover"
+              priority={true}
+              fallbackSrc="/images/hero-dog-cat.webp"
             />
           </div>
           <div className="relative z-10 max-w-3xl space-y-4">
@@ -130,10 +133,12 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
               to={`/${featuredInCat.category}/${featuredInCat.slug}`}
               className="lg:col-span-6 rounded-2xl overflow-hidden aspect-video block"
             >
-              <img
+              <SafeImage
                 src={featuredInCat.featuredImage}
-                alt={featuredInCat.imageAlt}
+                alt={featuredInCat.imageAlt || featuredInCat.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                fallbackSrc="/images/pet-fallback.webp"
               />
             </Link>
             <div className="lg:col-span-6 space-y-4">
@@ -154,10 +159,12 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
               </p>
               <div className="pt-2 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <img
+                  <SafeImage
                     src={featuredInCat.author.avatar}
                     alt={featuredInCat.author.name}
                     className="w-8 h-8 rounded-full object-cover"
+                    loading="lazy"
+                    fallbackSrc="/images/author-clara.webp"
                   />
                   <div>
                     <p className="text-xs font-bold text-stone-900 dark:text-white">
@@ -202,10 +209,12 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
                     to={`/${article.category}/${article.slug}`}
                     className="block relative aspect-[16/10] overflow-hidden"
                   >
-                    <img
+                    <SafeImage
                       src={article.featuredImage}
-                      alt={article.imageAlt}
+                      alt={article.imageAlt || article.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                      fallbackSrc="/images/pet-fallback.webp"
                     />
                     <div className="absolute top-3 left-3">
                       <span className="px-2.5 py-1 rounded-full bg-stone-950/70 backdrop-blur-md text-white text-[11px] font-semibold uppercase">
@@ -233,10 +242,12 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
 
                     <div className="pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <img
+                        <SafeImage
                           src={article.author.avatar}
                           alt={article.author.name}
                           className="w-6 h-6 rounded-full object-cover"
+                          loading="lazy"
+                          fallbackSrc="/images/author-clara.webp"
                         />
                         <span className="text-xs text-stone-600 dark:text-stone-400">
                           {article.author.name}

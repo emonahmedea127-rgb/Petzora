@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Heart, Home, ArrowRight } from 'lucide-react';
 import { allArticles } from '../data/mockData';
 import { SEO } from '../components/SEO';
+import { SafeImage } from '../components/SafeImage';
 
 export const NotFoundPage: React.FC = () => {
   const recommendedArticles = allArticles.slice(0, 3);
@@ -54,10 +55,12 @@ export const NotFoundPage: React.FC = () => {
                 className="group flex flex-col bg-white dark:bg-stone-900 rounded-2xl overflow-hidden border border-stone-200/80 dark:border-stone-800 hover:border-orange-500/30 transition-all hover:shadow-md"
               >
                 <Link to={`/${article.category}/${article.slug}`} className="relative aspect-[16/10] overflow-hidden block">
-                  <img
+                  <SafeImage
                     src={article.featuredImage}
-                    alt={article.title}
+                    alt={article.imageAlt || article.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                    fallbackSrc="/images/pet-fallback.webp"
                   />
                 </Link>
                 <div className="p-4 flex-1 flex flex-col justify-between space-y-2">

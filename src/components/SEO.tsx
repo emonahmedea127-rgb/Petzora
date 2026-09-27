@@ -29,7 +29,7 @@ export const SEO: React.FC<SEOProps> = ({
   title,
   description,
   canonicalUrl,
-  ogImage = '/src/assets/images/hero_dog_cat_home_1790494898814.jpg',
+  ogImage = 'https://petzora.shop/images/hero-dog-cat.webp',
   ogType = 'website',
   publishedTime,
   modifiedTime,
@@ -69,12 +69,17 @@ export const SEO: React.FC<SEOProps> = ({
     updateMeta('description', description);
     updateMeta('robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
 
+    // OpenGraph image absolute URL
+    const fullOgImage = ogImage.startsWith('http')
+      ? ogImage
+      : `https://petzora.shop${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
+
     // OpenGraph
     updateMeta('og:title', fullTitle, true);
     updateMeta('og:description', description, true);
     updateMeta('og:type', ogType, true);
     updateMeta('og:url', url, true);
-    updateMeta('og:image', ogImage, true);
+    updateMeta('og:image', fullOgImage, true);
     updateMeta('og:site_name', 'Petzora', true);
     if (publishedTime) updateMeta('article:published_time', publishedTime, true);
     if (modifiedTime) updateMeta('article:modified_time', modifiedTime, true);
@@ -84,7 +89,7 @@ export const SEO: React.FC<SEOProps> = ({
     updateMeta('twitter:card', 'summary_large_image');
     updateMeta('twitter:title', fullTitle);
     updateMeta('twitter:description', description);
-    updateMeta('twitter:image', ogImage);
+    updateMeta('twitter:image', fullOgImage);
     updateMeta('twitter:site', '@petzorashop');
 
     // Structured Data (JSON-LD)

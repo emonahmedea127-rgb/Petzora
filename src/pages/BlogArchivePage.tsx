@@ -4,6 +4,7 @@ import { BookOpen, ArrowRight, Search, Heart, Clock } from 'lucide-react';
 import { allArticles, petCategories } from '../data/mockData';
 import { SEO } from '../components/SEO';
 import { AdSenseSlot } from '../components/AdSenseSlot';
+import { SafeImage } from '../components/SafeImage';
 
 export const BlogArchivePage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -108,10 +109,12 @@ export const BlogArchivePage: React.FC = () => {
                   to={`/${article.category}/${article.slug}`}
                   className="block relative aspect-[16/10] overflow-hidden"
                 >
-                  <img
+                  <SafeImage
                     src={article.featuredImage}
-                    alt={article.imageAlt}
+                    alt={article.imageAlt || article.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                    fallbackSrc="/images/pet-fallback.webp"
                   />
                   <div className="absolute top-3 left-3">
                     <span className="px-2.5 py-1 rounded-full bg-stone-950/70 backdrop-blur-md text-white text-[11px] font-semibold uppercase">
@@ -139,10 +142,12 @@ export const BlogArchivePage: React.FC = () => {
 
                   <div className="pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <img
+                      <SafeImage
                         src={article.author.avatar}
                         alt={article.author.name}
                         className="w-6 h-6 rounded-full object-cover"
+                        loading="lazy"
+                        fallbackSrc="/images/author-clara.webp"
                       />
                       <span className="text-xs text-stone-600 dark:text-stone-400">
                         {article.author.name}

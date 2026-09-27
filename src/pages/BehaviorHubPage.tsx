@@ -4,6 +4,7 @@ import { HelpCircle, Search, Clock, ArrowRight, ShieldCheck, Sparkles, Dog, Cat 
 import { allArticles } from '../data/mockData';
 import { SEO } from '../components/SEO';
 import { AdSenseSlot } from '../components/AdSenseSlot';
+import { SafeImage } from '../components/SafeImage';
 
 export const BehaviorHubPage: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<'all' | 'dog' | 'cat'>('all');
@@ -127,10 +128,12 @@ export const BehaviorHubPage: React.FC = () => {
               className="bg-white dark:bg-stone-900 rounded-3xl overflow-hidden border border-stone-200/90 dark:border-stone-800 hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col group"
             >
               <Link to={`/${article.category}/${article.slug}`} className="block relative aspect-[16/10] overflow-hidden">
-                <img
+                <SafeImage
                   src={article.featuredImage}
-                  alt={article.imageAlt}
+                  alt={article.imageAlt || article.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  fallbackSrc="/images/pet-fallback.webp"
                 />
                 <div className="absolute top-3 left-3">
                   <span className="px-2.5 py-1 rounded-full bg-stone-950/80 backdrop-blur-md text-white text-[10px] font-mono uppercase tracking-wider font-semibold">

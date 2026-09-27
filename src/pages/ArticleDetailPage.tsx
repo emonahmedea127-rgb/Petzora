@@ -24,6 +24,7 @@ import { SEO } from '../components/SEO';
 import { TableOfContents } from '../components/TableOfContents';
 import { AuthorCard } from '../components/AuthorCard';
 import { AdSenseSlot } from '../components/AdSenseSlot';
+import { SafeImage } from '../components/SafeImage';
 import { useSavedArticles } from '../context/SavedArticlesContext';
 
 export const ArticleDetailPage: React.FC = () => {
@@ -172,10 +173,12 @@ export const ArticleDetailPage: React.FC = () => {
           <div className="pt-4 border-t border-stone-200 dark:border-stone-800 flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <Link to={`/author/${article.author.slug}`}>
-                <img
+                <SafeImage
                   src={article.author.avatar}
                   alt={article.author.name}
                   className="w-12 h-12 rounded-full object-cover ring-2 ring-[#D95D39]/30"
+                  priority={true}
+                  fallbackSrc="/images/author-clara.webp"
                 />
               </Link>
               <div>
@@ -211,10 +214,12 @@ export const ArticleDetailPage: React.FC = () => {
 
         {/* Featured Hero Image */}
         <figure className="max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-xl mb-12 border border-stone-200/80 dark:border-stone-800">
-          <img
+          <SafeImage
             src={article.featuredImage}
-            alt={article.imageAlt}
+            alt={article.imageAlt || article.title}
             className="w-full h-[320px] sm:h-[480px] lg:h-[540px] object-cover"
+            priority={true}
+            fallbackSrc="/images/pet-fallback.webp"
           />
           {article.imageCaption && (
             <figcaption className="p-3.5 sm:px-6 bg-white dark:bg-stone-900 text-xs text-stone-500 dark:text-stone-400 text-center italic border-t border-stone-200 dark:border-stone-800">
@@ -395,10 +400,12 @@ export const ArticleDetailPage: React.FC = () => {
               if (section.type === 'image' && section.imageUrl) {
                 return (
                   <figure key={idx} className="my-8 rounded-2xl overflow-hidden shadow-md">
-                    <img
+                    <SafeImage
                       src={section.imageUrl}
                       alt={section.imageCaption || 'Pet guide illustration'}
                       className="w-full h-auto object-cover max-h-[420px]"
+                      loading="lazy"
+                      fallbackSrc="/images/pet-fallback.webp"
                     />
                     {section.imageCaption && (
                       <figcaption className="p-3 bg-stone-100 dark:bg-stone-900 text-xs text-stone-500 text-center italic">
@@ -532,10 +539,12 @@ export const ArticleDetailPage: React.FC = () => {
                   className="bg-white dark:bg-stone-900 rounded-3xl overflow-hidden border border-stone-200/90 dark:border-stone-800 hover:shadow-lg transition-all flex flex-col group"
                 >
                   <Link to={`/${rel.category}/${rel.slug}`} className="block relative aspect-video overflow-hidden">
-                    <img
+                    <SafeImage
                       src={rel.featuredImage}
-                      alt={rel.title}
+                      alt={rel.imageAlt || rel.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                      fallbackSrc="/images/pet-fallback.webp"
                     />
                   </Link>
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-3">

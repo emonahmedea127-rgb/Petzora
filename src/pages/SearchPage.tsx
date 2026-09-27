@@ -4,6 +4,7 @@ import { Search, BookOpen, ArrowRight, X, Clock, Heart } from 'lucide-react';
 import { allArticles, petCategories } from '../data/mockData';
 import { SEO } from '../components/SEO';
 import { AdSenseSlot } from '../components/AdSenseSlot';
+import { SafeImage } from '../components/SafeImage';
 
 export const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -118,10 +119,12 @@ export const SearchPage: React.FC = () => {
                       to={`/${article.category}/${article.slug}`}
                       className="block relative aspect-video overflow-hidden"
                     >
-                      <img
+                      <SafeImage
                         src={article.featuredImage}
-                        alt={article.imageAlt}
+                        alt={article.imageAlt || article.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                        fallbackSrc="/images/pet-fallback.webp"
                       />
                       <div className="absolute top-3 left-3">
                         <span className="px-2.5 py-1 rounded-full bg-stone-950/70 backdrop-blur-md text-white text-[11px] font-semibold uppercase">
