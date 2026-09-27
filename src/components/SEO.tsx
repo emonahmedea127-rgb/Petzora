@@ -66,6 +66,7 @@ export const SEO: React.FC<SEOProps> = ({
     canonicalTag.setAttribute('href', url);
 
     // Standard meta
+    updateMeta('google-site-verification', 's__gOlLJI-9ys2nxrRV4yLNd0aPeeuYI_svfS0VpJiE');
     updateMeta('description', description);
     updateMeta('robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
 
