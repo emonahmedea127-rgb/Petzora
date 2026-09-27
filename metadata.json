@@ -1,0 +1,6 @@
+{
+  "name": "Petzora – Better Care. Happier Pets.",
+  "description": "Practical pet care advice, puppy & kitten guides, dog & cat nutrition, training tips, health wellness, and heartwarming pet stories on petzora.shop.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
