@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Search, BookOpen, ArrowRight, X, Clock, Heart, Loader2 } from 'lucide-react';
 import { SEO } from '../components/SEO';
-import { AdSenseSlot } from '../components/AdSenseSlot';
 import { SafeImage } from '../components/SafeImage';
 import { searchPublishedArticles } from '../lib/supabase';
 import { Article } from '../types';
@@ -189,10 +188,6 @@ export const SearchPage: React.FC = () => {
             ))}
           </div>
         )}
-
-        <div className="pt-8">
-          <AdSenseSlot slotType="horizontal-banner" slotId="petzora-search-bottom-banner" />
-        </div>
       </div>
     </div>
   );

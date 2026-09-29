@@ -23,7 +23,6 @@ import {
 import { SEO } from '../components/SEO';
 import { TableOfContents } from '../components/TableOfContents';
 import { AuthorCard } from '../components/AuthorCard';
-import { AdSenseSlot } from '../components/AdSenseSlot';
 import { SafeImage } from '../components/SafeImage';
 import { useSavedArticles } from '../context/SavedArticlesContext';
 import { getArticleBySlug, getRelatedArticles } from '../lib/supabase';
@@ -369,9 +368,6 @@ export const ArticleDetailPage: React.FC = () => {
                 ))}
               </div>
             )}
-
-            {/* Ad Slot */}
-            <AdSenseSlot slotType="in-article" slotId="petzora-article-mid-body" />
 
             {/* Author Card at End of Article */}
             <div className="pt-6">

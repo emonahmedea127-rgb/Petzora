@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-serif: 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -21,7 +23,15 @@
   }
 }
 
-/* Editorial Article Content Typography */
+/* Editorial Article Content Typography - High-contrast readable typography */
+.article-content {
+  color: #292524;
+}
+:is(.dark .article-content) {
+  color: #e7e5e4;
+}
+
+.article-content h1,
 .article-content h2 {
   font-family: var(--font-serif);
   font-size: 1.85rem;
@@ -32,15 +42,16 @@
   line-height: 1.25;
   letter-spacing: -0.015em;
 }
+:is(.dark .article-content h1),
 :is(.dark .article-content h2) {
-  color: #ffffff;
+  color: #fafaf9;
 }
 
 .article-content h3 {
   font-family: var(--font-serif);
   font-size: 1.4rem;
   font-weight: 800;
-  color: #292524;
+  color: #1c1917;
   margin-top: 2rem;
   margin-bottom: 0.85rem;
   line-height: 1.35;
@@ -49,14 +60,26 @@
   color: #f5f5f4;
 }
 
+.article-content h4 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1c1917;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+:is(.dark .article-content h4) {
+  color: #f5f5f4;
+}
+
 .article-content p {
   margin-bottom: 1.35rem;
-  line-height: 1.8;
+  line-height: 1.85;
   font-size: 1.075rem;
-  color: #3f3f46;
+  color: #292524;
 }
 :is(.dark .article-content p) {
-  color: #d4d4d8;
+  color: #e7e5e4;
 }
 
 .article-content ul {
@@ -64,7 +87,10 @@
   margin-top: 1rem;
   margin-bottom: 1.5rem;
   padding-left: 1.75rem;
-  space-y: 0.5rem;
+  color: #292524;
+}
+:is(.dark .article-content ul) {
+  color: #e7e5e4;
 }
 
 .article-content ol {
@@ -72,7 +98,10 @@
   margin-top: 1rem;
   margin-bottom: 1.5rem;
   padding-left: 1.75rem;
-  space-y: 0.5rem;
+  color: #292524;
+}
+:is(.dark .article-content ol) {
+  color: #e7e5e4;
 }
 
 .article-content li {
@@ -82,10 +111,10 @@
 
 .article-content strong {
   font-weight: 700;
-  color: #18181b;
+  color: #0c0a09;
 }
 :is(.dark .article-content strong) {
-  color: #f4f4f5;
+  color: #ffffff;
 }
 
 .article-content blockquote {
@@ -93,10 +122,10 @@
   padding-left: 1.25rem;
   margin: 1.5rem 0;
   font-style: italic;
-  color: #52525b;
+  color: #44403c;
 }
 :is(.dark .article-content blockquote) {
-  color: #a1a1aa;
+  color: #d6d3d1;
 }
 
 /* Custom subtle scrollbar */

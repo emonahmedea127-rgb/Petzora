@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { BookOpen, ArrowRight, Search, Heart, Clock, Loader2 } from 'lucide-react';
 import { petCategories } from '../data/mockData';
 import { SEO } from '../components/SEO';
-import { AdSenseSlot } from '../components/AdSenseSlot';
 import { SafeImage } from '../components/SafeImage';
 import { getPublishedArticles, getCategories } from '../lib/supabase';
 import { Article, CategoryInfo } from '../types';
@@ -210,11 +209,6 @@ export const BlogArchivePage: React.FC = () => {
             ))}
           </div>
         )}
-
-        {/* AdSlot */}
-        <div className="pt-8">
-          <AdSenseSlot slotType="horizontal-banner" slotId="petzora-archive-bottom-banner" />
-        </div>
       </div>
     </div>
   );

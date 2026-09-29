@@ -20,7 +20,6 @@ import {
 } from 'lucide-react';
 import { petCategories, foodGuideItems, editorialTeam } from '../data/mockData';
 import { SEO } from '../components/SEO';
-import { AdSenseSlot } from '../components/AdSenseSlot';
 import { SafeImage } from '../components/SafeImage';
 import { useSavedArticles } from '../context/SavedArticlesContext';
 import { getPublishedArticles } from '../lib/supabase';
@@ -249,11 +248,6 @@ export const HomePage: React.FC = () => {
           </div>
         </section>
       )}
-
-      {/* Optional Ad Slot */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6">
-        <AdSenseSlot slotType="horizontal-banner" slotId="petzora-home-top-strip" />
-      </div>
 
       {/* ========================================================
           3. EDITOR'S PICKS (Rendered when articles exist)

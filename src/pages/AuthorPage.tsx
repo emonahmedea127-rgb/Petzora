@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import { BookOpen, Mail, Globe, ArrowRight, ShieldCheck, Award, Loader2 } from 'lucide-react';
 import { editorialTeam } from '../data/mockData';
 import { SEO } from '../components/SEO';
-import { AdSenseSlot } from '../components/AdSenseSlot';
 import { SafeImage } from '../components/SafeImage';
 import { getPublishedArticles, getAuthors } from '../lib/supabase';
 import { Article, Author } from '../types';

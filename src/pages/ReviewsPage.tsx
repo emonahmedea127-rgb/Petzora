@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, ShieldCheck, Heart, Sparkles, Filter, Loader2, BookOpen } from 'lucide-react';
 import { SEO } from '../components/SEO';
-import { AdSenseSlot } from '../components/AdSenseSlot';
 import { SafeImage } from '../components/SafeImage';
 import { getPublishedArticles } from '../lib/supabase';
 import { Article } from '../types';
@@ -129,10 +128,6 @@ export const ReviewsPage: React.FC = () => {
             ))}
           </div>
         )}
-
-        <div className="pt-8">
-          <AdSenseSlot slotType="horizontal-banner" slotId="petzora-reviews-bottom" />
-        </div>
       </div>
     </div>
   );

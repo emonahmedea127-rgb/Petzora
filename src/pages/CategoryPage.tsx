@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowRight, ChevronRight, Tag, BookOpen, Clock, ShieldCheck, Heart, Loader2 } from 'lucide-react';
 import { petCategories } from '../data/mockData';
 import { SEO } from '../components/SEO';
-import { AdSenseSlot } from '../components/AdSenseSlot';
 import { SafeImage } from '../components/SafeImage';
 import { getPublishedArticles, getCategories } from '../lib/supabase';
 import { Article, CategoryInfo } from '../types';

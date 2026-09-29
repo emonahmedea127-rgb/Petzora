@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HelpCircle, Search, Clock, ArrowRight, ShieldCheck, Sparkles, Loader2, BookOpen } from 'lucide-react';
 import { SEO } from '../components/SEO';
-import { AdSenseSlot } from '../components/AdSenseSlot';
 import { SafeImage } from '../components/SafeImage';
 import { getPublishedArticles } from '../lib/supabase';
 import { Article } from '../types';
@@ -159,10 +158,6 @@ export const BehaviorHubPage: React.FC = () => {
             ))}
           </div>
         )}
-
-        <div className="pt-8">
-          <AdSenseSlot slotType="horizontal-banner" slotId="petzora-behavior-hub-bottom" />
-        </div>
       </div>
     </div>
   );
