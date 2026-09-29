@@ -57,25 +57,49 @@ export const HomePage: React.FC = () => {
   const editorsPickLead = articles.find((a) => a.isEditorPick) || articles[0];
   const editorsPickSubs = articles.filter((a) => a.id !== editorsPickLead?.id).slice(0, 4);
 
-  const dogArticles = articles.filter(
-    (a) => a.category === 'dogs' || a.categorySlug === 'dogs' || a.tags?.includes('dog')
-  ).slice(0, 6);
+  const dogArticles = articles.filter((a) => {
+    const text = (a.title + ' ' + (a.category || '') + ' ' + (a.categorySlug || '') + ' ' + (a.tags || []).join(' ')).toLowerCase();
+    return a.category === 'dogs' || a.categorySlug === 'dogs' || text.includes('dog') || text.includes('puppy') || text.includes('canine');
+  }).slice(0, 6);
 
-  const catArticles = articles.filter(
-    (a) => a.category === 'cats' || a.categorySlug === 'cats' || a.tags?.includes('cat')
-  ).slice(0, 6);
+  const catArticles = articles.filter((a) => {
+    const text = (a.title + ' ' + (a.category || '') + ' ' + (a.categorySlug || '') + ' ' + (a.tags || []).join(' ')).toLowerCase();
+    return a.category === 'cats' || a.categorySlug === 'cats' || text.includes('cat') || text.includes('kitten') || text.includes('feline');
+  }).slice(0, 6);
 
-  const behaviorArticles = articles.filter(
-    (a) => a.category === 'behavior' || a.categorySlug === 'behavior' || a.title.toLowerCase().startsWith('why')
-  ).slice(0, 6);
+  const behaviorArticles = articles.filter((a) => {
+    const text = (a.title + ' ' + (a.category || '') + ' ' + (a.categorySlug || '') + ' ' + (a.tags || []).join(' ')).toLowerCase();
+    return (
+      a.category === 'behavior' ||
+      a.categorySlug === 'behavior' ||
+      a.category === 'training' ||
+      a.categorySlug === 'training' ||
+      text.includes('behavior') ||
+      text.includes('anxiety') ||
+      text.includes('training')
+    );
+  }).slice(0, 6);
 
-  const healthArticles = articles.filter(
-    (a) => a.category === 'health' || a.category === 'care' || a.category === 'pet-care'
-  ).slice(0, 4);
+  const healthArticles = articles.filter((a) => {
+    const text = (a.title + ' ' + (a.category || '') + ' ' + (a.categorySlug || '') + ' ' + (a.tags || []).join(' ')).toLowerCase();
+    return (
+      a.category === 'health' ||
+      a.category === 'care' ||
+      a.category === 'pet-care' ||
+      a.categorySlug === 'health' ||
+      a.categorySlug === 'care' ||
+      a.categorySlug === 'pet-care' ||
+      text.includes('health') ||
+      text.includes('dental') ||
+      text.includes('triage') ||
+      text.includes('first aid')
+    );
+  }).slice(0, 4);
 
-  const petStories = articles.filter(
-    (a) => a.category === 'stories' || a.categorySlug === 'stories'
-  ).slice(0, 4);
+  const petStories = articles.filter((a) => {
+    const text = (a.title + ' ' + (a.category || '') + ' ' + (a.categorySlug || '') + ' ' + (a.tags || []).join(' ')).toLowerCase();
+    return a.category === 'stories' || a.categorySlug === 'stories' || text.includes('rescue') || text.includes('journey');
+  }).slice(0, 4);
 
   const popularArticles = articles.filter((a) => a.isPopular).slice(0, 5);
 
@@ -473,7 +497,7 @@ export const HomePage: React.FC = () => {
                   />
                   <div className="absolute top-3 left-3">
                     <span className="px-2.5 py-1 rounded-full bg-stone-950/80 backdrop-blur-md text-white text-[10px] font-mono font-bold uppercase tracking-wider">
-                      Dogs
+                      {article.category === 'dogs' ? 'Dogs' : article.category}
                     </span>
                   </div>
                 </Link>
@@ -551,7 +575,7 @@ export const HomePage: React.FC = () => {
                     />
                     <div className="absolute top-3 left-3">
                       <span className="px-2.5 py-1 rounded-full bg-stone-950/80 backdrop-blur-md text-white text-[10px] font-mono font-bold uppercase tracking-wider">
-                        Cats
+                        {article.category === 'cats' ? 'Cats' : article.category}
                       </span>
                     </div>
                   </Link>
