@@ -14,7 +14,8 @@ interface CategoryPageProps {
 
 export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSlug }) => {
   const params = useParams<{ category: string }>();
-  const activeSlug = (propSlug || params.category || 'dogs').toLowerCase();
+  const rawSlug = (propSlug || params.category || 'dogs').toLowerCase();
+  const activeSlug = rawSlug === 'pet-care' ? 'care' : rawSlug;
   const [articles, setArticles] = useState<Article[]>([]);
   const [categories, setCategories] = useState<CategoryInfo[]>(petCategories);
   const [loading, setLoading] = useState(true);
@@ -40,11 +41,11 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
     };
   }, [activeSlug]);
 
-  const categoryInfo = categories.find((c) => c.slug.toLowerCase() === activeSlug) || {
+  const categoryInfo = categories.find((c) => c.slug.toLowerCase() === activeSlug || (activeSlug === 'care' && c.slug.toLowerCase() === 'pet-care')) || {
     id: activeSlug,
-    name: activeSlug.charAt(0).toUpperCase() + activeSlug.slice(1).replace('-', ' '),
+    name: activeSlug === 'care' ? 'Pet Care' : activeSlug.charAt(0).toUpperCase() + activeSlug.slice(1).replace('-', ' '),
     slug: activeSlug,
-    description: `Expert pet care advice, veterinary-approved guides, and practical lifestyle tips for ${activeSlug.replace('-', ' ')}.`,
+    description: `Expert pet care advice, veterinary-approved guides, and practical lifestyle tips for ${activeSlug === 'care' ? 'daily pet care' : activeSlug.replace('-', ' ')}.`,
     coverImage: '/images/hero-dog-cat.webp',
   };
 

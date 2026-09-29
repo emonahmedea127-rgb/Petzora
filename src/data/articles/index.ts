@@ -5,13 +5,14 @@ import { careArticle } from './care';
 import { petCareArticle } from './petCare';
 import { healthArticle } from './health';
 import { nutritionArticle } from './nutrition';
+import { allergiesArticle } from './allergies';
 import { trainingArticle } from './training';
 import { behaviorArticle } from './behavior';
 import { reviewsArticle } from './reviews';
 import { storiesArticle } from './stories';
 import { emergencyFirstAidArticle } from './emergency';
 
-export { petCareArticle };
+export { petCareArticle, allergiesArticle };
 
 export const allPillarArticles: Article[] = [
   dogsArticle,
@@ -20,6 +21,7 @@ export const allPillarArticles: Article[] = [
   petCareArticle,
   healthArticle,
   nutritionArticle,
+  allergiesArticle,
   trainingArticle,
   behaviorArticle,
   reviewsArticle,
