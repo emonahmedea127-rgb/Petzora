@@ -15,7 +15,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({ author, compact = false 
       <div className="flex items-center gap-3">
         <Link to={`/author/${author.slug}`} className="shrink-0 group">
           <SafeImage
-            src={author.avatar}
+            src={author.avatar || '/images/author-clara.webp'}
             alt={author.name}
             className="w-10 h-10 rounded-full object-cover ring-2 ring-orange-500/20 group-hover:ring-orange-500 transition-all"
             loading="lazy"
@@ -42,7 +42,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({ author, compact = false 
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
         <Link to={`/author/${author.slug}`} className="shrink-0 relative group">
           <SafeImage
-            src={author.avatar}
+            src={author.avatar || '/images/author-clara.webp'}
             alt={author.name}
             className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover ring-2 ring-orange-500/30 group-hover:ring-orange-500 transition-all shadow-md"
             loading="lazy"

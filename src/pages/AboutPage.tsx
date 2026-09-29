@@ -125,7 +125,7 @@ export const AboutPage: React.FC = () => {
                 className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 flex flex-col items-center text-center space-y-3"
               >
                 <SafeImage
-                  src={author.avatar}
+                  src={author.avatar || '/images/author-clara.webp'}
                   alt={author.name}
                   className="w-20 h-20 rounded-full object-cover ring-2 ring-orange-500/30"
                   loading="lazy"

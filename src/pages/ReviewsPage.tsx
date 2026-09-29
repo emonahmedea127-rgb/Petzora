@@ -1,27 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, CheckCircle2, XCircle, ArrowRight, ShieldCheck, Heart, Sparkles, Filter } from 'lucide-react';
-import { petzoraPicks } from '../data/mockData';
+import { ShoppingBag, ArrowRight, ShieldCheck, Heart, Sparkles, Filter, Loader2, BookOpen } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { AdSenseSlot } from '../components/AdSenseSlot';
 import { SafeImage } from '../components/SafeImage';
+import { getPublishedArticles } from '../lib/supabase';
+import { Article } from '../types';
 
 export const ReviewsPage: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const categories = [
-    { id: 'all', label: 'All Petzora Picks' },
-    { id: 'dog-beds', label: 'Dog Beds' },
-    { id: 'water-fountains', label: 'Water Fountains' },
-    { id: 'pet-cameras', label: 'Pet Cameras' },
-    { id: 'leashes', label: 'Leashes' },
-    { id: 'grooming-tools', label: 'Grooming Tools' },
-    { id: 'carriers', label: 'Carriers' },
-  ];
-
-  const filteredPicks = selectedCategory === 'all'
-    ? petzoraPicks
-    : petzoraPicks.filter((p) => p.category === selectedCategory);
+  useEffect(() => {
+    let mounted = true;
+    async function load() {
+      setLoading(true);
+      const data = await getPublishedArticles({ category: 'reviews' });
+      if (mounted) {
+        setArticles(data);
+        setLoading(false);
+      }
+    }
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <div className="py-8 sm:py-16 bg-[#FAF7F2] dark:bg-stone-950 text-stone-900 dark:text-stone-100 min-h-screen transition-colors">
@@ -48,148 +52,86 @@ export const ReviewsPage: React.FC = () => {
           <p className="text-base sm:text-lg text-stone-600 dark:text-stone-300 leading-relaxed font-normal">
             Independent, safety-evaluated gear for devoted dog and cat parents. We prioritize anatomical comfort, pet-safe materials, and longevity over marketing hype.
           </p>
+        </div>
 
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-4 text-xs font-mono text-stone-500">
-            <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
-              <ShieldCheck className="w-4 h-4" />
-              Zero Paid Placements
-            </span>
-            <span>&bull;</span>
-            <span className="flex items-center gap-1 text-[#D95D39]">
-              <CheckCircle2 className="w-4 h-4" />
-              Honest Pros &amp; Cons
-            </span>
-            <span>&bull;</span>
-            <Link to="/affiliate-disclosure" className="underline hover:text-stone-800 dark:hover:text-stone-200">
-              Affiliate Transparency
-            </Link>
+        {/* Content list or clean empty state */}
+        {loading ? (
+          <div className="py-20 text-center flex flex-col items-center justify-center gap-3">
+            <Loader2 className="w-8 h-8 text-[#D95D39] animate-spin" />
+            <p className="text-xs font-mono text-stone-500">Loading product reviews...</p>
           </div>
-        </div>
+        ) : articles.length === 0 ? (
+          <div className="p-16 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 text-center space-y-3 max-w-lg mx-auto shadow-sm">
+            <div className="w-14 h-14 rounded-2xl bg-orange-50 dark:bg-stone-800 text-[#D95D39] flex items-center justify-center mx-auto">
+              <ShoppingBag className="w-7 h-7" />
+            </div>
+            <h3 className="font-serif font-bold text-xl text-stone-900 dark:text-white">
+              No Product Reviews Published Yet
+            </h3>
+            <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 leading-relaxed">
+              Our gear testing team is currently hands-on testing orthopedic dog beds, fountains, and interactive toys. Reviews will be published directly from the editorial dashboard.
+            </p>
+            <div className="pt-2">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#D95D39] hover:bg-[#C24D2B] text-white text-xs font-semibold uppercase tracking-wider transition"
+              >
+                <span>Back to Homepage</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {articles.map((item) => (
+              <article
+                key={item.id}
+                className="bg-white dark:bg-stone-900 rounded-3xl overflow-hidden border border-stone-200/90 dark:border-stone-800 hover:shadow-xl transition-all flex flex-col group"
+              >
+                <Link
+                  to={`/${item.category}/${item.slug}`}
+                  className="block relative aspect-[16/10] overflow-hidden"
+                >
+                  <SafeImage
+                    src={item.featuredImage}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                    fallbackSrc="/images/pet-fallback.webp"
+                  />
+                </Link>
 
-        {/* Category Filters */}
-        <div className="flex items-center justify-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap ${
-                selectedCategory === cat.id
-                  ? 'bg-[#D95D39] text-white shadow-sm'
-                  : 'bg-white dark:bg-stone-900 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-800 hover:border-[#D95D39]'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
-
-        {/* AdSense slot */}
-        <AdSenseSlot slotType="horizontal-banner" slotId="petzora-reviews-top" />
-
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredPicks.map((product) => (
-            <div
-              key={product.id}
-              className="rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col group"
-            >
-              {/* Product Image */}
-              <div className="relative aspect-video overflow-hidden bg-stone-100 dark:bg-stone-800">
-                <SafeImage
-                  src={product.featuredImage}
-                  alt={product.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                  fallbackSrc="/images/pet-reviews.webp"
-                />
-                <div className="absolute top-3 left-3">
-                  <span className="px-3 py-1 rounded-full bg-stone-950/80 backdrop-blur-md text-white text-[10px] font-mono uppercase tracking-wider font-semibold">
-                    {product.categoryLabel}
-                  </span>
-                </div>
-                <div className="absolute top-3 right-3">
-                  <span className="px-2.5 py-1 rounded-full bg-white/90 dark:bg-stone-900/90 text-stone-900 dark:text-white text-xs font-mono font-bold shadow-sm">
-                    {product.priceRange}
-                  </span>
-                </div>
-              </div>
-
-              {/* Product Body */}
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                <div className="space-y-3">
-                  <div className="p-2.5 rounded-xl bg-orange-50/70 dark:bg-orange-950/40 border border-orange-100 dark:border-orange-900/60">
-                    <span className="text-[11px] font-mono text-[#D95D39] dark:text-[#E07A5F] font-bold block uppercase tracking-wide">
-                      Best For
+                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                  <div className="space-y-2">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#D95D39] font-bold">
+                      {item.category}
                     </span>
-                    <p className="text-xs text-stone-800 dark:text-stone-200 font-medium mt-0.5">
-                      {product.bestFor}
+                    <h3 className="text-lg font-serif font-bold text-stone-900 dark:text-white group-hover:text-[#D95D39] transition-colors leading-snug">
+                      <Link to={`/${item.category}/${item.slug}`}>{item.title}</Link>
+                    </h3>
+                    <p className="text-xs text-stone-600 dark:text-stone-300 leading-relaxed line-clamp-3">
+                      {item.excerpt}
                     </p>
                   </div>
 
-                  <h2 className="text-lg sm:text-xl font-serif font-bold text-stone-900 dark:text-white leading-snug">
-                    {product.title}
-                  </h2>
-
-                  <p className="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
-                    {product.shortDescription}
-                  </p>
-
-                  {/* Pros & Cons */}
-                  <div className="space-y-2 pt-2 border-t border-stone-100 dark:border-stone-800 text-xs">
-                    <div className="space-y-1">
-                      <span className="font-bold text-emerald-600 dark:text-emerald-400 text-[11px] font-mono uppercase">
-                        Pros:
-                      </span>
-                      {product.pros.map((pro, idx) => (
-                        <div key={idx} className="flex items-start gap-1.5 text-stone-700 dark:text-stone-300">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                          <span className="leading-snug">{pro}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="space-y-1 pt-1.5">
-                      <span className="font-bold text-amber-600 dark:text-amber-400 text-[11px] font-mono uppercase">
-                        Cons:
-                      </span>
-                      {product.cons.map((con, idx) => (
-                        <div key={idx} className="flex items-start gap-1.5 text-stone-600 dark:text-stone-400">
-                          <XCircle className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
-                          <span className="leading-snug">{con}</span>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between">
+                    <span className="text-xs text-stone-500 font-mono">{item.readingTime}</span>
+                    <Link
+                      to={`/${item.category}/${item.slug}`}
+                      className="text-xs font-semibold uppercase tracking-wider text-[#D95D39] hover:underline flex items-center gap-1"
+                    >
+                      <span>Read Review</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
                   </div>
                 </div>
+              </article>
+            ))}
+          </div>
+        )}
 
-                {/* Footer Action */}
-                <div className="pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-stone-500">
-                    Editorial Selection
-                  </span>
-                  <Link
-                    to="/contact"
-                    className="px-4 py-2 rounded-xl bg-[#D95D39] hover:bg-[#C24D2B] text-white text-xs font-semibold uppercase tracking-wider transition-colors flex items-center gap-1.5 shadow-sm"
-                  >
-                    <span>View Guide</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Ethical Review Notice */}
-        <div className="p-6 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-xs text-stone-600 dark:text-stone-300 space-y-2">
-          <h3 className="font-serif font-bold text-stone-900 dark:text-white text-sm flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-500" />
-            <span>Our Review Ethics &amp; Standards</span>
-          </h3>
-          <p className="leading-relaxed">
-            Petzora maintains strict separation between editorial evaluations and commercial affiliate partnerships. We never accept payment in exchange for a favorable rating, nor do we award five-star endorsements to unvetted products. Learn more in our{' '}
-            <Link to="/affiliate-disclosure" className="text-[#D95D39] underline font-medium">Affiliate Disclosure</Link>.
-          </p>
+        <div className="pt-8">
+          <AdSenseSlot slotType="horizontal-banner" slotId="petzora-reviews-bottom" />
         </div>
       </div>
     </div>

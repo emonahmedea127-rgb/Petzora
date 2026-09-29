@@ -2,10 +2,13 @@ export interface Author {
   id: string;
   name: string;
   slug: string;
-  role: string;
-  bio: string;
-  avatar: string;
+  role?: string;
+  bio?: string;
+  avatar?: string;
+  avatar_url?: string;
   credentials?: string;
+  email?: string;
+  website?: string;
   socialLinks?: {
     email?: string;
     website?: string;
@@ -22,6 +25,7 @@ export interface FAQItem {
 export type PetCategory =
   | 'dogs'
   | 'cats'
+  | 'care'
   | 'pet-care'
   | 'nutrition'
   | 'training'
@@ -29,7 +33,8 @@ export type PetCategory =
   | 'behavior'
   | 'reviews'
   | 'product-guides'
-  | 'stories';
+  | 'stories'
+  | string;
 
 export interface ArticleSection {
   type: 'paragraph' | 'heading' | 'subheading' | 'quote' | 'image' | 'list' | 'tipBox' | 'warningBox';
@@ -50,14 +55,19 @@ export interface Article {
   title: string;
   slug: string;
   category: PetCategory;
+  categorySlug?: string;
+  categoryId?: string;
   subCategory?: string;
   excerpt: string;
+  content?: string; // Rich HTML content
   featuredImage: string;
-  imageAlt: string;
+  imageAlt?: string;
   imageCaption?: string;
   author: Author;
+  authorId?: string;
   createdAt: string;
   updatedAt: string;
+  publishedAt?: string;
   readingTime: string;
   status: 'published' | 'draft';
   isFeatured?: boolean;
@@ -67,13 +77,16 @@ export interface Article {
   isBehaviorHero?: boolean;
   isDogHighlight?: boolean;
   isCatHighlight?: boolean;
-  seoTitle: string;
-  seoDescription: string;
-  canonicalPath: string;
-  sections: ArticleSection[];
-  tableOfContents: { id: string; text: string; level: number }[];
-  faqList: FAQItem[];
-  relatedSlugs: string[];
+  tags?: string[];
+  seoTitle?: string;
+  seoDescription?: string;
+  canonicalPath?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  sections?: ArticleSection[];
+  tableOfContents?: { id: string; text: string; level: number }[];
+  faqList?: FAQItem[];
+  relatedSlugs?: string[];
   petType?: 'dog' | 'cat' | 'all';
   sources?: string[];
 }
@@ -81,12 +94,37 @@ export interface Article {
 export interface CategoryInfo {
   id: string;
   name: string;
-  slug: PetCategory;
+  slug: string;
   description: string;
-  coverImage: string;
-  iconName: string;
-  subTopics: string[];
+  coverImage?: string;
+  iconName?: string;
+  subTopics?: string[];
   articleCount?: number;
+}
+
+export interface MediaFile {
+  id: string;
+  name: string;
+  url: string;
+  size: number;
+  mimeType: string;
+  storagePath: string;
+  createdAt: string;
+}
+
+export interface SiteSettings {
+  siteName: string;
+  siteDescription: string;
+  logoUrl?: string;
+  defaultSeoTitle: string;
+  defaultSeoDescription: string;
+  defaultOgImage: string;
+  socialLinks?: {
+    x?: string;
+    facebook?: string;
+    instagram?: string;
+    youtube?: string;
+  };
 }
 
 export interface ProductReview {

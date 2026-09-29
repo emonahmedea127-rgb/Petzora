@@ -1,31 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { HelpCircle, Search, Clock, ArrowRight, ShieldCheck, Sparkles, Dog, Cat } from 'lucide-react';
-import { allArticles } from '../data/mockData';
+import { HelpCircle, Search, Clock, ArrowRight, ShieldCheck, Sparkles, Loader2, BookOpen } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { AdSenseSlot } from '../components/AdSenseSlot';
 import { SafeImage } from '../components/SafeImage';
+import { getPublishedArticles } from '../lib/supabase';
+import { Article } from '../types';
 
 export const BehaviorHubPage: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState<'all' | 'dog' | 'cat'>('all');
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchFilter, setSearchFilter] = useState('');
 
-  const behaviorArticles = allArticles.filter(
-    (a) => a.category === 'behavior' || a.subCategory?.toLowerCase().includes('behavior') || a.subCategory?.toLowerCase().includes('psychology') || a.title.toLowerCase().startsWith('why ')
-  );
+  useEffect(() => {
+    let mounted = true;
+    async function load() {
+      setLoading(true);
+      const data = await getPublishedArticles({ category: 'behavior' });
+      if (mounted) {
+        setArticles(data);
+        setLoading(false);
+      }
+    }
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
-  const filteredArticles = behaviorArticles.filter((a) => {
-    const matchesPet =
-      activeFilter === 'all' ||
-      (activeFilter === 'dog' && (a.petType === 'dog' || a.category === 'dogs')) ||
-      (activeFilter === 'cat' && (a.petType === 'cat' || a.category === 'cats'));
-
-    const matchesSearch =
+  const filteredArticles = articles.filter((a) => {
+    return (
       searchFilter === '' ||
       a.title.toLowerCase().includes(searchFilter.toLowerCase()) ||
-      a.excerpt.toLowerCase().includes(searchFilter.toLowerCase());
-
-    return matchesPet && matchesSearch;
+      a.excerpt.toLowerCase().includes(searchFilter.toLowerCase())
+    );
   });
 
   return (
@@ -44,133 +52,116 @@ export const BehaviorHubPage: React.FC = () => {
         {/* Hub Header */}
         <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-stone-900 via-stone-850 to-stone-950 text-white p-8 sm:p-14 border border-stone-800 shadow-2xl">
           <div className="absolute right-0 top-0 w-96 h-96 bg-[#D95D39]/20 rounded-full blur-3xl pointer-events-none" />
-          
+
           <div className="relative z-10 max-w-3xl space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D95D39]/30 text-[#E07A5F] text-xs font-mono font-semibold uppercase tracking-wider">
               <HelpCircle className="w-3.5 h-3.5" />
-              <span>THE PETZORA BEHAVIOR KNOWLEDGE HUB</span>
+              <span>THE PET BEHAVIOR ENCYCLOPEDIA</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-serif font-black tracking-tight text-white leading-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-black tracking-tight leading-tight">
               Why Does My Pet Do That?
             </h1>
 
-            <p className="text-base sm:text-lg text-stone-300 leading-relaxed font-normal">
-              From head tilts and midnight zoomies to why your cat kneads blankets and your dog follows you into the bathroom. Discover what animal behaviorists have decoded.
+            <p className="text-base sm:text-lg text-stone-300 font-sans leading-relaxed">
+              From pack bonding and nocturnal hunting instincts to head tilts and kneading paws—decode your dog or cat&apos;s fascinating communication signals through certified positive animal behavior research.
             </p>
 
-            {/* Quick Search */}
-            <div className="pt-4 max-w-xl">
-              <div className="flex items-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-2 text-white focus-within:border-[#D95D39] transition-all">
-                <Search className="w-5 h-5 text-stone-300 ml-2 mr-2 shrink-0" />
+            <div className="pt-2 max-w-md">
+              <div className="relative">
+                <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={searchFilter}
                   onChange={(e) => setSearchFilter(e.target.value)}
-                  placeholder="Search curious behaviors (e.g. stare, knead, tilt, follow)..."
-                  className="w-full bg-transparent text-sm text-white placeholder-stone-400 focus:outline-none"
+                  placeholder="Search habits (e.g. staring, barking, kneading)..."
+                  className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-stone-400 text-xs outline-none focus:bg-white/20 transition-all"
                 />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Filter Pills */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-stone-200 dark:border-stone-800">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setActiveFilter('all')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all ${
-                activeFilter === 'all'
-                  ? 'bg-[#D95D39] text-white shadow-sm'
-                  : 'bg-white dark:bg-stone-900 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-800 hover:border-[#D95D39]'
-              }`}
-            >
-              All Behaviors ({behaviorArticles.length})
-            </button>
-            <button
-              onClick={() => setActiveFilter('dog')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
-                activeFilter === 'dog'
-                  ? 'bg-[#D95D39] text-white shadow-sm'
-                  : 'bg-white dark:bg-stone-900 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-800 hover:border-[#D95D39]'
-              }`}
-            >
-              <Dog className="w-3.5 h-3.5" />
-              <span>Canine Habits</span>
-            </button>
-            <button
-              onClick={() => setActiveFilter('cat')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
-                activeFilter === 'cat'
-                  ? 'bg-[#D95D39] text-white shadow-sm'
-                  : 'bg-white dark:bg-stone-900 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-800 hover:border-[#D95D39]'
-              }`}
-            >
-              <Cat className="w-3.5 h-3.5" />
-              <span>Feline Habits</span>
-            </button>
+        {/* Content list or clean empty state */}
+        {loading ? (
+          <div className="py-20 text-center flex flex-col items-center justify-center gap-3">
+            <Loader2 className="w-8 h-8 text-[#D95D39] animate-spin" />
+            <p className="text-xs font-mono text-stone-500">Loading behavior guides...</p>
           </div>
-
-          <span className="text-xs font-mono text-stone-500">
-            Showing {filteredArticles.length} Behavior Guides
-          </span>
-        </div>
-
-        {/* AdSense Slot */}
-        <AdSenseSlot slotType="horizontal-banner" slotId="petzora-behavior-top" />
-
-        {/* Behavior Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredArticles.map((article) => (
-            <article
-              key={article.id}
-              className="bg-white dark:bg-stone-900 rounded-3xl overflow-hidden border border-stone-200/90 dark:border-stone-800 hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col group"
-            >
-              <Link to={`/${article.category}/${article.slug}`} className="block relative aspect-[16/10] overflow-hidden">
-                <SafeImage
-                  src={article.featuredImage}
-                  alt={article.imageAlt || article.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                  fallbackSrc="/images/pet-fallback.webp"
-                />
-                <div className="absolute top-3 left-3">
-                  <span className="px-2.5 py-1 rounded-full bg-stone-950/80 backdrop-blur-md text-white text-[10px] font-mono uppercase tracking-wider font-semibold">
-                    {article.subCategory || 'Behavior'}
-                  </span>
-                </div>
+        ) : filteredArticles.length === 0 ? (
+          <div className="p-16 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 text-center space-y-3 max-w-lg mx-auto shadow-sm">
+            <div className="w-14 h-14 rounded-2xl bg-orange-50 dark:bg-stone-800 text-[#D95D39] flex items-center justify-center mx-auto">
+              <HelpCircle className="w-7 h-7" />
+            </div>
+            <h3 className="font-serif font-bold text-xl text-stone-900 dark:text-white">
+              No Behavior Guides Published Yet
+            </h3>
+            <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 leading-relaxed">
+              {searchFilter
+                ? 'No behavior articles matched your search query.'
+                : 'Our behaviorists are currently researching and drafting articles on curious dog and cat habits. When published from the CMS, they will appear right here!'}
+            </p>
+            <div className="pt-2">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#D95D39] hover:bg-[#C24D2B] text-white text-xs font-semibold uppercase tracking-wider transition"
+              >
+                <span>Back to Homepage</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredArticles.map((article) => (
+              <article
+                key={article.id}
+                className="bg-white dark:bg-stone-900 rounded-3xl overflow-hidden border border-stone-200/90 dark:border-stone-800 hover:shadow-xl transition-all flex flex-col group"
+              >
+                <Link
+                  to={`/${article.category}/${article.slug}`}
+                  className="block relative aspect-[16/10] overflow-hidden"
+                >
+                  <SafeImage
+                    src={article.featuredImage}
+                    alt={article.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                    fallbackSrc="/images/pet-fallback.webp"
+                  />
+                </Link>
 
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-xs text-stone-500 font-mono">
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      {article.readingTime}
+                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                  <div className="space-y-2">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#D95D39] font-bold">
+                      {article.category}
                     </span>
-                    <span>&bull;</span>
-                    <span>By {article.author.name}</span>
+                    <h3 className="text-lg font-serif font-bold text-stone-900 dark:text-white group-hover:text-[#D95D39] transition-colors leading-snug">
+                      <Link to={`/${article.category}/${article.slug}`}>{article.title}</Link>
+                    </h3>
+                    <p className="text-xs text-stone-600 dark:text-stone-300 leading-relaxed line-clamp-3">
+                      {article.excerpt}
+                    </p>
                   </div>
 
-                  <h2 className="text-lg sm:text-xl font-serif font-bold text-stone-900 dark:text-white group-hover:text-[#D95D39] transition-colors line-clamp-2 leading-snug">
-                    <Link to={`/${article.category}/${article.slug}`}>
-                      {article.title}
+                  <div className="pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between">
+                    <span className="text-xs text-stone-500 font-mono">{article.readingTime}</span>
+                    <Link
+                      to={`/${article.category}/${article.slug}`}
+                      className="text-xs font-semibold uppercase tracking-wider text-[#D95D39] hover:underline flex items-center gap-1"
+                    >
+                      <span>Read Guide</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
-                  </h2>
-
-                  <p className="text-xs text-stone-600 dark:text-stone-300 leading-relaxed line-clamp-3">
-                    {article.excerpt}
-                  </p>
+                  </div>
                 </div>
+              </article>
+            ))}
+          </div>
+        )}
 
-                <div className="pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs font-semibold text-[#D95D39]">
-                  <span>Decode Behavior</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
-            </article>
-          ))}
+        <div className="pt-8">
+          <AdSenseSlot slotType="horizontal-banner" slotId="petzora-behavior-hub-bottom" />
         </div>
       </div>
     </div>
