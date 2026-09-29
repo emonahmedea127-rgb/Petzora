@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowRight, ChevronRight, Tag, BookOpen, Clock, ShieldCheck, Heart, Loader2 } from 'lucide-react';
+import { ArrowRight, ChevronRight, BookOpen, Clock, Loader2 } from 'lucide-react';
 import { petCategories } from '../data/mockData';
 import { SEO } from '../components/SEO';
 import { SafeImage } from '../components/SafeImage';
@@ -44,7 +44,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
     id: activeSlug,
     name: activeSlug === 'care' ? 'Pet Care' : activeSlug.charAt(0).toUpperCase() + activeSlug.slice(1).replace('-', ' '),
     slug: activeSlug,
-    description: `Expert pet care advice, veterinary-approved guides, and practical lifestyle tips for ${activeSlug === 'care' ? 'daily pet care' : activeSlug.replace('-', ' ')}.`,
+    description: `Practical pet care guides and everyday tips for ${activeSlug === 'care' ? 'daily pet care' : activeSlug.replace('-', ' ')}.`,
     coverImage: '/images/hero-dog-cat.webp',
   };
 
@@ -57,7 +57,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
         title={`${categoryInfo.name} Guides & Care Advice | Petzora`}
         description={categoryInfo.description}
         ogImage={categoryInfo.coverImage || '/images/hero-dog-cat.webp'}
-        canonicalUrl={`https://petzora.shop/${categoryInfo.slug}`}
+        canonicalUrl={`https://www.petzora.shop/${categoryInfo.slug}`}
         breadcrumbs={[
           { name: 'Home', url: '/' },
           { name: categoryInfo.name, url: `/${categoryInfo.slug}` },
@@ -65,7 +65,6 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-stone-500 font-mono">
           <Link to="/" className="hover:text-stone-900 dark:hover:text-white transition-colors">
             Home
@@ -76,7 +75,6 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
           </span>
         </nav>
 
-        {/* Category Header Hero */}
         <div className="relative rounded-3xl overflow-hidden bg-stone-900 text-white p-8 sm:p-14 lg:p-16 border border-stone-800 shadow-xl">
           <SafeImage
             src={categoryInfo.coverImage || '/images/hero-dog-cat.webp'}
@@ -100,14 +98,12 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
           </div>
         </div>
 
-        {/* Articles Content Section */}
         {loading ? (
           <div className="py-20 text-center flex flex-col items-center justify-center gap-3">
             <Loader2 className="w-8 h-8 text-[#D95D39] animate-spin" />
             <p className="text-xs font-mono text-stone-500">Loading {categoryInfo.name} articles...</p>
           </div>
         ) : articles.length === 0 ? (
-          /* Clean Empty State */
           <div className="p-12 sm:p-16 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 text-center space-y-4 max-w-2xl mx-auto shadow-sm">
             <div className="w-14 h-14 rounded-2xl bg-orange-50 dark:bg-stone-800 text-[#D95D39] flex items-center justify-center mx-auto">
               <BookOpen className="w-7 h-7" />
@@ -117,7 +113,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
                 No Guides Published in {categoryInfo.name} Yet
               </h3>
               <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1.5 leading-relaxed">
-                Our veterinary advisory board is actively writing and reviewing guides for this topic. When articles are published in this category from our editorial CMS, they will appear right here!
+                New guides for this topic are being prepared. When articles are published in this category, they will appear here.
               </p>
             </div>
             <div className="pt-2 flex flex-wrap items-center justify-center gap-2">
@@ -131,7 +127,6 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
           </div>
         ) : (
           <div className="space-y-12">
-            {/* Featured Article in Category */}
             {featuredInCat && (
               <div className="bg-white dark:bg-stone-900 rounded-3xl overflow-hidden border border-stone-200/90 dark:border-stone-800 shadow-md grid grid-cols-1 lg:grid-cols-12 group hover:shadow-xl transition-all">
                 <div className="lg:col-span-7 relative aspect-video lg:aspect-auto overflow-hidden">
@@ -180,7 +175,6 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
               </div>
             )}
 
-            {/* Articles Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {displayedArticles.map((article) => (
                 <article
@@ -233,7 +227,6 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
               ))}
             </div>
 
-            {/* Load More Button */}
             {visibleCount < articles.length && (
               <div className="text-center pt-4">
                 <button

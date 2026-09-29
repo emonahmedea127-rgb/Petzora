@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { BookOpen, Mail, Globe, ArrowRight, ShieldCheck, Award, Loader2 } from 'lucide-react';
+import { BookOpen, Mail, Globe, ArrowRight, Award, Loader2 } from 'lucide-react';
 import { editorialTeam } from '../data/mockData';
 import { SEO } from '../components/SEO';
 import { SafeImage } from '../components/SafeImage';
@@ -45,9 +45,9 @@ export const AuthorPage: React.FC = () => {
     <div className="py-8 sm:py-12 space-y-12 bg-stone-50 dark:bg-stone-950 min-h-screen text-stone-900 dark:text-stone-100 transition-colors">
       <SEO
         title={`${author.name} – ${author.role || 'Contributor'} | Petzora Editorial`}
-        description={author.bio || 'Petzora veterinary and animal care specialist contributor.'}
+        description={author.bio || 'Read articles and guides published by this Petzora contributor.'}
         ogImage={author.avatar || '/images/author-clara.webp'}
-        canonicalUrl={`https://petzora.shop/author/${author.slug}`}
+        canonicalUrl={`https://www.petzora.shop/author/${author.slug}`}
         breadcrumbs={[
           { name: 'Home', url: '/' },
           { name: 'Editorial Team', url: '/about' },
@@ -56,7 +56,6 @@ export const AuthorPage: React.FC = () => {
       />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Author Profile Header Card */}
         <div className="rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 p-6 sm:p-10 lg:p-12 shadow-md">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
             <div className="relative shrink-0">
@@ -67,12 +66,6 @@ export const AuthorPage: React.FC = () => {
                 priority={true}
                 fallbackSrc="/images/author-clara.webp"
               />
-              <div
-                className="absolute -bottom-2 -right-2 w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center ring-4 ring-white dark:ring-stone-900 shadow"
-                title="Verified Pet Care Specialist"
-              >
-                <ShieldCheck className="w-5 h-5" />
-              </div>
             </div>
 
             <div className="space-y-4 text-center md:text-left flex-1">
@@ -84,9 +77,11 @@ export const AuthorPage: React.FC = () => {
                 <h1 className="text-3xl sm:text-4xl font-serif font-black text-stone-900 dark:text-white">
                   {author.name}
                 </h1>
-                <p className="text-sm font-semibold text-orange-600 dark:text-orange-400 mt-1">
-                  {author.role}
-                </p>
+                {author.role && (
+                  <p className="text-sm font-semibold text-orange-600 dark:text-orange-400 mt-1">
+                    {author.role}
+                  </p>
+                )}
                 {author.credentials && (
                   <p className="text-xs text-stone-500 dark:text-stone-400 font-mono mt-1">
                     {author.credentials}
@@ -94,11 +89,12 @@ export const AuthorPage: React.FC = () => {
                 )}
               </div>
 
-              <p className="text-sm sm:text-base text-stone-600 dark:text-stone-300 leading-relaxed max-w-2xl">
-                {author.bio}
-              </p>
+              {author.bio && (
+                <p className="text-sm sm:text-base text-stone-600 dark:text-stone-300 leading-relaxed max-w-2xl">
+                  {author.bio}
+                </p>
+              )}
 
-              {/* Author Contact & Links */}
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
                 {author.email && (
                   <a
@@ -106,7 +102,7 @@ export const AuthorPage: React.FC = () => {
                     className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs font-mono hover:bg-orange-100 dark:hover:bg-orange-950/60 hover:text-orange-700 transition"
                   >
                     <Mail className="w-3.5 h-3.5" />
-                    <span>Contact Directly</span>
+                    <span>Contact</span>
                   </a>
                 )}
                 {author.website && (
@@ -117,7 +113,7 @@ export const AuthorPage: React.FC = () => {
                     className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs font-mono hover:bg-orange-100 dark:hover:bg-orange-950/60 hover:text-orange-700 transition"
                   >
                     <Globe className="w-3.5 h-3.5" />
-                    <span>petzora.shop</span>
+                    <span>Website</span>
                   </a>
                 )}
               </div>
@@ -125,7 +121,6 @@ export const AuthorPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Author's Articles Section */}
         <div className="space-y-6">
           <div className="border-b border-stone-200 dark:border-stone-800 pb-4">
             <h2 className="font-serif font-black text-2xl text-stone-900 dark:text-white">
@@ -200,11 +195,10 @@ export const AuthorPage: React.FC = () => {
           )}
         </div>
 
-        {/* Other Editorial Board Contributors */}
         <div className="space-y-6 pt-6">
           <div className="border-b border-stone-200 dark:border-stone-800 pb-4">
             <h3 className="font-serif font-bold text-xl text-stone-900 dark:text-white">
-              Other Editorial Board Members
+              Other Editorial Contributors
             </h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -227,9 +221,11 @@ export const AuthorPage: React.FC = () => {
                     <h4 className="font-serif font-bold text-stone-900 dark:text-white group-hover:text-orange-600 transition-colors text-base">
                       {other.name}
                     </h4>
-                    <p className="text-xs text-orange-600 dark:text-orange-400 mt-0.5 truncate">
-                      {other.role}
-                    </p>
+                    {other.role && (
+                      <p className="text-xs text-orange-600 dark:text-orange-400 mt-0.5 truncate">
+                        {other.role}
+                      </p>
+                    )}
                   </div>
                   <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-orange-600 transition shrink-0" />
                 </Link>
