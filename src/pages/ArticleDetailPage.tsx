@@ -27,6 +27,7 @@ import { AdSenseSlot } from '../components/AdSenseSlot';
 import { SafeImage } from '../components/SafeImage';
 import { useSavedArticles } from '../context/SavedArticlesContext';
 import { getArticleBySlug, getRelatedArticles } from '../lib/supabase';
+import { allArticles } from '../data/mockData';
 import { Article } from '../types';
 
 export const ArticleDetailPage: React.FC = () => {
@@ -133,6 +134,18 @@ export const ArticleDetailPage: React.FC = () => {
   ];
 
   const isSaved = isArticleSaved(article.slug);
+
+  // Safeguard: Ensure article body content is never truncated (< 2500 chars), empty or an unrendered comment
+  const fallbackArticle = allArticles.find((a) => a.slug === article.slug);
+  const isInvalidOrTooShort =
+    !article.content ||
+    article.content.trim().length < 2500 ||
+    article.content.trim().startsWith('<!--') ||
+    article.content.includes('supabase-seed-articles.sql');
+
+  const resolvedBodyContent = !isInvalidOrTooShort
+    ? article.content
+    : fallbackArticle?.content || article.content || '';
 
   return (
     <div className="bg-[#FAF7F2] dark:bg-stone-950 min-h-screen text-stone-900 dark:text-stone-100 transition-colors pb-16">
@@ -287,12 +300,12 @@ export const ArticleDetailPage: React.FC = () => {
           {/* Main Article Body (8 cols) */}
           <main className="lg:col-span-8 space-y-8">
             {/* Rich HTML Content from CMS */}
-            {article.content && (
+            {resolvedBodyContent ? (
               <div
-                className="article-content prose dark:prose-invert max-w-none text-stone-800 dark:text-stone-200 font-sans text-base sm:text-lg leading-relaxed space-y-6"
-                dangerouslySetInnerHTML={{ __html: article.content }}
+                className="article-content max-w-none text-stone-800 dark:text-stone-200 font-sans text-base sm:text-lg leading-relaxed space-y-6"
+                dangerouslySetInnerHTML={{ __html: resolvedBodyContent }}
               />
-            )}
+            ) : null}
 
             {/* Backward-compatible sections renderer */}
             {article.sections && article.sections.length > 0 && (

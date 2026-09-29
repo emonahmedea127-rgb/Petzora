@@ -81,7 +81,7 @@ export const AdminSyncPage: React.FC = () => {
   };
 
   const handleCopySql = () => {
-    fetch('/supabase-seed-articles.sql')
+    fetch('/UPDATE_ALL_ARTICLES_2500_PLUS.sql')
       .then((res) => res.text())
       .then((text) => {
         navigator.clipboard.writeText(text);
@@ -89,11 +89,13 @@ export const AdminSyncPage: React.FC = () => {
         setTimeout(() => setCopied(false), 3000);
       })
       .catch(() => {
-        // Fallback: direct simple script copy
-        const sampleSql = `-- Run this in Supabase Dashboard -> SQL Editor\n-- It inserts all built-in Petzora articles.\n-- Download the full file at: /supabase-seed-articles.sql`;
-        navigator.clipboard.writeText(sampleSql);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 3000);
+        fetch('/supabase-seed-articles.sql')
+          .then((res) => res.text())
+          .then((text) => {
+            navigator.clipboard.writeText(text);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 3000);
+          });
       });
   };
 
@@ -306,13 +308,26 @@ export const AdminSyncPage: React.FC = () => {
               </div>
             </div>
 
-            <button
-              onClick={handleCopySql}
-              className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-stone-800 hover:bg-stone-700 text-stone-200 transition flex items-center gap-1.5"
-            >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{copied ? 'SQL Copied!' : 'Copy SQL Script'}</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <a
+                href="/UPDATE_ALL_ARTICLES_2500_PLUS.sql"
+                target="_blank"
+                rel="noreferrer"
+                download="UPDATE_ALL_ARTICLES_2500_PLUS.sql"
+                className="px-3 py-2 rounded-xl text-xs font-semibold bg-stone-800 hover:bg-stone-700 text-stone-300 transition flex items-center gap-1.5"
+              >
+                <ExternalLink className="w-3.5 h-3.5 text-orange-400" />
+                <span>Open SQL File</span>
+              </a>
+
+              <button
+                onClick={handleCopySql}
+                className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-orange-600 hover:bg-orange-500 text-white transition flex items-center gap-1.5 shadow"
+              >
+                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copied ? 'SQL Copied!' : 'Copy 2500+ Chars SQL'}</span>
+              </button>
+            </div>
           </div>
 
           <div className="space-y-3 pt-1">

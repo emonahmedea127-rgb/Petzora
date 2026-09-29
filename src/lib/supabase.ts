@@ -6,8 +6,8 @@ export { allArticles };
 
 // Retrieve credentials from environment or runtime localStorage override
 export function getSupabaseCredentials(): { url: string; anonKey: string; isConfigured: boolean } {
-  let url = (import.meta.env.VITE_SUPABASE_URL || 'https://wrsiehvxrryqsihqirgm.supabase.co').trim();
-  let anonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_koPbRs1lun2YdNT5ei-OZg_3viY5Mkn').trim();
+  let url = ((typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || 'https://wrsiehvxrryqsihqirgm.supabase.co').trim();
+  let anonKey = ((typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) || 'sb_publishable_koPbRs1lun2YdNT5ei-OZg_3viY5Mkn').trim();
 
   // Allow browser localStorage overrides for flexible admin onboarding / live setup
   if (typeof window !== 'undefined') {
@@ -127,10 +127,18 @@ export function mapRowToArticle(row: any): Article {
   const categorySlug = row.category_slug || (row.categories ? row.categories.slug : 'care');
   const fallbackArticle = allArticles.find((a) => a.slug === row.slug);
 
-  const resolvedContent =
-    row.content && row.content.trim().length > 0
-      ? row.content
-      : fallbackArticle?.content || '';
+  // Safeguard: detect truncated/stub content (< 2500 chars), HTML comments or placeholders
+  const isInvalidOrTooShortContent =
+    !row.content ||
+    typeof row.content !== 'string' ||
+    row.content.trim().length < 2500 ||
+    row.content.trim().startsWith('<!--') ||
+    row.content.includes('Full 15,000+ char article content is bundled') ||
+    row.content.includes('supabase-seed-articles.sql');
+
+  const resolvedContent = !isInvalidOrTooShortContent
+    ? row.content
+    : fallbackArticle?.content || row.content || '';
 
   const resolvedReadingTime =
     row.reading_time && row.reading_time.trim().length > 0 && row.reading_time !== '4 min read'
@@ -346,17 +354,21 @@ export async function getArticleBySlug(slug: string, categorySlug?: string): Pro
 
     const { data, error } = await query.maybeSingle();
     if (error || !data) {
-      const syncMode = typeof window !== 'undefined' ? localStorage.getItem('petzora_sync_mode') || 'database_only' : 'database_only';
-      if (syncMode === 'hybrid') {
-        return allArticles.find((a) => a.slug === slug) || null;
-      }
-      return null;
+      // Always fallback to built-in article so visitors never see a blank page or 404
+      return allArticles.find((a) => a.slug === slug) || null;
     }
 
-    return mapRowToArticle(data);
+    const mapped = mapRowToArticle(data);
+    if (!mapped.content || mapped.content.trim().length < 50 || mapped.content.trim().startsWith('<!--')) {
+      const fallback = allArticles.find((a) => a.slug === slug);
+      if (fallback) {
+        mapped.content = fallback.content;
+      }
+    }
+    return mapped;
   } catch (err) {
     console.error('getArticleBySlug exception:', err);
-    return null;
+    return allArticles.find((a) => a.slug === slug) || null;
   }
 }
 
