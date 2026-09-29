@@ -1,5 +1,6 @@
 import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
-import { Article, Author, CategoryInfo, MediaFile, SiteSettings } from '../types';
+import { Article, Author, CategoryInfo, MediaFile, SiteSettings } from '../types/index';
+import { allArticles } from '../data/mockData';
 
 // Retrieve credentials from environment or runtime localStorage override
 export function getSupabaseCredentials(): { url: string; anonKey: string; isConfigured: boolean } {
@@ -201,16 +202,35 @@ export async function getPublishedArticles(options: GetArticlesOptions = {}): Pr
       return [];
     }
 
-    return (data || []).map(mapRowToArticle);
+    const mapped = (data || []).map(mapRowToArticle);
+    if (mapped.length === 0) {
+      let fallback = allArticles.filter((a) => a.status === 'published');
+      if (options.category && options.category !== 'all') {
+        fallback = fallback.filter(
+          (a) =>
+            a.category === options.category?.toLowerCase() ||
+            a.categorySlug === options.category?.toLowerCase()
+        );
+      }
+      if (options.isFeatured) {
+        fallback = fallback.filter((a) => a.isFeatured);
+      }
+      if (options.limit && options.limit > 0) {
+        fallback = fallback.slice(0, options.limit);
+      }
+      return fallback;
+    }
+
+    return mapped;
   } catch (err) {
     console.error('getPublishedArticles exception:', err);
-    return [];
+    return allArticles.filter((a) => a.status === 'published');
   }
 }
 
 export async function getAllArticlesAdmin(): Promise<Article[]> {
   if (!isSupabaseConfigured()) {
-    return [];
+    return allArticles;
   }
 
   try {
@@ -221,19 +241,20 @@ export async function getAllArticlesAdmin(): Promise<Article[]> {
 
     if (error) {
       console.warn('getAllArticlesAdmin error:', error.message);
-      return [];
+      return allArticles;
     }
 
-    return (data || []).map(mapRowToArticle);
+    const mapped = (data || []).map(mapRowToArticle);
+    return mapped.length > 0 ? mapped : allArticles;
   } catch (err) {
     console.error('getAllArticlesAdmin exception:', err);
-    return [];
+    return allArticles;
   }
 }
 
 export async function getArticleBySlug(slug: string, categorySlug?: string): Promise<Article | null> {
   if (!isSupabaseConfigured()) {
-    return null;
+    return allArticles.find((a) => a.slug === slug) || null;
   }
 
   try {
@@ -256,13 +277,13 @@ export async function getArticleBySlug(slug: string, categorySlug?: string): Pro
 
     const { data, error } = await query.maybeSingle();
     if (error || !data) {
-      return null;
+      return allArticles.find((a) => a.slug === slug) || null;
     }
 
     return mapRowToArticle(data);
   } catch (err) {
     console.error('getArticleBySlug exception:', err);
-    return null;
+    return allArticles.find((a) => a.slug === slug) || null;
   }
 }
 
