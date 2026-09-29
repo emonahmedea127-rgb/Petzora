@@ -33,7 +33,17 @@ export const petCategories: CategoryInfo[] = [
     coverImage: '/images/pet-care.webp',
     iconName: 'Sparkles',
     subTopics: ['Grooming', 'Bathing', 'Dental Care', 'Senior Pet Care', 'Home Setup'],
-    articleCount: 1,
+    articleCount: 2,
+  },
+  {
+    id: 'pet-care',
+    name: 'PET CARE',
+    slug: 'pet-care',
+    description: 'Comprehensive daily pet care routines, grooming blueprints, stress-free bathing, and hygiene essentials.',
+    coverImage: '/images/pet-care.webp',
+    iconName: 'Sparkles',
+    subTopics: ['Daily Routines', 'Grooming', 'Bathing', 'Dental Care', 'Nail Trimming'],
+    articleCount: 2,
   },
   {
     id: 'health',

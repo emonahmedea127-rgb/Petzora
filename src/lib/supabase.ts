@@ -247,33 +247,22 @@ export async function getPublishedArticles(options: GetArticlesOptions = {}): Pr
 
     const mapped = (data || []).map(mapRowToArticle);
 
-    // Sync Mode: 'database_only' (strictly sync from database) vs 'hybrid'
-    const syncMode =
-      typeof window !== 'undefined'
-        ? localStorage.getItem('petzora_sync_mode') || 'database_only'
-        : 'database_only';
-
-    let combined: Article[];
-
-    if (syncMode === 'database_only') {
-      // If database has articles, strictly display ONLY what is in the database!
-      // Only fallback if database is completely empty (0 rows)
-      combined = mapped.length > 0 ? mapped : allArticles.filter((a) => a.status === 'published');
-    } else {
-      // Hybrid mode: merge database with in-code articles
-      const existingSlugs = new Set(mapped.map((a) => a.slug));
-      const unrepresentedFallbacks = allArticles.filter(
-        (a) => a.status === 'published' && !existingSlugs.has(a.slug)
-      );
-      combined = [...mapped, ...unrepresentedFallbacks];
-    }
+    // Merge database articles with built-in articles (database articles take precedence by slug)
+    const existingSlugs = new Set(mapped.map((a) => a.slug));
+    const unrepresentedFallbacks = allArticles.filter(
+      (a) => a.status === 'published' && !existingSlugs.has(a.slug)
+    );
+    let combined: Article[] = [...mapped, ...unrepresentedFallbacks];
 
     if (options.category && options.category !== 'all') {
-      combined = combined.filter(
-        (a) =>
-          a.category === options.category?.toLowerCase() ||
-          a.categorySlug === options.category?.toLowerCase()
-      );
+      const cat = options.category.toLowerCase();
+      combined = combined.filter((a) => {
+        const aCat = (a.categorySlug || a.category || '').toLowerCase();
+        if (cat === 'pet-care' || cat === 'care') {
+          return aCat === 'pet-care' || aCat === 'care';
+        }
+        return aCat === cat;
+      });
     }
 
     if (options.isFeatured) {
@@ -289,11 +278,14 @@ export async function getPublishedArticles(options: GetArticlesOptions = {}): Pr
     console.error('getPublishedArticles exception:', err);
     let fallback = allArticles.filter((a) => a.status === 'published');
     if (options.category && options.category !== 'all') {
-      fallback = fallback.filter(
-        (a) =>
-          a.category === options.category?.toLowerCase() ||
-          a.categorySlug === options.category?.toLowerCase()
-      );
+      const cat = options.category.toLowerCase();
+      fallback = fallback.filter((a) => {
+        const aCat = (a.categorySlug || a.category || '').toLowerCase();
+        if (cat === 'pet-care' || cat === 'care') {
+          return aCat === 'pet-care' || aCat === 'care';
+        }
+        return aCat === cat;
+      });
     }
     if (options.isFeatured) {
       fallback = fallback.filter((a) => a.isFeatured);
@@ -341,7 +333,12 @@ export async function getArticleBySlug(slug: string, categorySlug?: string): Pro
       .eq('slug', slug);
 
     if (categorySlug) {
-      query = query.eq('category_slug', categorySlug.toLowerCase());
+      const cat = categorySlug.toLowerCase();
+      if (cat === 'pet-care' || cat === 'care') {
+        query = query.in('category_slug', ['care', 'pet-care']);
+      } else {
+        query = query.eq('category_slug', cat);
+      }
     }
 
     // Public visitor can only see published; admin with active session could see preview
@@ -359,7 +356,7 @@ export async function getArticleBySlug(slug: string, categorySlug?: string): Pro
     }
 
     const mapped = mapRowToArticle(data);
-    if (!mapped.content || mapped.content.trim().length < 50 || mapped.content.trim().startsWith('<!--')) {
+    if (!mapped.content || mapped.content.trim().length < 2500 || mapped.content.trim().startsWith('<!--')) {
       const fallback = allArticles.find((a) => a.slug === slug);
       if (fallback) {
         mapped.content = fallback.content;
