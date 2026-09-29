@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 
+const SITE_URL = 'https://www.petzora.shop';
+
 interface BreadcrumbItem {
   name: string;
   url: string;
@@ -29,21 +31,21 @@ export const SEO: React.FC<SEOProps> = ({
   title,
   description,
   canonicalUrl,
-  ogImage = 'https://petzora.shop/images/hero-dog-cat.webp',
+  ogImage = `${SITE_URL}/images/hero-dog-cat.webp`,
   ogType = 'website',
   publishedTime,
   modifiedTime,
-  authorName = 'Dr. Clara Vance, DVM',
+  authorName = 'Petzora Editorial Team',
   category,
+  tags,
   breadcrumbs,
   faqs,
 }) => {
   useEffect(() => {
-    // 1. Set document title
+    const cleanDescription = description.trim().replace(/\s+/g, ' ');
     const fullTitle = title.includes('Petzora') ? title : `${title} | Petzora`;
     document.title = fullTitle;
 
-    // Helper function to update or create meta tags
     const updateMeta = (name: string, content: string, isProperty = false) => {
       const attr = isProperty ? 'property' : 'name';
       let element = document.querySelector(`meta[${attr}="${name}"]`);
@@ -55,57 +57,55 @@ export const SEO: React.FC<SEOProps> = ({
       element.setAttribute('content', content);
     };
 
-    // Helper for canonical
-    const url = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://petzora.shop');
+    const browserUrl = typeof window !== 'undefined'
+      ? `${window.location.origin}${window.location.pathname}`
+      : SITE_URL;
+    const url = canonicalUrl || browserUrl;
+    const normalizedUrl = url.replace('https://petzora.shop', SITE_URL);
+
     let canonicalTag = document.querySelector('link[rel="canonical"]');
     if (!canonicalTag) {
       canonicalTag = document.createElement('link');
       canonicalTag.setAttribute('rel', 'canonical');
       document.head.appendChild(canonicalTag);
     }
-    canonicalTag.setAttribute('href', url);
+    canonicalTag.setAttribute('href', normalizedUrl);
 
-    // Standard meta
-    updateMeta('google-site-verification', 's__gOlLJI-9ys2nxrRV4yLNd0aPeeuYI_svfS0VpJiE');
-    updateMeta('description', description);
+    updateMeta('description', cleanDescription);
     updateMeta('robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+    if (tags?.length) updateMeta('keywords', tags.join(', '));
 
-    // OpenGraph image absolute URL
     const fullOgImage = ogImage.startsWith('http')
-      ? ogImage
-      : `https://petzora.shop${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
+      ? ogImage.replace('https://petzora.shop', SITE_URL)
+      : `${SITE_URL}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
 
-    // OpenGraph
     updateMeta('og:title', fullTitle, true);
-    updateMeta('og:description', description, true);
+    updateMeta('og:description', cleanDescription, true);
     updateMeta('og:type', ogType, true);
-    updateMeta('og:url', url, true);
+    updateMeta('og:url', normalizedUrl, true);
     updateMeta('og:image', fullOgImage, true);
+    updateMeta('og:image:alt', title, true);
     updateMeta('og:site_name', 'Petzora', true);
     if (publishedTime) updateMeta('article:published_time', publishedTime, true);
     if (modifiedTime) updateMeta('article:modified_time', modifiedTime, true);
     if (category) updateMeta('article:section', category, true);
 
-    // Twitter
     updateMeta('twitter:card', 'summary_large_image');
     updateMeta('twitter:title', fullTitle);
-    updateMeta('twitter:description', description);
+    updateMeta('twitter:description', cleanDescription);
     updateMeta('twitter:image', fullOgImage);
-    updateMeta('twitter:site', '@petzorashop');
 
-    // Structured Data (JSON-LD)
-    const jsonLdScripts: Record<string, any>[] = [];
+    const jsonLdScripts: Record<string, unknown>[] = [];
 
-    // WebSite & Organization
     jsonLdScripts.push({
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: 'Petzora',
       alternateName: 'Petzora Pet Care & Guides',
-      url: 'https://petzora.shop',
+      url: SITE_URL,
       potentialAction: {
         '@type': 'SearchAction',
-        target: 'https://petzora.shop/search?q={search_term_string}',
+        target: `${SITE_URL}/search?q={search_term_string}`,
         'query-input': 'required name=search_term_string',
       },
     });
@@ -114,21 +114,18 @@ export const SEO: React.FC<SEOProps> = ({
       '@context': 'https://schema.org',
       '@type': 'Organization',
       name: 'Petzora',
-      url: 'https://petzora.shop',
-      logo: 'https://petzora.shop/favicon.ico',
-      description: 'Educational pet publishing platform offering dog and cat care advice, nutrition guides, and certified training tips.',
+      url: SITE_URL,
+      logo: `${SITE_URL}/favicon.svg`,
+      description: 'Pet education website with practical guides for dog and cat owners.',
     });
 
-    // Article structured data
     if (ogType === 'article') {
-      jsonLdScripts.push({
+      const articleSchema: Record<string, unknown> = {
         '@context': 'https://schema.org',
-        '@type': 'Article',
+        '@type': 'BlogPosting',
         headline: title,
-        description: description,
-        image: [ogImage],
-        datePublished: publishedTime || new Date().toISOString(),
-        dateModified: modifiedTime || publishedTime || new Date().toISOString(),
+        description: cleanDescription,
+        image: [fullOgImage],
         author: {
           '@type': 'Person',
           name: authorName,
@@ -136,18 +133,26 @@ export const SEO: React.FC<SEOProps> = ({
         publisher: {
           '@type': 'Organization',
           name: 'Petzora',
-          url: 'https://petzora.shop',
+          url: SITE_URL,
+          logo: {
+            '@type': 'ImageObject',
+            url: `${SITE_URL}/favicon.svg`,
+          },
         },
         mainEntityOfPage: {
           '@type': 'WebPage',
-          '@id': url,
+          '@id': normalizedUrl,
         },
         articleSection: category || 'Pet Care',
-      });
+      };
+
+      if (publishedTime) articleSchema.datePublished = publishedTime;
+      if (modifiedTime || publishedTime) articleSchema.dateModified = modifiedTime || publishedTime;
+      if (tags?.length) articleSchema.keywords = tags.join(', ');
+      jsonLdScripts.push(articleSchema);
     }
 
-    // Breadcrumbs structured data
-    if (breadcrumbs && breadcrumbs.length > 0) {
+    if (breadcrumbs?.length) {
       jsonLdScripts.push({
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
@@ -155,13 +160,14 @@ export const SEO: React.FC<SEOProps> = ({
           '@type': 'ListItem',
           position: idx + 1,
           name: crumb.name,
-          item: crumb.url.startsWith('http') ? crumb.url : `https://petzora.shop${crumb.url}`,
+          item: crumb.url.startsWith('http')
+            ? crumb.url.replace('https://petzora.shop', SITE_URL)
+            : `${SITE_URL}${crumb.url}`,
         })),
       });
     }
 
-    // FAQ structured data
-    if (faqs && faqs.length > 0) {
+    if (faqs?.length) {
       jsonLdScripts.push({
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
@@ -176,7 +182,6 @@ export const SEO: React.FC<SEOProps> = ({
       });
     }
 
-    // Inject JSON-LD
     let scriptTag = document.getElementById('petzora-jsonld') as HTMLScriptElement | null;
     if (!scriptTag) {
       scriptTag = document.createElement('script');
@@ -195,6 +200,7 @@ export const SEO: React.FC<SEOProps> = ({
     modifiedTime,
     authorName,
     category,
+    tags,
     breadcrumbs,
     faqs,
   ]);
