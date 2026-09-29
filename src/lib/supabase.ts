@@ -1,5 +1,5 @@
 import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
-import { Article, Author, CategoryInfo, MediaFile, SiteSettings } from '../types/index';
+import { Article, Author, CategoryInfo, MediaFile, SiteSettings } from '../types';
 import { allArticles } from '../data/mockData';
 
 // Retrieve credentials from environment or runtime localStorage override
@@ -123,6 +123,25 @@ export function mapRowToArticle(row: any): Article {
   }
 
   const categorySlug = row.category_slug || (row.categories ? row.categories.slug : 'care');
+  const fallbackArticle = allArticles.find((a) => a.slug === row.slug);
+
+  const resolvedContent =
+    row.content && row.content.trim().length > 0
+      ? row.content
+      : fallbackArticle?.content || '';
+
+  const resolvedReadingTime =
+    row.reading_time && row.reading_time.trim().length > 0 && row.reading_time !== '4 min read'
+      ? row.reading_time
+      : fallbackArticle?.readingTime || row.reading_time || '14 min read';
+
+  const resolvedTOC =
+    headings.length > 0 ? headings : fallbackArticle?.tableOfContents || [];
+
+  const resolvedFAQs =
+    fallbackArticle?.faqList && fallbackArticle.faqList.length > 0
+      ? fallbackArticle.faqList
+      : [];
 
   return {
     id: row.id,
@@ -131,29 +150,29 @@ export function mapRowToArticle(row: any): Article {
     category: categorySlug,
     categorySlug,
     categoryId: row.category_id,
-    excerpt: row.excerpt || '',
-    content: row.content || '',
-    featuredImage: row.featured_image || '/images/pet-fallback.webp',
+    excerpt: row.excerpt || fallbackArticle?.excerpt || '',
+    content: resolvedContent,
+    featuredImage: row.featured_image || fallbackArticle?.featuredImage || '/images/pet-fallback.webp',
     imageAlt: row.image_alt || row.title,
-    imageCaption: row.image_caption || '',
+    imageCaption: row.image_caption || fallbackArticle?.imageCaption || '',
     author: authorData,
     authorId: row.author_id,
     createdAt: row.created_at,
     updatedAt: row.updated_at || row.created_at,
     publishedAt: row.published_at || row.created_at,
-    readingTime: row.reading_time || '4 min read',
+    readingTime: resolvedReadingTime,
     status: row.status as 'published' | 'draft',
     isFeatured: Boolean(row.is_featured),
     isEditorPick: Boolean(row.is_editor_pick),
     isPopular: Boolean(row.is_popular),
-    tags: Array.isArray(row.tags) ? row.tags : [],
-    seoTitle: row.seo_title || row.title,
-    seoDescription: row.seo_description || row.excerpt,
+    tags: Array.isArray(row.tags) && row.tags.length > 0 ? row.tags : fallbackArticle?.tags || [],
+    seoTitle: row.seo_title || fallbackArticle?.seoTitle || row.title,
+    seoDescription: row.seo_description || fallbackArticle?.seoDescription || row.excerpt,
     canonicalPath: `/${categorySlug}/${row.slug}`,
     canonicalUrl: row.canonical_url || `https://petzora.shop/${categorySlug}/${row.slug}`,
     ogImage: row.og_image || row.featured_image || 'https://petzora.shop/images/hero-dog-cat.webp',
-    tableOfContents: headings,
-    faqList: [],
+    tableOfContents: resolvedTOC,
+    faqList: resolvedFAQs,
     relatedSlugs: [],
     sources: [],
   };
