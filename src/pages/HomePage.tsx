@@ -58,13 +58,15 @@ export const HomePage: React.FC = () => {
   const editorsPickSubs = articles.filter((a) => a.id !== editorsPickLead?.id).slice(0, 4);
 
   const dogArticles = articles.filter((a) => {
+    if (a.petType === 'cat' || a.category === 'cats' || a.categorySlug === 'cats') return false;
     const text = (a.title + ' ' + (a.category || '') + ' ' + (a.categorySlug || '') + ' ' + (a.tags || []).join(' ')).toLowerCase();
-    return a.category === 'dogs' || a.categorySlug === 'dogs' || text.includes('dog') || text.includes('puppy') || text.includes('canine');
+    return a.petType === 'dog' || a.category === 'dogs' || a.categorySlug === 'dogs' || text.includes('dog') || text.includes('puppy') || text.includes('canine');
   }).slice(0, 6);
 
   const catArticles = articles.filter((a) => {
+    if (a.petType === 'dog' || a.category === 'dogs' || a.categorySlug === 'dogs') return false;
     const text = (a.title + ' ' + (a.category || '') + ' ' + (a.categorySlug || '') + ' ' + (a.tags || []).join(' ')).toLowerCase();
-    return a.category === 'cats' || a.categorySlug === 'cats' || text.includes('cat') || text.includes('kitten') || text.includes('feline');
+    return a.petType === 'cat' || a.category === 'cats' || a.categorySlug === 'cats' || text.includes('cat') || text.includes('kitten') || text.includes('feline');
   }).slice(0, 6);
 
   const behaviorArticles = articles.filter((a) => {

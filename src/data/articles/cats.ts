@@ -20,8 +20,8 @@ export const catsArticle: Article = {
   createdAt: '2026-09-29T11:00:00Z',
   updatedAt: '2026-09-29T11:00:00Z',
   publishedAt: '2026-09-29T11:00:00Z',
-  featuredImage: '/images/featured-cat.webp',
-  imageAlt: 'Domestic cat drinking from stainless steel flowing pet fountain',
+  featuredImage: '/images/cat-hydration.jpg',
+  imageAlt: 'Domestic cat gracefully drinking clean water from stainless steel pet fountain in bright kitchen',
   imageCaption: 'Circulating, filtered water taps into feline evolutionary preference for running streams over stagnant bowls.',
   author: editorialTeam[0], // Dr. Clara Vance, DVM
   tags: ['cat health', 'feline hydration', 'kidney health', 'wet food', 'cat care', 'senior cat'],
@@ -30,7 +30,7 @@ export const catsArticle: Article = {
     'Detect cat dehydration before irreversible renal damage. Clinical skin tent test, fountain tips, and wet food hydration strategies by Dr. Clara Vance, DVM.',
   canonicalPath: '/cats/cat-dehydration-silent-symptoms-prevention',
   canonicalUrl: 'https://petzora.shop/cats/cat-dehydration-silent-symptoms-prevention',
-  ogImage: '/images/featured-cat.webp',
+  ogImage: '/images/cat-hydration.jpg',
   tableOfContents: [
     { id: 'desert-ancestry', text: '1. Why Cats Hate Water: Desert Evolutionary Biology', level: 2 },
     { id: 'clinical-signs', text: '2. The 4 Subtle Clinical Signs of Feline Dehydration', level: 2 },

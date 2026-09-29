@@ -20,8 +20,8 @@ export const trainingArticle: Article = {
   createdAt: '2026-09-29T13:00:00Z',
   updatedAt: '2026-09-29T13:00:00Z',
   publishedAt: '2026-09-29T13:00:00Z',
-  featuredImage: '/images/dog-training.webp',
-  imageAlt: 'Dog looking calmly through window as handler departs quietly without fanfare',
+  featuredImage: '/images/dog-separation-anxiety.jpg',
+  imageAlt: 'Dog being gently trained in park with positive reinforcement rewards by trainer',
   imageCaption: 'Gradual desensitization of departure cues rewires canine panic responses into relaxed acceptance.',
   author: editorialTeam[1], // Marcus Hayes, CPDT-KA
   tags: ['separation anxiety', 'dog training', 'puppy training', 'crate training', 'dog behavior', 'training'],
@@ -30,7 +30,7 @@ export const trainingArticle: Article = {
     'Overcome canine separation anxiety with systematic desensitization. Certified canine behaviorist Marcus Hayes breaks down departure cue conditioning and thresholds.',
   canonicalPath: '/training/preventing-dog-separation-anxiety-guide',
   canonicalUrl: 'https://petzora.shop/training/preventing-dog-separation-anxiety-guide',
-  ogImage: '/images/dog-training.webp',
+  ogImage: '/images/dog-separation-anxiety.jpg',
   tableOfContents: [
     { id: 'neurobiology', text: '1. The Neurobiology of Canine Panic: Why Spite Is a Myth', level: 2 },
     { id: 'boredom-vs-panic', text: '2. Boredom vs. Separation Anxiety: The 4 Diagnostic Differentiators', level: 2 },

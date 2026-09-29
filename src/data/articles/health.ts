@@ -20,8 +20,8 @@ export const healthArticle: Article = {
   createdAt: '2026-09-29T16:00:00Z',
   updatedAt: '2026-09-29T16:00:00Z',
   publishedAt: '2026-09-29T16:00:00Z',
-  featuredImage: '/images/pet-health.webp',
-  imageAlt: 'Senior dog with frosted gray muzzle resting comfortably on orthopedic bed receiving gentle ear scratch',
+  featuredImage: '/images/senior-dog-health.jpg',
+  imageAlt: 'Senior dog with frosted gray muzzle resting comfortably by a sunlit window',
   imageCaption: 'Aging is not a disease; proactive veterinary screenings and home modifications grant senior dogs years of pain-free joy.',
   author: editorialTeam[0], // Dr. Clara Vance, DVM
   tags: ['senior dog health', 'dog arthritis', 'canine dementia', 'veterinary wellness', 'pet health', 'senior pet'],
@@ -30,7 +30,7 @@ export const healthArticle: Article = {
     'Comprehensive veterinary wellness guide for senior dogs. Learn early osteoarthritis signs, the DISHA dementia checklist, bloodwork screening, and pain management.',
   canonicalPath: '/health/senior-dog-health-checklist-warning-signs',
   canonicalUrl: 'https://petzora.shop/health/senior-dog-health-checklist-warning-signs',
-  ogImage: '/images/pet-health.webp',
+  ogImage: '/images/senior-dog-health.jpg',
   tableOfContents: [
     { id: 'aging-timeline', text: '1. When Is a Dog Truly "Senior"? The Breed Size Matrix', level: 2 },
     { id: 'osteoarthritis', text: '2. The Subtle Language of Canine Osteoarthritis & Joint Pain', level: 2 },

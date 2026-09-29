@@ -8,8 +8,10 @@ export const kneadingArticle: Article = {
     'Discover why cats knead, from kitten nursing instincts and scent marking to deep relaxation, why they knead blankets or your lap, and how to protect your skin comfortably.',
   category: 'cats',
   categorySlug: 'cats',
+  petType: 'cat',
   readingTime: '15 min read',
-  featuredImage: '/images/featured-cat.webp',
+  featuredImage: '/images/cat-kneading.jpg',
+  ogImage: '/images/cat-kneading.jpg',
   imageAlt: 'Ginger domestic cat rhythmically kneading a soft fleece blanket on a cozy sofa',
   imageCaption: 'Kneading, affectionately dubbed "making biscuits," is one of the most recognized yet misunderstood behaviors in feline psychology.',
   author: {

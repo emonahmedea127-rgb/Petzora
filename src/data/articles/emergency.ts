@@ -20,8 +20,8 @@ export const emergencyFirstAidArticle: Article = {
   createdAt: '2026-09-29T16:00:00Z',
   updatedAt: '2026-09-29T16:00:00Z',
   publishedAt: '2026-09-29T16:00:00Z',
-  featuredImage: '/images/pet-health.webp',
-  imageAlt: 'Veterinarian demonstrating emergency canine vital sign examination on dog',
+  featuredImage: '/images/canine-emergency-first-aid.jpg',
+  imageAlt: 'Veterinarian team demonstrating emergency canine vital sign examination on dog in clinical setting',
   imageCaption: 'Immediate recognition of abnormal canine vitals—gum color, pulse rate, and respiratory effort—enables life-saving pre-hospital triage.',
   author: editorialTeam[0], // Dr. Clara Vance, DVM
   tags: ['dog first aid', 'canine CPR', 'emergency vet', 'dog choking', 'dog vitals', 'heatstroke relief'],
@@ -30,7 +30,7 @@ export const emergencyFirstAidArticle: Article = {
     'Life-saving emergency canine first aid handbook by Dr. Clara Vance, DVM. Step-by-step dog CPR, choking clearance, trauma wound pressure, and heatstroke protocols.',
   canonicalPath: '/health/canine-first-aid-emergency-triage-handbook',
   canonicalUrl: 'https://petzora.shop/health/canine-first-aid-emergency-triage-handbook',
-  ogImage: '/images/pet-health.webp',
+  ogImage: '/images/canine-emergency-first-aid.jpg',
   tableOfContents: [
     { id: 'golden-ten-minutes', text: '1. The Golden 10 Minutes: Pre-Hospital Veterinary Triage', level: 2 },
     { id: 'vital-signs-baseline', text: '2. Normal Canine Vital Signs Baseline (Pulse, Respiration, Temp)', level: 2 },

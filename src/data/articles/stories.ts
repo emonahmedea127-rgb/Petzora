@@ -20,8 +20,8 @@ export const storiesArticle: Article = {
   createdAt: '2026-09-29T19:00:00Z',
   updatedAt: '2026-09-29T19:00:00Z',
   publishedAt: '2026-09-29T19:00:00Z',
-  featuredImage: '/images/pet-story.webp',
-  imageAlt: 'Belgian Malinois wearing search and rescue tracking harness standing proudly in alpine pine forest',
+  featuredImage: '/images/rescue-dog-service-journey.jpg',
+  imageAlt: 'Rescued dog with loving companion celebrating successful adoption journey into loyal service companion',
   imageCaption: 'High-drive working breeds are frequently misunderstood in shelters; channeled with purpose, their energy saves human lives.',
   author: editorialTeam[2], // Elena Rostova
   tags: ['rescue dog', 'adoption story', 'search and rescue', 'dog stories', 'animal shelter', 'stories'],
@@ -30,7 +30,7 @@ export const storiesArticle: Article = {
     'The heartwarming true rescue story of Max, an abandoned shelter dog who was saved from euthanasia and became an elite wilderness search and rescue K9.',
   canonicalPath: '/stories/from-shelter-to-service-dog-max-journey',
   canonicalUrl: 'https://petzora.shop/stories/from-shelter-to-service-dog-max-journey',
-  ogImage: '/images/pet-story.webp',
+  ogImage: '/images/rescue-dog-service-journey.jpg',
   tableOfContents: [
     { id: 'kennel-b-14', text: '1. Kennel B-14: The "Unadoptable" Label', level: 2 },
     { id: 'the-spark', text: '2. The Tennis Ball Test: Spotting the Diamond in the Rough', level: 2 },

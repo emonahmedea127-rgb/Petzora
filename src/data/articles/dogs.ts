@@ -20,7 +20,7 @@ export const dogsArticle: Article = {
   createdAt: '2026-09-29T10:00:00Z',
   updatedAt: '2026-09-29T10:00:00Z',
   publishedAt: '2026-09-29T10:00:00Z',
-  featuredImage: '/images/featured-dog.webp',
+  featuredImage: '/images/puppy-potty-training.jpg',
   imageAlt: 'Golden retriever puppy learning outdoor potty routine on grass with gentle owner',
   imageCaption: 'Consistency, structured timing, and immediate high-value praise are the three pillars of successful puppy housebreaking.',
   author: editorialTeam[1], // Marcus Hayes, CPDT-KA
@@ -30,7 +30,7 @@ export const dogsArticle: Article = {
     'Master puppy potty training in 7 days with this science-backed, positive reinforcement routine. Learn biological timing, trigger signs, crate training, and troubleshooting.',
   canonicalPath: '/dogs/puppy-potty-training-7-day-routine',
   canonicalUrl: 'https://petzora.shop/dogs/puppy-potty-training-7-day-routine',
-  ogImage: '/images/featured-dog.webp',
+  ogImage: '/images/puppy-potty-training.jpg',
   tableOfContents: [
     { id: 'biology', text: '1. The Canine Biological Clock & Sphincter Science', level: 2 },
     { id: 'gear', text: '2. The Pre-Training Arsenal: 5 Essential Tools', level: 2 },

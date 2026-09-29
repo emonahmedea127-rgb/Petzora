@@ -45,7 +45,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categorySlug: propSl
     name: activeSlug === 'care' ? 'Pet Care' : activeSlug.charAt(0).toUpperCase() + activeSlug.slice(1).replace('-', ' '),
     slug: activeSlug,
     description: `Practical pet care guides and everyday tips for ${activeSlug === 'care' ? 'daily pet care' : activeSlug.replace('-', ' ')}.`,
-    coverImage: '/images/hero-dog-cat.webp',
+    coverImage: activeSlug === 'cats' ? '/images/featured-cat.webp' : activeSlug === 'dogs' ? '/images/featured-dog.webp' : '/images/pet-care.webp',
   };
 
   const displayedArticles = articles.slice(0, visibleCount);

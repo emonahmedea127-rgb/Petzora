@@ -20,8 +20,8 @@ export const careArticle: Article = {
   createdAt: '2026-09-29T15:00:00Z',
   updatedAt: '2026-09-29T15:00:00Z',
   publishedAt: '2026-09-29T15:00:00Z',
-  featuredImage: '/images/pet-care.webp',
-  imageAlt: 'Veterinarian demonstrating gentle canine finger toothbrush technique on friendly dog',
+  featuredImage: '/images/dog-dental-care.jpg',
+  imageAlt: 'Pet owner gently brushing happy smiling dog teeth with dog toothbrush and toothpaste',
   imageCaption: 'Daily mechanical brushing with enzymatic pet toothpaste disrupts plaque biofilm before mineralized calculus hardens.',
   author: editorialTeam[0], // Dr. Clara Vance, DVM
   tags: ['dog dental care', 'dog teeth brushing', 'periodontal disease', 'dog hygiene', 'dog health', 'pet care'],
@@ -30,7 +30,7 @@ export const careArticle: Article = {
     'Prevent canine periodontal disease and bad breath. Clinical tooth brushing guide, VOHC-approved chews, and plaque prevention by Dr. Clara Vance, DVM.',
   canonicalPath: '/care/dog-dental-care-tartar-prevention-home',
   canonicalUrl: 'https://petzora.shop/care/dog-dental-care-tartar-prevention-home',
-  ogImage: '/images/pet-care.webp',
+  ogImage: '/images/dog-dental-care.jpg',
   tableOfContents: [
     { id: 'oral-microbiome', text: '1. The Canine Oral Microbiome & The 48-Hour Tartar Clock', level: 2 },
     { id: 'systemic-danger', text: '2. The Hidden Organ Threat: How Dental Bacteria Attack Hearts & Kidneys', level: 2 },

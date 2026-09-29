@@ -20,8 +20,8 @@ export const petCareArticle: Article = {
   createdAt: '2026-09-29T17:00:00Z',
   updatedAt: '2026-09-29T17:00:00Z',
   publishedAt: '2026-09-29T17:00:00Z',
-  featuredImage: '/images/pet-care.webp',
-  imageAlt: 'Pet owner practicing gentle daily grooming and health check on happy dog and relaxed cat',
+  featuredImage: '/images/daily-pet-care-routine.jpg',
+  imageAlt: 'Pet owner practicing gentle daily grooming and hygiene care routine',
   imageCaption: 'A 5-minute daily hands-on care routine allows pet parents to detect ear infections, skin parasites, and dental plaque before they become clinical emergencies.',
   author: editorialTeam[0], // Dr. Clara Vance, DVM
   tags: [
@@ -38,7 +38,7 @@ export const petCareArticle: Article = {
     'Veterinary-approved daily pet care routine for dogs and cats. Master coat brushing, quick-safe nail trimming, ear hygiene, and daily physical exams. Read the expert guide.',
   canonicalPath: '/pet-care/essential-daily-pet-care-routine-checklist',
   canonicalUrl: 'https://petzora.shop/pet-care/essential-daily-pet-care-routine-checklist',
-  ogImage: '/images/pet-care.webp',
+  ogImage: '/images/daily-pet-care-routine.jpg',
   tableOfContents: [
     { id: 'importance-of-routine', text: '1. The Preventive Power of a Daily Pet Care Routine', level: 2 },
     { id: 'daily-schedule-matrix', text: '2. The 24-Hour Pet Care Schedule (Morning to Bedtime)', level: 2 },

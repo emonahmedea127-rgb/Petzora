@@ -20,8 +20,8 @@ export const allergiesArticle: Article = {
   createdAt: '2026-09-29T17:30:00Z',
   updatedAt: '2026-09-29T17:30:00Z',
   publishedAt: '2026-09-29T17:30:00Z',
-  featuredImage: '/images/hero-dog-cat.webp',
-  imageAlt: 'Veterinarian evaluating golden retriever with itchy skin and reviewing hypoallergenic pet diet plan',
+  featuredImage: '/images/hypoallergenic-diet.jpg',
+  imageAlt: 'Veterinary pet nutrition setup with hypoallergenic diet bowls, novel proteins, fresh salmon and pumpkin',
   imageCaption: 'Food allergies represent an immune system malfunction where harmless dietary glycoproteins trigger persistent cutaneous and gastrointestinal inflammation.',
   author: editorialTeam[0], // Dr. Clara Vance, DVM
   tags: [
@@ -38,7 +38,7 @@ export const allergiesArticle: Article = {
     'Veterinary-approved guide to diagnosing pet food allergies in dogs & cats. Learn the 8-week elimination trial protocol, hydrolyzed vs novel proteins, and gut healing therapies.',
   canonicalPath: '/nutrition/pet-food-allergies-elimination-diet-guide',
   canonicalUrl: 'https://petzora.shop/nutrition/pet-food-allergies-elimination-diet-guide',
-  ogImage: '/images/hero-dog-cat.webp',
+  ogImage: '/images/hypoallergenic-diet.jpg',
   tableOfContents: [
     { id: 'allergy-vs-intolerance', text: '1. Food Allergy (CAFR) vs. Food Intolerance: The Biological Difference', level: 2 },
     { id: 'top-culprits', text: '2. The Top Dietary Offenders in Dogs and Cats (It Is Not Grains)', level: 2 },

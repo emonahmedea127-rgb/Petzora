@@ -90,6 +90,47 @@ const defaultAuthor: Author = {
   },
 };
 
+export const DEDICATED_ARTICLE_IMAGES: Record<string, { image: string; petType?: 'dog' | 'cat' | 'all' }> = {
+  // Cats (strictly cat photos only)
+  'kitten-quiet-corner-recovery-confidence-story': { image: '/images/kitten-quiet-corner.jpg', petType: 'cat' },
+  'why-does-my-cat-meow-at-night': { image: '/images/cat-meow-night.jpg', petType: 'cat' },
+  'cat-sneezing-causes-warning-signs': { image: '/images/cat-sneezing-health.jpg', petType: 'cat' },
+  'can-cats-eat-tuna-safe-amounts': { image: '/images/cat-eating-tuna.jpg', petType: 'cat' },
+  'why-does-my-cat-sleep-so-much': { image: '/images/cat-sleeping-hours.jpg', petType: 'cat' },
+  'cat-drinking-more-water-than-usual': { image: '/images/cat-behavior.webp', petType: 'cat' },
+  'shy-rescue-cat-learning-to-trust': { image: '/images/shy-cat-trust.jpg', petType: 'cat' },
+  'why-do-cats-knead': { image: '/images/cat-kneading.jpg', petType: 'cat' },
+  'cat-dehydration-silent-symptoms-prevention': { image: '/images/cat-hydration.jpg', petType: 'cat' },
+
+  // Dogs (strictly dog photos only)
+  'puppy-potty-training-7-day-routine': { image: '/images/puppy-potty-training.jpg', petType: 'dog' },
+  'why-do-dogs-tilt-their-heads': { image: '/images/dog-body-language.jpg', petType: 'dog' },
+  'why-does-my-dog-follow-me-everywhere': { image: '/images/featured-dog.webp', petType: 'dog' },
+  'why-does-my-dog-lick-me-so-much': { image: '/images/dog-behavior.webp', petType: 'dog' },
+  'dog-vomiting-causes-red-flags-what-to-do': { image: '/images/canine-emergency-first-aid.jpg', petType: 'dog' },
+  'canine-first-aid-emergency-triage-handbook': { image: '/images/pet-health.webp', petType: 'dog' },
+  'senior-dog-health-checklist-warning-signs': { image: '/images/senior-dog-health.jpg', petType: 'dog' },
+  'can-dogs-eat-eggs-safe-serving': { image: '/images/dog-eating-eggs.jpg', petType: 'dog' },
+  'dog-dental-care-tartar-prevention-home': { image: '/images/dog-dental-care.jpg', petType: 'dog' },
+  'best-orthopedic-dog-beds-veterinary-review': { image: '/images/orthopedic-dog-beds.jpg', petType: 'dog' },
+  'best-dog-harness-features-buying-guide': { image: '/images/dog-harness-guide.jpg', petType: 'dog' },
+  'from-shelter-to-service-dog-max-journey': { image: '/images/rescue-dog-service-journey.jpg', petType: 'dog' },
+  'dog-waited-by-gate-rescue-story-trust': { image: '/images/pet-story.webp', petType: 'dog' },
+  'how-to-teach-a-dog-to-stay': { image: '/images/dog-training.webp', petType: 'dog' },
+  'preventing-dog-separation-anxiety-guide': { image: '/images/dog-separation-anxiety.jpg', petType: 'dog' },
+  'how-to-stop-dog-jumping-on-people': { image: '/images/dog-jumping-training.jpg', petType: 'dog' },
+  'how-often-should-you-bathe-a-dog': { image: '/images/dog-bath-care.jpg', petType: 'dog' },
+  'how-to-trim-dog-nails-safely': { image: '/images/pet-care.webp', petType: 'dog' },
+
+  // General / Multi-pet
+  'senior-dog-cat-share-second-chance-story': { image: '/images/hero-dog-cat.webp', petType: 'all' },
+  'first-week-new-pet-home-checklist': { image: '/images/pet-discovery.webp', petType: 'all' },
+  'essential-daily-pet-care-routine-checklist': { image: '/images/daily-pet-care-routine.jpg', petType: 'all' },
+  'toxic-foods-dogs-cats-complete-list': { image: '/images/toxic-foods-nutrition.jpg', petType: 'all' },
+  'pet-food-allergies-elimination-diet-guide': { image: '/images/hypoallergenic-diet.jpg', petType: 'all' },
+  'cat-dog-body-language-subtle-calming-signals': { image: '/images/pet-lifestyle.webp', petType: 'all' },
+};
+
 export function mapRowToArticle(row: any): Article {
   const authorData: Author = row.authors
     ? {
@@ -162,8 +203,13 @@ export function mapRowToArticle(row: any): Article {
     categoryId: row.category_id,
     excerpt: row.excerpt || fallbackArticle?.excerpt || '',
     content: resolvedContent,
-    featuredImage: row.featured_image || fallbackArticle?.featuredImage || '/images/pet-fallback.webp',
-    imageAlt: row.image_alt || row.title,
+    featuredImage:
+      DEDICATED_ARTICLE_IMAGES[row.slug]?.image ||
+      fallbackArticle?.featuredImage ||
+      (row.featured_image && row.featured_image !== '/images/hero-dog-cat.webp' && row.featured_image !== '/images/pet-fallback.webp'
+        ? row.featured_image
+        : (categorySlug === 'cats' ? '/images/featured-cat.webp' : categorySlug === 'dogs' ? '/images/featured-dog.webp' : '/images/pet-care.webp')),
+    imageAlt: row.image_alt || fallbackArticle?.imageAlt || row.title,
     imageCaption: row.image_caption || fallbackArticle?.imageCaption || '',
     author: authorData,
     authorId: row.author_id,
@@ -180,11 +226,20 @@ export function mapRowToArticle(row: any): Article {
     seoDescription: row.seo_description || fallbackArticle?.seoDescription || row.excerpt,
     canonicalPath: `/${categorySlug}/${row.slug}`,
     canonicalUrl: row.canonical_url || `https://petzora.shop/${categorySlug}/${row.slug}`,
-    ogImage: row.og_image || row.featured_image || 'https://petzora.shop/images/hero-dog-cat.webp',
+    ogImage:
+      DEDICATED_ARTICLE_IMAGES[row.slug]?.image ||
+      fallbackArticle?.ogImage ||
+      row.og_image ||
+      row.featured_image ||
+      'https://petzora.shop/images/hero-dog-cat.webp',
     tableOfContents: resolvedTOC,
     faqList: resolvedFAQs,
     relatedSlugs: [],
     sources: [],
+    petType:
+      DEDICATED_ARTICLE_IMAGES[row.slug]?.petType ||
+      fallbackArticle?.petType ||
+      (categorySlug === 'cats' ? 'cat' : categorySlug === 'dogs' ? 'dog' : 'all'),
   };
 }
 
@@ -601,29 +656,42 @@ export async function searchPublishedArticles(searchQuery: string): Promise<Arti
 }
 
 export async function getRelatedArticles(currentSlug: string, categorySlug: string, tags: string[] = [], limit: number = 3): Promise<Article[]> {
+  const currentArt = allArticles.find((a) => a.slug === currentSlug);
   const targetCategory = categorySlug.toLowerCase();
+  const currentPetType = currentArt?.petType || (targetCategory === 'cats' ? 'cat' : targetCategory === 'dogs' ? 'dog' : 'all');
+
   const fallback = allArticles
-    .filter(
-      (a) =>
-        a.status === 'published' &&
-        a.slug !== currentSlug &&
-        ((a.category && a.category.toLowerCase() === targetCategory) ||
-          (a.categorySlug && a.categorySlug.toLowerCase() === targetCategory) ||
-          (a.tags && a.tags.some((t) => tags.includes(t))))
-    )
+    .filter((a) => {
+      if (a.status !== 'published' || a.slug === currentSlug) return false;
+      // Strict species integrity: never recommend a cat article on a dog post, or dog article on a cat post
+      if (currentPetType === 'dog' && (a.petType === 'cat' || a.categorySlug === 'cats' || a.category === 'cats')) return false;
+      if (currentPetType === 'cat' && (a.petType === 'dog' || a.categorySlug === 'dogs' || a.category === 'dogs')) return false;
+
+      const aCat = (a.categorySlug || a.category || '').toLowerCase();
+      const matchesCategory = aCat === targetCategory || (targetCategory === 'care' && aCat === 'pet-care') || (targetCategory === 'pet-care' && aCat === 'care');
+      const matchesTags = a.tags && tags.some((t) => a.tags?.includes(t));
+      return matchesCategory || matchesTags;
+    })
     .slice(0, limit);
 
   if (!isSupabaseConfigured()) return fallback;
 
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from('articles')
       .select('*, categories(id, name, slug), authors(id, name, slug, role, bio, avatar_url, credentials, email, website)')
       .eq('status', 'published')
-      .neq('slug', currentSlug)
-      .eq('category_slug', categorySlug.toLowerCase())
-      .order('published_at', { ascending: false })
-      .limit(limit);
+      .neq('slug', currentSlug);
+
+    if (currentPetType === 'cat') {
+      query = query.eq('category_slug', 'cats');
+    } else if (currentPetType === 'dog') {
+      query = query.neq('category_slug', 'cats');
+    } else {
+      query = query.eq('category_slug', categorySlug.toLowerCase());
+    }
+
+    const { data, error } = await query.order('published_at', { ascending: false }).limit(limit);
 
     if (error || !data || data.length === 0) return fallback;
     return data.map(mapRowToArticle);

@@ -20,8 +20,8 @@ export const nutritionArticle: Article = {
   createdAt: '2026-09-29T12:00:00Z',
   updatedAt: '2026-09-29T12:00:00Z',
   publishedAt: '2026-09-29T12:00:00Z',
-  featuredImage: '/images/pet-nutrition.webp',
-  imageAlt: 'Table with toxic human food items and safe pet treat alternatives arranged in veterinary clinic',
+  featuredImage: '/images/toxic-foods-nutrition.jpg',
+  imageAlt: 'Fresh pet nutrition bowl with healthy ingredients and food safety guidelines',
   imageCaption: 'Human digestive enzymes handle methylxanthines, allium compounds, and persin that companion animals cannot metabolize.',
   author: editorialTeam[0], // Dr. Clara Vance, DVM
   tags: ['pet nutrition', 'toxic foods', 'dog safety', 'cat safety', 'pet emergency', 'nutrition'],
@@ -30,7 +30,7 @@ export const nutritionArticle: Article = {
     'Comprehensive veterinary toxicology guide on toxic foods for dogs and cats. Clinical emergency symptoms, toxic dosages, and safe treats.',
   canonicalPath: '/nutrition/toxic-foods-dogs-cats-complete-list',
   canonicalUrl: 'https://petzora.shop/nutrition/toxic-foods-dogs-cats-complete-list',
-  ogImage: '/images/pet-nutrition.webp',
+  ogImage: '/images/toxic-foods-nutrition.jpg',
   tableOfContents: [
     { id: 'biochemistry', text: '1. Why Pet Metabolism Differs: Hepatic Glucuronidation & Enzyme Pathways', level: 2 },
     { id: 'big-five', text: '2. The Big 5 Immediate Lethal Threats (Xylitol, Grapes, Chocolate, Alliums & Bones)', level: 2 },

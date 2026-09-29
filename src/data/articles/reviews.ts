@@ -20,8 +20,8 @@ export const reviewsArticle: Article = {
   createdAt: '2026-09-29T18:00:00Z',
   updatedAt: '2026-09-29T18:00:00Z',
   publishedAt: '2026-09-29T18:00:00Z',
-  featuredImage: '/images/pet-reviews.webp',
-  imageAlt: 'Senior Labrador retriever sleeping soundly on thick memory foam orthopedic bolster dog bed',
+  featuredImage: '/images/orthopedic-dog-beds.jpg',
+  imageAlt: 'Senior dog sleeping comfortably on thick memory foam orthopedic bolster dog bed',
   imageCaption: 'True medical-grade memory foam distributes joint pressure without bottoming out under heavy body mass.',
   author: editorialTeam[0], // Dr. Clara Vance, DVM
   tags: ['orthopedic dog beds', 'dog bed review', 'arthritis support', 'dog gear', 'product reviews', 'reviews'],
@@ -30,7 +30,7 @@ export const reviewsArticle: Article = {
     'Independent veterinary testing of the best orthopedic dog beds for hip dysplasia, arthritis, and large breeds. Real foam density metrics and durability tests.',
   canonicalPath: '/reviews/best-orthopedic-dog-beds-veterinary-review',
   canonicalUrl: 'https://petzora.shop/reviews/best-orthopedic-dog-beds-veterinary-review',
-  ogImage: '/images/pet-reviews.webp',
+  ogImage: '/images/orthopedic-dog-beds.jpg',
   tableOfContents: [
     { id: 'why-orthopedic-matters', text: '1. Why Most "Orthopedic" Labels Are Deceptive Marketing', level: 2 },
     { id: 'testing-methodology', text: '2. Our Clinical Testing Criteria: Density, ILD & Pressure Mapping', level: 2 },

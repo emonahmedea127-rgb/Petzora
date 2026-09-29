@@ -20,8 +20,8 @@ export const behaviorArticle: Article = {
   createdAt: '2026-09-29T17:00:00Z',
   updatedAt: '2026-09-29T17:00:00Z',
   publishedAt: '2026-09-29T17:00:00Z',
-  featuredImage: '/images/dog-behavior.webp',
-  imageAlt: 'Dog and cat sitting peacefully together demonstrating calm body language cues in bright living room',
+  featuredImage: '/images/dog-body-language.jpg',
+  imageAlt: 'Curious dog tilting head and showing attentive canine body language cues',
   imageCaption: 'Recognizing subtle displacement behaviors prevents fear-based aggression and deepens interspecies trust.',
   author: editorialTeam[1], // Marcus Hayes, CPDT-KA
   tags: ['dog behavior', 'cat behavior', 'body language', 'calming signals', 'pet communication', 'behavior'],
@@ -30,7 +30,7 @@ export const behaviorArticle: Article = {
     'Master canine and feline body language. Certified behaviorists decode whale eyes, lip licks, tail thumps, slow blinks, and the myth of the guilty look.',
   canonicalPath: '/behavior/cat-dog-body-language-subtle-calming-signals',
   canonicalUrl: 'https://petzora.shop/behavior/cat-dog-body-language-subtle-calming-signals',
-  ogImage: '/images/dog-behavior.webp',
+  ogImage: '/images/dog-body-language.jpg',
   tableOfContents: [
     { id: 'calming-signals-concept', text: '1. The Evolution of Calming Signals: Conflict Resolution in Pack Animals', level: 2 },
     { id: 'canine-micro-cues', text: '2. Five Canine Stress Signals That Humans Consistently Miss', level: 2 },
