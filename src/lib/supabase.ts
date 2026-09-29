@@ -202,8 +202,29 @@ export interface GetArticlesOptions {
 }
 
 export async function getPublishedArticles(options: GetArticlesOptions = {}): Promise<Article[]> {
+  const getFallback = () => {
+    let fallback = allArticles.filter((a) => a.status === 'published');
+    if (options.category && options.category !== 'all') {
+      const cat = options.category.toLowerCase();
+      fallback = fallback.filter((a) => {
+        const aCat = (a.categorySlug || a.category || '').toLowerCase();
+        if (cat === 'pet-care' || cat === 'care') {
+          return aCat === 'pet-care' || aCat === 'care';
+        }
+        return aCat === cat;
+      });
+    }
+    if (options.isFeatured) {
+      fallback = fallback.filter((a) => a.isFeatured);
+    }
+    if (options.limit && options.limit > 0) {
+      fallback = fallback.slice(0, options.limit);
+    }
+    return fallback;
+  };
+
   if (!isSupabaseConfigured()) {
-    return [];
+    return getFallback();
   }
 
   try {
