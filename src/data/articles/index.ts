@@ -11,12 +11,14 @@ import { behaviorArticle } from './behavior';
 import { reviewsArticle } from './reviews';
 import { storiesArticle } from './stories';
 import { emergencyFirstAidArticle } from './emergency';
+import { kneadingArticle } from './kneading';
 
-export { petCareArticle, allergiesArticle };
+export { petCareArticle, allergiesArticle, kneadingArticle };
 
 export const allPillarArticles: Article[] = [
   dogsArticle,
   catsArticle,
+  kneadingArticle,
   careArticle,
   petCareArticle,
   healthArticle,
