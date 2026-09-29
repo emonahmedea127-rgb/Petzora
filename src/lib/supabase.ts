@@ -222,28 +222,49 @@ export async function getPublishedArticles(options: GetArticlesOptions = {}): Pr
     }
 
     const mapped = (data || []).map(mapRowToArticle);
-    if (mapped.length === 0) {
-      let fallback = allArticles.filter((a) => a.status === 'published');
-      if (options.category && options.category !== 'all') {
-        fallback = fallback.filter(
-          (a) =>
-            a.category === options.category?.toLowerCase() ||
-            a.categorySlug === options.category?.toLowerCase()
-        );
-      }
-      if (options.isFeatured) {
-        fallback = fallback.filter((a) => a.isFeatured);
-      }
-      if (options.limit && options.limit > 0) {
-        fallback = fallback.slice(0, options.limit);
-      }
-      return fallback;
+
+    // Merge database articles with in-code pillar articles without duplicate slugs
+    const existingSlugs = new Set(mapped.map((a) => a.slug));
+    const unrepresentedFallbacks = allArticles.filter(
+      (a) => a.status === 'published' && !existingSlugs.has(a.slug)
+    );
+
+    let combined = [...mapped, ...unrepresentedFallbacks];
+
+    if (options.category && options.category !== 'all') {
+      combined = combined.filter(
+        (a) =>
+          a.category === options.category?.toLowerCase() ||
+          a.categorySlug === options.category?.toLowerCase()
+      );
     }
 
-    return mapped;
+    if (options.isFeatured) {
+      combined = combined.filter((a) => a.isFeatured);
+    }
+
+    if (options.limit && options.limit > 0) {
+      combined = combined.slice(0, options.limit);
+    }
+
+    return combined;
   } catch (err) {
     console.error('getPublishedArticles exception:', err);
-    return allArticles.filter((a) => a.status === 'published');
+    let fallback = allArticles.filter((a) => a.status === 'published');
+    if (options.category && options.category !== 'all') {
+      fallback = fallback.filter(
+        (a) =>
+          a.category === options.category?.toLowerCase() ||
+          a.categorySlug === options.category?.toLowerCase()
+      );
+    }
+    if (options.isFeatured) {
+      fallback = fallback.filter((a) => a.isFeatured);
+    }
+    if (options.limit && options.limit > 0) {
+      fallback = fallback.slice(0, options.limit);
+    }
+    return fallback;
   }
 }
 
