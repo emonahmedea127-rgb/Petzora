@@ -8,6 +8,7 @@ import { trainingArticle } from './training';
 import { behaviorArticle } from './behavior';
 import { reviewsArticle } from './reviews';
 import { storiesArticle } from './stories';
+import { emergencyFirstAidArticle } from './emergency';
 
 export const allPillarArticles: Article[] = [
   dogsArticle,
@@ -19,4 +20,5 @@ export const allPillarArticles: Article[] = [
   behaviorArticle,
   reviewsArticle,
   storiesArticle,
+  emergencyFirstAidArticle,
 ];

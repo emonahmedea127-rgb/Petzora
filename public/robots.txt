@@ -6,3 +6,6 @@ Disallow: /admin/*
 
 # Search engine sitemap location
 Sitemap: https://petzora.shop/sitemap.xml
+Sitemap: https://petzora.shop/sitemap-articles.xml
+Sitemap: https://petzora.shop/sitemap-pages.xml
+Sitemap: https://www.petzora.shop/sitemap.xml

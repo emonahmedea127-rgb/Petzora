@@ -2,203 +2,185 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Homepage -->
   <url>
-    <loc>https://petzora.shop/</loc>
+    <loc>https://www.petzora.shop/</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Main Category Hubs -->
+  <!-- Category Hubs -->
   <url>
-    <loc>https://petzora.shop/dogs</loc>
+    <loc>https://www.petzora.shop/dogs</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/cats</loc>
+    <loc>https://www.petzora.shop/cats</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/care</loc>
+    <loc>https://www.petzora.shop/care</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/health</loc>
+    <loc>https://www.petzora.shop/health</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.petzora.shop/nutrition</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/nutrition</loc>
+    <loc>https://www.petzora.shop/training</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/training</loc>
+    <loc>https://www.petzora.shop/reviews</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/reviews</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://petzora.shop/stories</loc>
+    <loc>https://www.petzora.shop/stories</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://petzora.shop/behavior-hub</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
 
   <!-- Published High-Quality Pillar Articles -->
   <url>
-    <loc>https://petzora.shop/dogs/puppy-potty-training-7-day-routine</loc>
+    <loc>https://www.petzora.shop/health/canine-first-aid-emergency-triage-handbook</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/cats/cat-dehydration-silent-symptoms-prevention</loc>
+    <loc>https://www.petzora.shop/dogs/puppy-potty-training-7-day-routine</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/nutrition/toxic-foods-dogs-cats-complete-list</loc>
+    <loc>https://www.petzora.shop/cats/cat-dehydration-silent-symptoms-prevention</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/training/preventing-dog-separation-anxiety-guide</loc>
+    <loc>https://www.petzora.shop/care/dog-dental-care-tartar-prevention-home</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/cats/indoor-cat-enrichment-boredom-solutions</loc>
+    <loc>https://www.petzora.shop/health/senior-dog-health-checklist-warning-signs</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.petzora.shop/nutrition/toxic-foods-dogs-cats-complete-list</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.petzora.shop/training/preventing-dog-separation-anxiety-guide</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.petzora.shop/care/cat-dog-body-language-subtle-calming-signals</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/care/dog-dental-care-tartar-prevention-home</loc>
+    <loc>https://www.petzora.shop/reviews/best-orthopedic-dog-beds-veterinary-review</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/health/senior-dog-health-checklist-warning-signs</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://petzora.shop/behavior/cat-dog-body-language-subtle-calming-signals</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://petzora.shop/reviews/best-orthopedic-dog-beds-veterinary-review</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://petzora.shop/stories/from-shelter-to-service-dog-max-journey</loc>
+    <loc>https://www.petzora.shop/stories/from-shelter-to-service-dog-max-journey</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Author Editorial Profiles (E-E-A-T) -->
+  <!-- Author Profiles -->
   <url>
-    <loc>https://petzora.shop/author/dr-clara-vance</loc>
+    <loc>https://www.petzora.shop/author/dr-clara-vance</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/author/marcus-hayes</loc>
+    <loc>https://www.petzora.shop/author/marcus-hayes</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/author/elena-rostova</loc>
+    <loc>https://www.petzora.shop/author/elena-rostova</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
-  <!-- Mandatory Compliance, Trust & Legal Pages -->
+  <!-- Legal & Trust Pages -->
   <url>
-    <loc>https://petzora.shop/about</loc>
+    <loc>https://www.petzora.shop/about</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/contact</loc>
+    <loc>https://www.petzora.shop/contact</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/editorial-policy</loc>
+    <loc>https://www.petzora.shop/editorial-policy</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/privacy-policy</loc>
+    <loc>https://www.petzora.shop/privacy-policy</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/terms-of-service</loc>
+    <loc>https://www.petzora.shop/terms-of-service</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/affiliate-disclosure</loc>
+    <loc>https://www.petzora.shop/affiliate-disclosure</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://petzora.shop/disclaimer</loc>
+    <loc>https://www.petzora.shop/disclaimer</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://petzora.shop/cookie-policy</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://petzora.shop/sitemap</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
 </urlset>
