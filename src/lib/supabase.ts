@@ -2,6 +2,8 @@ import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { Article, Author, CategoryInfo, MediaFile, SiteSettings } from '../types';
 import { allArticles } from '../data/mockData';
 
+export { allArticles };
+
 // Retrieve credentials from environment or runtime localStorage override
 export function getSupabaseCredentials(): { url: string; anonKey: string; isConfigured: boolean } {
   let url = (import.meta.env.VITE_SUPABASE_URL || 'https://wrsiehvxrryqsihqirgm.supabase.co').trim();
@@ -218,18 +220,45 @@ export async function getPublishedArticles(options: GetArticlesOptions = {}): Pr
     const { data, error } = await query;
     if (error) {
       console.warn('Supabase getPublishedArticles error:', error.message);
-      return [];
+      let fallback = allArticles.filter((a) => a.status === 'published');
+      if (options.category && options.category !== 'all') {
+        fallback = fallback.filter(
+          (a) =>
+            a.category === options.category?.toLowerCase() ||
+            a.categorySlug === options.category?.toLowerCase()
+        );
+      }
+      if (options.isFeatured) {
+        fallback = fallback.filter((a) => a.isFeatured);
+      }
+      if (options.limit && options.limit > 0) {
+        fallback = fallback.slice(0, options.limit);
+      }
+      return fallback;
     }
 
     const mapped = (data || []).map(mapRowToArticle);
 
-    // Merge database articles with in-code pillar articles without duplicate slugs
-    const existingSlugs = new Set(mapped.map((a) => a.slug));
-    const unrepresentedFallbacks = allArticles.filter(
-      (a) => a.status === 'published' && !existingSlugs.has(a.slug)
-    );
+    // Sync Mode: 'database_only' (strictly sync from database) vs 'hybrid'
+    const syncMode =
+      typeof window !== 'undefined'
+        ? localStorage.getItem('petzora_sync_mode') || 'database_only'
+        : 'database_only';
 
-    let combined = [...mapped, ...unrepresentedFallbacks];
+    let combined: Article[];
+
+    if (syncMode === 'database_only') {
+      // If database has articles, strictly display ONLY what is in the database!
+      // Only fallback if database is completely empty (0 rows)
+      combined = mapped.length > 0 ? mapped : allArticles.filter((a) => a.status === 'published');
+    } else {
+      // Hybrid mode: merge database with in-code articles
+      const existingSlugs = new Set(mapped.map((a) => a.slug));
+      const unrepresentedFallbacks = allArticles.filter(
+        (a) => a.status === 'published' && !existingSlugs.has(a.slug)
+      );
+      combined = [...mapped, ...unrepresentedFallbacks];
+    }
 
     if (options.category && options.category !== 'all') {
       combined = combined.filter(
@@ -317,13 +346,17 @@ export async function getArticleBySlug(slug: string, categorySlug?: string): Pro
 
     const { data, error } = await query.maybeSingle();
     if (error || !data) {
-      return allArticles.find((a) => a.slug === slug) || null;
+      const syncMode = typeof window !== 'undefined' ? localStorage.getItem('petzora_sync_mode') || 'database_only' : 'database_only';
+      if (syncMode === 'hybrid') {
+        return allArticles.find((a) => a.slug === slug) || null;
+      }
+      return null;
     }
 
     return mapRowToArticle(data);
   } catch (err) {
     console.error('getArticleBySlug exception:', err);
-    return allArticles.find((a) => a.slug === slug) || null;
+    return null;
   }
 }
 
@@ -501,10 +534,24 @@ export async function checkSlugUnique(slug: string, currentId?: string): Promise
 }
 
 export async function searchPublishedArticles(searchQuery: string): Promise<Article[]> {
-  if (!isSupabaseConfigured() || !searchQuery.trim()) return [];
+  const term = searchQuery.trim().toLowerCase();
+  if (!term) return [];
+
+  const filterFallback = () =>
+    allArticles.filter(
+      (a) =>
+        a.status === 'published' &&
+        ((a.title && a.title.toLowerCase().includes(term)) ||
+          (a.excerpt && a.excerpt.toLowerCase().includes(term)) ||
+          (a.content && a.content.toLowerCase().includes(term)) ||
+          (a.tags && a.tags.some((t) => t.toLowerCase().includes(term))))
+    );
+
+  if (!isSupabaseConfigured()) {
+    return filterFallback();
+  }
 
   try {
-    const term = searchQuery.trim().toLowerCase();
     const { data, error } = await supabase
       .from('articles')
       .select('*, categories(id, name, slug), authors(id, name, slug, role, bio, avatar_url, credentials, email, website)')
@@ -513,16 +560,30 @@ export async function searchPublishedArticles(searchQuery: string): Promise<Arti
       .order('published_at', { ascending: false })
       .limit(20);
 
-    if (error || !data) return [];
+    if (error || !data || data.length === 0) {
+      return filterFallback();
+    }
     return data.map(mapRowToArticle);
   } catch (err) {
     console.error('searchPublishedArticles error:', err);
-    return [];
+    return filterFallback();
   }
 }
 
 export async function getRelatedArticles(currentSlug: string, categorySlug: string, tags: string[] = [], limit: number = 3): Promise<Article[]> {
-  if (!isSupabaseConfigured()) return [];
+  const targetCategory = categorySlug.toLowerCase();
+  const fallback = allArticles
+    .filter(
+      (a) =>
+        a.status === 'published' &&
+        a.slug !== currentSlug &&
+        ((a.category && a.category.toLowerCase() === targetCategory) ||
+          (a.categorySlug && a.categorySlug.toLowerCase() === targetCategory) ||
+          (a.tags && a.tags.some((t) => tags.includes(t))))
+    )
+    .slice(0, limit);
+
+  if (!isSupabaseConfigured()) return fallback;
 
   try {
     const { data, error } = await supabase
@@ -534,10 +595,10 @@ export async function getRelatedArticles(currentSlug: string, categorySlug: stri
       .order('published_at', { ascending: false })
       .limit(limit);
 
-    if (error || !data) return [];
+    if (error || !data || data.length === 0) return fallback;
     return data.map(mapRowToArticle);
   } catch {
-    return [];
+    return fallback;
   }
 }
 
@@ -923,3 +984,184 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     };
   }
 }
+
+// ----------------------------------------------------------------------
+// BUILT-IN TO SUPABASE CONTENT SYNC
+// ----------------------------------------------------------------------
+
+export interface ContentSyncStatus {
+  totalBuiltIn: number;
+  inSupabaseCount: number;
+  unsyncedCount: number;
+  unsyncedSlugs: string[];
+}
+
+export async function getSyncStatus(): Promise<ContentSyncStatus> {
+  const totalBuiltIn = allArticles.length;
+  if (!isSupabaseConfigured()) {
+    return {
+      totalBuiltIn,
+      inSupabaseCount: 0,
+      unsyncedCount: totalBuiltIn,
+      unsyncedSlugs: allArticles.map((a) => a.slug),
+    };
+  }
+
+  try {
+    const { data, error } = await supabase.from('articles').select('slug');
+    if (error || !data) {
+      return {
+        totalBuiltIn,
+        inSupabaseCount: 0,
+        unsyncedCount: totalBuiltIn,
+        unsyncedSlugs: allArticles.map((a) => a.slug),
+      };
+    }
+
+    const existingSlugs = new Set(data.map((r: any) => r.slug));
+    const unsyncedArticles = allArticles.filter((a) => !existingSlugs.has(a.slug));
+
+    return {
+      totalBuiltIn,
+      inSupabaseCount: existingSlugs.size,
+      unsyncedCount: unsyncedArticles.length,
+      unsyncedSlugs: unsyncedArticles.map((a) => a.slug),
+    };
+  } catch (err) {
+    console.error('getSyncStatus exception:', err);
+    return {
+      totalBuiltIn,
+      inSupabaseCount: 0,
+      unsyncedCount: totalBuiltIn,
+      unsyncedSlugs: allArticles.map((a) => a.slug),
+    };
+  }
+}
+
+export async function syncBuiltInArticlesToSupabase(): Promise<{
+  success: boolean;
+  syncedCount: number;
+  totalBuiltIn: number;
+  alreadySyncedCount: number;
+  error: string | null;
+}> {
+  if (!isSupabaseConfigured()) {
+    return {
+      success: false,
+      syncedCount: 0,
+      totalBuiltIn: allArticles.length,
+      alreadySyncedCount: 0,
+      error: 'Supabase credentials are not configured.',
+    };
+  }
+
+  try {
+    // 1. Get existing articles in Supabase to avoid duplicates
+    const { data: existingRows, error: fetchErr } = await supabase
+      .from('articles')
+      .select('slug');
+
+    if (fetchErr) {
+      return {
+        success: false,
+        syncedCount: 0,
+        totalBuiltIn: allArticles.length,
+        alreadySyncedCount: 0,
+        error: fetchErr.message,
+      };
+    }
+
+    const existingSlugs = new Set((existingRows || []).map((r: any) => r.slug));
+
+    // 2. Fetch categories and authors from Supabase for foreign key mapping
+    const [categoriesRes, authorsRes] = await Promise.all([
+      supabase.from('categories').select('id, slug'),
+      supabase.from('authors').select('id, slug'),
+    ]);
+
+    const categoryMap = new Map<string, string>();
+    (categoriesRes.data || []).forEach((c: any) => {
+      categoryMap.set(c.slug.toLowerCase(), c.id);
+    });
+
+    const authorMap = new Map<string, string>();
+    (authorsRes.data || []).forEach((a: any) => {
+      authorMap.set(a.slug.toLowerCase(), a.id);
+    });
+
+    // 3. Filter articles that need insertion
+    const missingArticles = allArticles.filter((a) => !existingSlugs.has(a.slug));
+
+    if (missingArticles.length === 0) {
+      return {
+        success: true,
+        syncedCount: 0,
+        totalBuiltIn: allArticles.length,
+        alreadySyncedCount: existingSlugs.size,
+        error: null,
+      };
+    }
+
+    // 4. Insert each missing article with mapped IDs
+    let totalInserted = 0;
+    const errors: string[] = [];
+
+    for (const art of missingArticles) {
+      const catSlug = (art.categorySlug || art.category || 'care').toLowerCase();
+      const authorSlug = (art.author?.slug || 'dr-clara-vance').toLowerCase();
+
+      const payload = {
+        title: art.title,
+        slug: art.slug,
+        excerpt: art.excerpt || '',
+        content: art.content || '',
+        featured_image: art.featuredImage || '/images/pet-fallback.webp',
+        image_alt: art.imageAlt || art.title,
+        image_caption: art.imageCaption || '',
+        category_id: categoryMap.get(catSlug) || null,
+        category_slug: catSlug,
+        author_id: authorMap.get(authorSlug) || null,
+        status: (art.status || 'published') as 'published' | 'draft',
+        is_featured: Boolean(art.isFeatured),
+        is_editor_pick: Boolean(art.isEditorPick),
+        is_popular: Boolean(art.isPopular),
+        tags: art.tags || [],
+        reading_time: art.readingTime || '4 min read',
+        seo_title: art.seoTitle || art.title,
+        seo_description: art.seoDescription || art.excerpt,
+        canonical_url: art.canonicalUrl || `https://petzora.shop/${catSlug}/${art.slug}`,
+        og_image: art.ogImage || art.featuredImage || 'https://petzora.shop/images/hero-dog-cat.webp',
+        published_at: art.publishedAt || new Date().toISOString(),
+        created_at: art.createdAt || new Date().toISOString(),
+        updated_at: art.updatedAt || new Date().toISOString(),
+      };
+
+      const { error: insertErr } = await supabase.from('articles').insert([payload]);
+
+      if (insertErr) {
+        console.warn(`Failed to insert ${art.slug}:`, insertErr.message);
+        errors.push(`${art.title}: ${insertErr.message}`);
+      } else {
+        totalInserted++;
+      }
+    }
+
+    return {
+      success: totalInserted > 0,
+      syncedCount: totalInserted,
+      totalBuiltIn: allArticles.length,
+      alreadySyncedCount: existingSlugs.size,
+      error: errors.length > 0 ? errors.join(', ') : null,
+    };
+  } catch (err: any) {
+    console.error('syncBuiltInArticlesToSupabase exception:', err);
+    return {
+      success: false,
+      syncedCount: 0,
+      totalBuiltIn: allArticles.length,
+      alreadySyncedCount: 0,
+      error: err.message || 'Failed to sync articles',
+    };
+  }
+}
+

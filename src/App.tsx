@@ -38,6 +38,7 @@ import { AdminArticleEditPage } from './pages/admin/AdminArticleEditPage';
 import { AdminCategoriesPage } from './pages/admin/AdminCategoriesPage';
 import { AdminMediaPage } from './pages/admin/AdminMediaPage';
 import { AdminSettingsPage } from './pages/admin/AdminSettingsPage';
+import { AdminSyncPage } from './pages/admin/AdminSyncPage';
 
 function ScrollToTop() {
   const { pathname, search } = useLocation();
@@ -129,6 +130,14 @@ function MainLayout() {
             element={
               <AdminRoute>
                 <AdminSettingsPage />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/sync"
+            element={
+              <AdminRoute>
+                <AdminSyncPage />
               </AdminRoute>
             }
           />

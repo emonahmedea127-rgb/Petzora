@@ -14,6 +14,7 @@ import {
   PawPrint,
   ChevronRight,
   Database,
+  RefreshCw,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -46,6 +47,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     { label: 'New Article', path: '/admin/articles/new', icon: PlusCircle },
     { label: 'Categories', path: '/admin/categories', icon: FolderTree },
     { label: 'Media Library', path: '/admin/media', icon: ImageIcon },
+    { label: 'Database Sync', path: '/admin/sync', icon: RefreshCw },
     { label: 'Settings & SEO', path: '/admin/settings', icon: Settings },
   ];
 

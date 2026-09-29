@@ -14,8 +14,16 @@ import {
   Eye,
   Database,
 } from 'lucide-react';
-import { getDashboardStats, DashboardStats, isSupabaseConfigured } from '../../lib/supabase';
+import {
+  getDashboardStats,
+  DashboardStats,
+  isSupabaseConfigured,
+  getSyncStatus,
+  syncBuiltInArticlesToSupabase,
+  ContentSyncStatus,
+} from '../../lib/supabase';
 import { SafeImage } from '../../components/SafeImage';
+import { RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export const AdminDashboardPage: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats>({
@@ -26,12 +34,19 @@ export const AdminDashboardPage: React.FC = () => {
     recentArticles: [],
   });
   const [loading, setLoading] = useState(true);
+  const [syncStatus, setSyncStatus] = useState<ContentSyncStatus | null>(null);
+  const [syncing, setSyncing] = useState(false);
+  const [syncFeedback, setSyncFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const isConfigured = isSupabaseConfigured();
 
   const loadStats = async () => {
     setLoading(true);
-    const data = await getDashboardStats();
+    const [data, syncInfo] = await Promise.all([
+      getDashboardStats(),
+      getSyncStatus(),
+    ]);
     setStats(data);
+    setSyncStatus(syncInfo);
     setLoading(false);
   };
 
@@ -39,21 +54,106 @@ export const AdminDashboardPage: React.FC = () => {
     loadStats();
   }, []);
 
+  const handleSyncToSupabase = async () => {
+    setSyncing(true);
+    setSyncFeedback(null);
+    const res = await syncBuiltInArticlesToSupabase();
+    setSyncing(false);
+
+    if (res.success) {
+      setSyncFeedback({
+        message: `Successfully synced ${res.syncedCount} articles into your Supabase database!`,
+        type: 'success',
+      });
+      await loadStats();
+    } else {
+      setSyncFeedback({
+        message: res.error || 'Failed to sync articles. Check database connection or RLS permissions.',
+        type: 'error',
+      });
+    }
+  };
+
   return (
     <AdminLayout
       title="Editorial Dashboard"
       subtitle="Real-time publishing metrics and content overview"
       action={
-        <Link
-          to="/admin/articles/new"
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-orange-600 hover:bg-orange-500 text-white transition shadow-sm"
-        >
-          <PlusCircle className="w-4 h-4" />
-          <span>New Article</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          {syncStatus && syncStatus.unsyncedCount > 0 && (
+            <button
+              onClick={handleSyncToSupabase}
+              disabled={syncing}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition shadow-sm disabled:opacity-50"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} />
+              <span>{syncing ? 'Syncing...' : `Sync ${syncStatus.unsyncedCount} to Supabase`}</span>
+            </button>
+          )}
+          <Link
+            to="/admin/articles/new"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-orange-600 hover:bg-orange-500 text-white transition shadow-sm"
+          >
+            <PlusCircle className="w-4 h-4" />
+            <span>New Article</span>
+          </Link>
+        </div>
       }
     >
       <div className="space-y-8">
+        {/* Sync Feedback Message */}
+        {syncFeedback && (
+          <div
+            className={`p-4 rounded-2xl flex items-center gap-3 text-sm font-medium border ${
+              syncFeedback.type === 'success'
+                ? 'bg-emerald-950/40 border-emerald-800 text-emerald-200'
+                : 'bg-red-950/40 border-red-800 text-red-200'
+            }`}
+          >
+            {syncFeedback.type === 'success' ? (
+              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+            ) : (
+              <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />
+            )}
+            <p className="flex-1">{syncFeedback.message}</p>
+            <button
+              onClick={() => setSyncFeedback(null)}
+              className="text-xs opacity-75 hover:opacity-100"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+
+        {/* Sync Banner if there are unsynced articles */}
+        {syncStatus && syncStatus.unsyncedCount > 0 && (
+          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-orange-950/50 via-stone-900 to-amber-950/40 border border-orange-700/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0 mt-0.5">
+                <Database className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                  <span>{syncStatus.unsyncedCount} Built-in Guides Ready to Add to Supabase</span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/30">
+                    Database Sync
+                  </span>
+                </h3>
+                <p className="text-xs text-stone-300 mt-1 max-w-2xl leading-relaxed">
+                  Your Supabase database currently has <strong>{syncStatus.inSupabaseCount}</strong> article, but your website has <strong>{syncStatus.totalBuiltIn}</strong> comprehensive guides loaded from code files. Click &quot;Sync to Supabase&quot; to import the remaining {syncStatus.unsyncedCount} articles directly into your Supabase <code>articles</code> table!
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={handleSyncToSupabase}
+              disabled={syncing}
+              className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-orange-600 hover:bg-orange-500 text-white shrink-0 transition flex items-center gap-2 shadow-md shadow-orange-950/40 disabled:opacity-50"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} />
+              <span>{syncing ? 'Importing Articles...' : `Import ${syncStatus.unsyncedCount} Articles to Supabase`}</span>
+            </button>
+          </div>
+        )}
         {/* Setup Banner if Supabase not configured */}
         {!isConfigured && (
           <div className="p-4 sm:p-5 rounded-2xl bg-amber-950/40 border border-amber-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

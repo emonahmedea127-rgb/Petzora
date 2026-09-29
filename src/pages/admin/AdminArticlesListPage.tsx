@@ -21,9 +21,13 @@ import {
   deleteArticle,
   updateArticle,
   getCategories,
+  getSyncStatus,
+  syncBuiltInArticlesToSupabase,
+  ContentSyncStatus,
 } from '../../lib/supabase';
 import { Article, CategoryInfo } from '../../types';
 import { SafeImage } from '../../components/SafeImage';
+import { RefreshCw, Database } from 'lucide-react';
 
 export const AdminArticlesListPage: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -32,6 +36,8 @@ export const AdminArticlesListPage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft'>('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [syncStatus, setSyncStatus] = useState<ContentSyncStatus | null>(null);
+  const [syncing, setSyncing] = useState(false);
 
   // Delete modal state
   const [articleToDelete, setArticleToDelete] = useState<Article | null>(null);
@@ -40,12 +46,14 @@ export const AdminArticlesListPage: React.FC = () => {
 
   const fetchArticles = async () => {
     setLoading(true);
-    const [arts, cats] = await Promise.all([
+    const [arts, cats, syncInfo] = await Promise.all([
       getAllArticlesAdmin(),
       getCategories(),
+      getSyncStatus(),
     ]);
     setArticles(arts);
     setCategories(cats);
+    setSyncStatus(syncInfo);
     setLoading(false);
   };
 
@@ -56,6 +64,19 @@ export const AdminArticlesListPage: React.FC = () => {
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  const handleSyncToSupabase = async () => {
+    setSyncing(true);
+    const res = await syncBuiltInArticlesToSupabase();
+    setSyncing(false);
+
+    if (res.success) {
+      showToast(`Synced ${res.syncedCount} articles to Supabase!`);
+      await fetchArticles();
+    } else {
+      showToast(`Sync failed: ${res.error}`);
+    }
   };
 
   const handleToggleStatus = async (article: Article) => {
@@ -128,13 +149,25 @@ export const AdminArticlesListPage: React.FC = () => {
       title="Articles"
       subtitle="Manage, draft, publish, and edit all editorial guides"
       action={
-        <Link
-          to="/admin/articles/new"
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-orange-600 hover:bg-orange-500 text-white transition shadow-sm"
-        >
-          <PlusCircle className="w-4 h-4" />
-          <span>New Article</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          {syncStatus && syncStatus.unsyncedCount > 0 && (
+            <button
+              onClick={handleSyncToSupabase}
+              disabled={syncing}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition shadow-sm disabled:opacity-50"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} />
+              <span>{syncing ? 'Syncing...' : `Import ${syncStatus.unsyncedCount} to Supabase`}</span>
+            </button>
+          )}
+          <Link
+            to="/admin/articles/new"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-orange-600 hover:bg-orange-500 text-white transition shadow-sm"
+          >
+            <PlusCircle className="w-4 h-4" />
+            <span>New Article</span>
+          </Link>
+        </div>
       }
     >
       {/* Toast Notification */}
@@ -146,6 +179,32 @@ export const AdminArticlesListPage: React.FC = () => {
       )}
 
       <div className="space-y-6">
+        {/* Unsynced Banner */}
+        {syncStatus && syncStatus.unsyncedCount > 0 && (
+          <div className="p-4 rounded-2xl bg-stone-900 border border-orange-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0">
+                <Database className="w-4 h-4" />
+              </div>
+              <div>
+                <h4 className="text-xs font-semibold text-white">
+                  {syncStatus.unsyncedCount} built-in guides are ready to be added to your Supabase Database
+                </h4>
+                <p className="text-[11px] text-stone-400 mt-0.5">
+                  Currently, {articles.length} article is stored in Supabase. Import the rest to edit and manage them here.
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={handleSyncToSupabase}
+              disabled={syncing}
+              className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-orange-600 hover:bg-orange-500 text-white shrink-0 transition flex items-center gap-1.5 disabled:opacity-50"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} />
+              <span>{syncing ? 'Importing...' : `Import ${syncStatus.unsyncedCount} Guides`}</span>
+            </button>
+          </div>
+        )}
         {/* Controls Bar */}
         <div className="bg-stone-900 border border-stone-800 rounded-2xl p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
           {/* Search */}

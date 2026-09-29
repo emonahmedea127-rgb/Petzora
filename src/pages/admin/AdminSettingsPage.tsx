@@ -18,6 +18,9 @@ import {
   saveCustomSupabaseConfig,
   clearCustomSupabaseConfig,
   isSupabaseConfigured,
+  getSyncStatus,
+  syncBuiltInArticlesToSupabase,
+  ContentSyncStatus,
 } from '../../lib/supabase';
 import { SiteSettings } from '../../types';
 import { useAuth } from '../../context/AuthContext';
@@ -41,6 +44,8 @@ export const AdminSettingsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [syncStatus, setSyncStatus] = useState<ContentSyncStatus | null>(null);
+  const [syncing, setSyncing] = useState(false);
 
   // Supabase direct connection settings
   const creds = getSupabaseCredentials();
@@ -51,8 +56,12 @@ export const AdminSettingsPage: React.FC = () => {
   useEffect(() => {
     async function load() {
       setLoading(true);
-      const data = await getSiteSettings();
+      const [data, syncInfo] = await Promise.all([
+        getSiteSettings(),
+        getSyncStatus(),
+      ]);
       setSettings(data);
+      setSyncStatus(syncInfo);
       setLoading(false);
     }
     load();
@@ -61,6 +70,20 @@ export const AdminSettingsPage: React.FC = () => {
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  const handleSyncToSupabase = async () => {
+    setSyncing(true);
+    const res = await syncBuiltInArticlesToSupabase();
+    setSyncing(false);
+
+    if (res.success) {
+      showToast(`Successfully synced ${res.syncedCount} articles to Supabase!`);
+      const updatedSync = await getSyncStatus();
+      setSyncStatus(updatedSync);
+    } else {
+      showToast(`Sync failed: ${res.error}`);
+    }
   };
 
   const handleSaveSettings = async (e: React.FormEvent) => {
@@ -182,6 +205,68 @@ export const AdminSettingsPage: React.FC = () => {
               </button>
             </div>
           </form>
+        </div>
+
+        {/* Database Content Sync Card */}
+        <div className="bg-stone-900 border border-stone-800 rounded-3xl p-6 sm:p-8 space-y-4 shadow-md">
+          <div className="flex items-center justify-between border-b border-stone-800 pb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center">
+                <RefreshCw className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-serif font-bold text-white text-base">
+                  Database & Content Sync
+                </h3>
+                <p className="text-xs text-stone-400">
+                  Import built-in editorial guides from code into your live Supabase database
+                </p>
+              </div>
+            </div>
+            {syncStatus && (
+              <span className="text-xs font-mono px-3 py-1 rounded-full bg-stone-800 text-stone-300 border border-stone-700">
+                {syncStatus.inSupabaseCount} in Supabase / {syncStatus.totalBuiltIn} Built-in
+              </span>
+            )}
+          </div>
+
+          <div className="space-y-4 pt-1">
+            <p className="text-xs text-stone-300 leading-relaxed">
+              Petzora comes bundled with <strong>{syncStatus?.totalBuiltIn || 9} comprehensive pillar guides</strong>. When you initialize a new Supabase database, only categories and authors are created by default. Use this tool to upload all remaining built-in guides directly into your Supabase <code>articles</code> table.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="p-4 rounded-2xl bg-stone-950 border border-stone-800">
+                <span className="text-[10px] font-mono text-stone-500 uppercase">In Supabase DB</span>
+                <p className="text-xl font-bold text-white mt-1">{syncStatus?.inSupabaseCount ?? '—'}</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-stone-950 border border-stone-800">
+                <span className="text-[10px] font-mono text-stone-500 uppercase">Built-in Guides</span>
+                <p className="text-xl font-bold text-white mt-1">{syncStatus?.totalBuiltIn ?? '—'}</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-stone-950 border border-stone-800">
+                <span className="text-[10px] font-mono text-stone-500 uppercase">Ready to Sync</span>
+                <p className="text-xl font-bold text-orange-400 mt-1">{syncStatus?.unsyncedCount ?? '—'}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-2">
+              <span className="text-xs text-stone-400">
+                {syncStatus?.unsyncedCount === 0
+                  ? 'All built-in articles are synchronized in Supabase!'
+                  : `${syncStatus?.unsyncedCount} articles waiting to be imported`}
+              </span>
+              <button
+                type="button"
+                onClick={handleSyncToSupabase}
+                disabled={syncing || syncStatus?.unsyncedCount === 0}
+                className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 disabled:bg-stone-800 disabled:text-stone-500 text-white transition flex items-center gap-2 shadow-md shadow-emerald-950 disabled:shadow-none"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} />
+                <span>{syncing ? 'Importing to Supabase...' : 'Sync All Guides to Supabase'}</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* General Site Metadata & Branding */}
