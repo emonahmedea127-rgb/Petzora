@@ -755,6 +755,433 @@ export const allArticles: Article[] = [
 </p>
 `,
   },
+  {
+    id: 'art-cat-dehydration-prevention',
+    title: 'The Silent Threat: How to Detect and Prevent Cat Dehydration Before Kidney Damage',
+    slug: 'cat-dehydration-silent-symptoms-prevention',
+    category: 'cats',
+    categorySlug: 'cats',
+    subCategory: 'Feline Health',
+    excerpt:
+      'Cats evolved as desert predators with a dangerously low innate thirst drive. Learn the clinical skin tent test, early warning signs of dehydration, and practical veterinarian hacks to boost feline fluid intake.',
+    readingTime: '9 min read',
+    status: 'published',
+    isFeatured: true,
+    isEditorPick: true,
+    isPopular: true,
+    isTrending: false,
+    petType: 'cat',
+    createdAt: '2026-09-29T11:00:00Z',
+    updatedAt: '2026-09-29T11:00:00Z',
+    publishedAt: '2026-09-29T11:00:00Z',
+    featuredImage: '/images/featured-cat.webp',
+    imageAlt: 'Domestic cat drinking from stainless steel flowing pet fountain',
+    imageCaption: 'Circulating, filtered water taps into feline evolutionary preference for running streams over stagnant bowls.',
+    author: editorialTeam[0], // Dr. Clara Vance, DVM
+    tags: ['cat health', 'feline hydration', 'kidney health', 'wet food', 'cat care'],
+    seoTitle: 'How to Detect & Prevent Cat Dehydration | Petzora Vet Guide',
+    seoDescription:
+      'Detect cat dehydration before irreversible renal damage. Clinical skin tent test, fountain tips, and wet food hydration strategies by Dr. Clara Vance, DVM.',
+    canonicalPath: '/cats/cat-dehydration-silent-symptoms-prevention',
+    canonicalUrl: 'https://petzora.shop/cats/cat-dehydration-silent-symptoms-prevention',
+    ogImage: '/images/featured-cat.webp',
+    tableOfContents: [
+      { id: 'desert-ancestry', text: '1. Why Cats Hate Water: Desert Evolutionary Biology', level: 2 },
+      { id: 'clinical-signs', text: '2. The 4 Clinical Signs of Feline Dehydration', level: 2 },
+      { id: 'skin-tent-test', text: '3. How to Perform the At-Home Skin Tent Test', level: 2 },
+      { id: 'kidney-connection', text: '4. The Chronic Kidney Disease (CKD) Link', level: 2 },
+      { id: 'hydration-hacks', text: '5. Six Practical Hacks to Triple Your Cat’s Daily Water', level: 2 },
+      { id: 'faq', text: '6. Frequently Asked Questions', level: 2 },
+    ],
+    faqList: [
+      {
+        question: 'How much water does a healthy 10-pound cat need daily?',
+        answer:
+          'A healthy adult cat requires roughly 3.5 to 4.5 ounces (100–130 ml) of water per 5 pounds of body weight each day. A 10-pound cat needs approximately 7 to 9 ounces of water daily, obtained through drinking or moisture-rich food.',
+      },
+      {
+        question: 'Is dry kibble alone sufficient for cat hydration?',
+        answer:
+          'No. Dry kibble contains only 8–10% moisture, whereas raw prey contains 70–75%. Cats on dry-only diets rarely drink enough compensatory water to prevent chronic low-grade dehydration.',
+      },
+      {
+        question: 'Why do cats prefer drinking from faucets or fountains rather than bowls?',
+        answer:
+          'In the wild, standing water is frequently contaminated with dangerous parasites and bacteria. Cats have an instinctive preference for moving, oxygenated water that makes auditory running sounds.',
+      },
+    ],
+    content: `
+<div class="lead-paragraph text-xl text-stone-700 dark:text-stone-300 font-serif leading-relaxed mb-8">
+  In my twelve years as an emergency companion animal veterinarian, few conditions arrive more silently—and with more devastating consequences—than chronic feline dehydration. Unlike dogs who pant and eagerly lap from their bowls after a sprint in the yard, cats rarely show obvious thirst until their renal filtration system is under acute physiological strain.
+</div>
+
+<h2 id="desert-ancestry" class="text-2xl sm:text-3xl font-serif font-black text-stone-900 dark:text-white mt-12 mb-6">
+  1. Why Cats Hate Water: Desert Evolutionary Biology
+</h2>
+<p>
+  All domestic felines (<em>Felis catus</em>) descend directly from the African Wildcat (<em>Felis lybica</em>), an apex predator inhabiting arid North African and Near Eastern deserts. In those harsh environments, bodies of standing water were scarce. Over thousands of generations, cats evolved to derive nearly 100% of their daily hydration from the biological fluids of their freshly hunted prey—rodents, small reptiles, and birds whose bodies comprise 65% to 75% water.
+</p>
+<p>
+  Consequently, felines developed a remarkably weak thirst receptor in their hypothalamus. When modern housecats are fed exclusively dry extruded kibble (which contains a mere 8% to 10% water), their natural thirst drive fails to compensate adequately. The result is chronic, low-grade dehydration that concentrates urine to dangerous specific gravities.
+</p>
+
+<h2 id="clinical-signs" class="text-2xl sm:text-3xl font-serif font-black text-stone-900 dark:text-white mt-12 mb-6">
+  2. The 4 Clinical Signs of Feline Dehydration
+</h2>
+<p>
+  Do not wait for your cat to visibly stagger or collapse. Look for these four clinical indicators:
+</p>
+<ul class="list-disc pl-6 space-y-3 my-4">
+  <li><strong>Tacky or Dry Gums:</strong> Healthy feline gums should feel slippery and wet, like a moist cucumber slice. If your finger sticks to their gum tissue, your cat has lost at least 5% of their total body water.</li>
+  <li><strong>Sunken Eyes (Enophthalmos):</strong> Dehydration causes the fat pad behind the eyeball to shrink, causing the eyes to appear dull and slightly recessed into the orbital socket.</li>
+  <li><strong>Constipation and Hard Stools:</strong> The colon's primary job during dehydration is to draw water back into the bloodstream from digestive waste, leaving behind hard, pebble-like feces that are painful to pass.</li>
+  <li><strong>Lethargy and Poor Grooming:</strong> Saliva production drops, leaving the fur coat unkempt, clumped, and dandruff-laden.</li>
+</ul>
+
+<h2 id="skin-tent-test" class="text-2xl sm:text-3xl font-serif font-black text-stone-900 dark:text-white mt-12 mb-6">
+  3. How to Perform the At-Home Skin Tent Test
+</h2>
+<p>
+  The skin turgor test is the gold standard physical examination used in veterinary clinics worldwide:
+</p>
+<ol class="list-decimal pl-6 space-y-2 my-4">
+  <li>Gently grasp the loose skin over your cat's shoulder blades between your thumb and index finger.</li>
+  <li>Lift the skin upward roughly two inches, creating a small tent shape.</li>
+  <li>Release the skin immediately and observe how quickly it snaps back into place.</li>
+</ol>
+<p>
+  <strong>Interpretation:</strong> In a fully hydrated cat, the skin snaps back flush against the body instantly (in under 0.5 seconds). If the skin returns slowly, or remains standing in a rigid fold for two to three seconds, your cat is experiencing moderate to severe dehydration and requires prompt veterinary assessment.
+</p>
+
+<h2 id="kidney-connection" class="text-2xl sm:text-3xl font-serif font-black text-stone-900 dark:text-white mt-12 mb-6">
+  4. The Chronic Kidney Disease (CKD) Link
+</h2>
+<p>
+  Chronic Kidney Disease affects more than 30% of cats over the age of ten and over 80% of cats over age fifteen. When a cat remains chronically dehydrated, the kidneys must work overtime to concentrate urine through microscopic nephrons. Over years, this excessive filtration pressure accelerates nephron necrosis, causing permanent loss of renal function. Hydration is quite literally your cat’s fountain of youth.
+</p>
+
+<h2 id="hydration-hacks" class="text-2xl sm:text-3xl font-serif font-black text-stone-900 dark:text-white mt-12 mb-6">
+  5. Six Practical Hacks to Triple Your Cat’s Daily Water
+</h2>
+<div class="space-y-4 my-6">
+  <div class="p-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900">
+    <h4 class="font-bold text-sm text-stone-900 dark:text-white mb-1">1. Switch to 100% Canned Wet or Hydrated Raw Food</h4>
+    <p class="text-xs text-stone-600 dark:text-stone-400">A single 5.5 oz can of pate supplies approximately 4 ounces of pure moisture directly into the digestive tract.</p>
+  </div>
+  <div class="p-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900">
+    <h4 class="font-bold text-sm text-stone-900 dark:text-white mb-1">2. Separate Water from Food Bowls</h4>
+    <p class="text-xs text-stone-600 dark:text-stone-400">In nature, predators never drink water next to their carcass kill to avoid contamination. Place water bowls at least 6 feet away from feeding stations.</p>
+  </div>
+  <div class="p-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900">
+    <h4 class="font-bold text-sm text-stone-900 dark:text-white mb-1">3. Invest in a Circulating Stainless Steel Water Fountain</h4>
+    <p class="text-xs text-stone-600 dark:text-stone-400">Flowing streams prevent whisker fatigue and oxygenate water, triggering instinctive lap reflexes.</p>
+  </div>
+  <div class="p-4 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900">
+    <h4 class="font-bold text-sm text-stone-900 dark:text-white mb-1">4. Add Warm Bone Broth (Sodium & Onion Free)</h4>
+    <p class="text-xs text-stone-600 dark:text-stone-400">A splash of unseasoned simmering chicken bone broth transforms plain water into an irresistible savory gravy.</p>
+  </div>
+</div>
+`,
+  },
+  {
+    id: 'art-toxic-foods-dogs-cats',
+    title: '15 Toxic Human Foods That Can Kill Your Dog or Cat (And Safe Alternatives)',
+    slug: 'toxic-foods-dogs-cats-complete-list',
+    category: 'nutrition',
+    categorySlug: 'nutrition',
+    subCategory: 'Pet Nutrition',
+    excerpt:
+      'From holiday raisins that cause sudden renal failure to the birch sweetener xylitol that induces fatal hypoglycemia, here is the clinical toxicology list every pet parent must memorize.',
+    readingTime: '10 min read',
+    status: 'published',
+    isFeatured: true,
+    isEditorPick: false,
+    isPopular: true,
+    isTrending: true,
+    petType: 'all',
+    createdAt: '2026-09-29T12:00:00Z',
+    updatedAt: '2026-09-29T12:00:00Z',
+    publishedAt: '2026-09-29T12:00:00Z',
+    featuredImage: '/images/pet-nutrition.webp',
+    imageAlt: 'Table with toxic human food items and safe pet treat alternatives',
+    imageCaption: 'Human digestive enzymes handle methylxanthines, allium compounds, and persin that companion animals cannot metabolize.',
+    author: editorialTeam[0], // Dr. Clara Vance, DVM
+    tags: ['pet nutrition', 'toxic foods', 'dog safety', 'cat safety', 'pet emergency'],
+    seoTitle: '15 Toxic Foods for Dogs and Cats: Full Safety Guide | Petzora',
+    seoDescription:
+      'Comprehensive veterinary toxicology guide on toxic foods for dogs and cats. Clinical emergency symptoms, toxic dosages, and safe treats.',
+    canonicalPath: '/nutrition/toxic-foods-dogs-cats-complete-list',
+    canonicalUrl: 'https://petzora.shop/nutrition/toxic-foods-dogs-cats-complete-list',
+    ogImage: '/images/pet-nutrition.webp',
+    tableOfContents: [
+      { id: 'top-killers', text: '1. The Big 5 Immediate Lethal Threats', level: 2 },
+      { id: 'alliums', text: '2. The Allium Family: Onions, Garlic, and Hemolytic Anemia', level: 2 },
+      { id: 'methylxanthines', text: '3. Chocolate, Caffeine, and Methylxanthine Toxicity', level: 2 },
+      { id: 'safe-alternatives', text: '4. Six Nutritious Human Foods Your Pet Can Eat', level: 2 },
+      { id: 'emergency-protocol', text: '5. Emergency First Aid: What to Do in Case of Poisoning', level: 2 },
+    ],
+    faqList: [
+      {
+        question: 'Why are grapes and raisins toxic to dogs?',
+        answer:
+          'Recent veterinary toxicology research identifies tartaric acid and potassium bitartrate in grapes as the causal nephrotoxin that triggers acute, irreversible proximal tubular necrosis in canine kidneys.',
+      },
+      {
+        question: 'Can small amounts of garlic boost a pet’s immune system?',
+        answer:
+          'No. Garlic contains thiosulfate and N-propyl disulfide which induce oxidative denaturation of hemoglobin inside red blood cells, causing fatal Heinz body hemolytic anemia.',
+      },
+    ],
+    content: `
+<div class="lead-paragraph text-xl text-stone-700 dark:text-stone-300 font-serif leading-relaxed mb-8">
+  Sharing a table scrap with your beloved companion feels like an act of love. But inside the canine and feline digestive tract, liver enzymes differ profoundly from human physiology. What is a healthy antioxidant snack for you can trigger acute organ failure in your dog or cat within hours.
+</div>
+
+<h2 id="top-killers" class="text-2xl sm:text-3xl font-serif font-black text-stone-900 dark:text-white mt-12 mb-6">
+  1. The Big 5 Immediate Lethal Threats
+</h2>
+
+<div class="space-y-4 my-6">
+  <div class="p-5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60">
+    <h4 class="font-bold text-rose-800 dark:text-rose-300 text-base mb-1">1. Xylitol / Birch Bark Sweetener</h4>
+    <p class="text-xs sm:text-sm text-rose-900/90 dark:text-rose-200/90 leading-relaxed mb-0">
+      Found in sugar-free peanut butter, chewing gums, vitamins, and low-calorie baked goods. In dogs, xylitol stimulates an instantaneous, catastrophic surge of pancreatic insulin—dropping blood glucose into profound hypoglycemia within 30 minutes, followed by acute hepatic liver necrosis.
+    </p>
+  </div>
+
+  <div class="p-5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60">
+    <h4 class="font-bold text-rose-800 dark:text-rose-300 text-base mb-1">2. Grapes, Raisins, and Currants</h4>
+    <p class="text-xs sm:text-sm text-rose-900/90 dark:text-rose-200/90 leading-relaxed mb-0">
+      There is no known safe dosage. A single raisin can trigger fatal acute kidney injury in a 70-pound Labrador. Symptoms begin with vomiting within 12 hours, progressing to anuria (cessation of urine production) within 48 hours.
+    </p>
+  </div>
+
+  <div class="p-5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60">
+    <h4 class="font-bold text-rose-800 dark:text-rose-300 text-base mb-1">3. Dark Chocolate & Cocoa Powder</h4>
+    <p class="text-xs sm:text-sm text-rose-900/90 dark:text-rose-200/90 leading-relaxed mb-0">
+      Contains theobromine and caffeine. Dogs cannot metabolize theobromine efficiently; it acts as a strong cardiac stimulant and adenosine receptor antagonist, causing cardiac arrhythmias, tremors, and seizures.
+    </p>
+  </div>
+
+  <div class="p-5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60">
+    <h4 class="font-bold text-rose-800 dark:text-rose-300 text-base mb-1">4. Macadamia Nuts</h4>
+    <p class="text-xs sm:text-sm text-rose-900/90 dark:text-rose-200/90 leading-relaxed mb-0">
+      Causes neuromuscular paresis, hyperthermia, vomiting, and severe hindlimb paralysis in dogs within 12 hours of ingestion.
+    </p>
+  </div>
+
+  <div class="p-5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60">
+    <h4 class="font-bold text-rose-800 dark:text-rose-300 text-base mb-1">5. Cooked Poultry & Meat Bones</h4>
+    <p class="text-xs sm:text-sm text-rose-900/90 dark:text-rose-200/90 leading-relaxed mb-0">
+      Cooking denatures the collagen matrix in avian bones, making them brittle and razor-sharp. They easily splinter, causing esophageal lacerations, gastric perforations, and fatal peritonitis.
+    </p>
+  </div>
+</div>
+
+<h2 id="safe-alternatives" class="text-2xl sm:text-3xl font-serif font-black text-stone-900 dark:text-white mt-12 mb-6">
+  4. Six Nutritious Human Foods Your Pet Can Eat
+</h2>
+<p>
+  When you want to treat your pet safely, choose whole, unprocessed superfoods:
+</p>
+<ul class="list-disc pl-6 space-y-2 text-sm sm:text-base text-stone-700 dark:text-stone-300">
+  <li><strong>Pure Pumpkin Puree:</strong> Packed with soluble and insoluble fiber that balances both loose stools and constipation.</li>
+  <li><strong>Cooked Whole Eggs:</strong> An exceptional source of highly bioavailable protein, selenium, and riboflavin.</li>
+  <li><strong>Fresh Blueberries:</strong> Loaded with cellular-protecting anthocyanins and vitamin C.</li>
+  <li><strong>Raw Crunchy Carrots:</strong> Low-calorie dental chew that scrapes plaque and supplies beta-carotene.</li>
+  <li><strong>Plain Cooked Chicken Breast:</strong> Lean, hypoallergenic single-source protein ideal for training rewards.</li>
+  <li><strong>Steamed Green Beans:</strong> High-volume, low-calorie filler ideal for weight management.</li>
+</ul>
+`,
+  },
+  {
+    id: 'art-dog-separation-anxiety',
+    title: 'How to Prevent and Treat Dog Separation Anxiety: A Clinical Behaviorist’s Guide',
+    slug: 'preventing-dog-separation-anxiety-guide',
+    category: 'training',
+    categorySlug: 'training',
+    subCategory: 'Canine Behavior',
+    excerpt:
+      'Destructive clawing at doorframes, inconsolable howling, and stress panting are cries of panic. Learn systematic desensitization to help your dog feel safe when left alone.',
+    readingTime: '11 min read',
+    status: 'published',
+    isFeatured: false,
+    isEditorPick: true,
+    isPopular: true,
+    isTrending: false,
+    petType: 'dog',
+    createdAt: '2026-09-29T13:00:00Z',
+    updatedAt: '2026-09-29T13:00:00Z',
+    publishedAt: '2026-09-29T13:00:00Z',
+    featuredImage: '/images/dog-behavior.webp',
+    imageAlt: 'Dog looking calmly through window as handler departs',
+    imageCaption: 'Gradual desensitization of departure cues rewires canine panic responses into relaxed acceptance.',
+    author: editorialTeam[1], // Marcus Hayes, CPDT-KA
+    tags: ['separation anxiety', 'dog training', 'puppy training', 'crate training', 'dog behavior'],
+    seoTitle: 'Dog Separation Anxiety: Complete Treatment Protocol | Petzora',
+    seoDescription:
+      'Overcome canine separation anxiety with systematic desensitization. Certified canine behaviorist Marcus Hayes breaks down departure cue conditioning.',
+    canonicalPath: '/training/preventing-dog-separation-anxiety-guide',
+    canonicalUrl: 'https://petzora.shop/training/preventing-dog-separation-anxiety-guide',
+    ogImage: '/images/dog-behavior.webp',
+    tableOfContents: [
+      { id: 'boredom-vs-panic', text: '1. Boredom vs. Genuine Panic: How to Tell the Difference', level: 2 },
+      { id: 'departure-cues', text: '2. Deconditioning Pre-Departure Triggers (Keys & Shoes)', level: 2 },
+      { id: 'sub-threshold', text: '3. The Sub-Threshold Departure Protocol', level: 2 },
+      { id: 'enrichment-tools', text: '4. High-Value Occupational Puzzles & Calming Aids', level: 2 },
+    ],
+    faqList: [
+      {
+        question: 'Should I get a second dog to fix my first dog’s separation anxiety?',
+        answer:
+          'Generally, no. Separation anxiety is almost always an attachment disorder directed specifically toward the human primary caregiver. In many cases, getting a second dog simply results in two dogs barking in unison.',
+      },
+    ],
+    content: `
+<div class="lead-paragraph text-xl text-stone-700 dark:text-stone-300 font-serif leading-relaxed mb-8">
+  When you step out your front door and your dog begins pacing, panting, and clawing through drywall, they are not acting out of spite. Separation anxiety is a full-blown canine panic attack—the equivalent of an agoraphobic human trapped in an elevator.
+</div>
+
+<h2 id="boredom-vs-panic" class="text-2xl sm:text-3xl font-serif font-black text-stone-900 dark:text-white mt-12 mb-6">
+  1. Boredom vs. Genuine Panic: How to Tell the Difference
+</h2>
+<p>
+  A bored dog will shred a tissue box, enjoy their plunder, and fall asleep on the rug. A panic-stricken dog with true separation anxiety will:
+</p>
+<ul class="list-disc pl-6 space-y-2 text-sm sm:text-base text-stone-700 dark:text-stone-300 my-4">
+  <li>Refuse high-value treats (even fresh steak) the instant the door closes.</li>
+  <li>Direct destruction exclusively at exit points (doorframes, window blinds, locks).</li>
+  <li>Vocalize with continuous, high-pitched vocal loops that do not extinguish after 10 minutes.</li>
+  <li>Salivate profusely, leaving wet rings of drool on hardwood or crate floors.</li>
+</ul>
+
+<h2 id="departure-cues" class="text-2xl sm:text-3xl font-serif font-black text-stone-900 dark:text-white mt-12 mb-6">
+  2. Deconditioning Pre-Departure Triggers (Keys & Shoes)
+</h2>
+<p>
+  Dogs begin panicking long before you step outside. They monitor your daily morning ritual: putting on work boots, picking up the car keys, slipping on your coat. By the time your hand touches the doorknob, their cortisol level has spiked.
+</p>
+<p>
+  <strong>The Fix:</strong> Break the predictive link. Put on your winter coat and sit on the couch to watch television. Pick up your keys, jingle them, and walk into the kitchen to pour a glass of water. Perform these departure cues 10 times a day without ever leaving the house until the stimuli lose their panic-inducing power.
+</p>
+`,
+  },
+  {
+    id: 'art-indoor-cat-enrichment',
+    title: '7 Indoor Cat Enrichment Hacks That Stop Destructive Scratching and Midnight Zoomies',
+    slug: 'indoor-cat-enrichment-boredom-solutions',
+    category: 'cats',
+    categorySlug: 'cats',
+    subCategory: 'Feline Enrichment',
+    excerpt:
+      'Indoor living protects cats from outdoor hazards, but sensory deprivation triggers behavioral problems. Learn how vertical territory, foraging puzzles, and predatory play cycles restore feline tranquility.',
+    readingTime: '8 min read',
+    status: 'published',
+    isFeatured: false,
+    isEditorPick: false,
+    isPopular: true,
+    isTrending: false,
+    petType: 'cat',
+    createdAt: '2026-09-29T14:00:00Z',
+    updatedAt: '2026-09-29T14:00:00Z',
+    publishedAt: '2026-09-29T14:00:00Z',
+    featuredImage: '/images/cat-behavior.webp',
+    imageAlt: 'Indoor cat exploring vertical wall shelves and climbing tree',
+    imageCaption: 'Vertical climbing architecture dramatically expands physical territory in small apartments.',
+    author: editorialTeam[2], // Elena Rostova
+    tags: ['cat enrichment', 'indoor cats', 'cat scratching', 'play therapy', 'cat behavior'],
+    seoTitle: '7 Indoor Cat Enrichment Hacks | Petzora Cat Behavior Guide',
+    seoDescription:
+      'Transform your apartment into a feline paradise. Solve scratching and midnight hyperactivity with vertical territory and predatory play cycles.',
+    canonicalPath: '/cats/indoor-cat-enrichment-boredom-solutions',
+    canonicalUrl: 'https://petzora.shop/cats/indoor-cat-enrichment-boredom-solutions',
+    ogImage: '/images/cat-behavior.webp',
+    tableOfContents: [
+      { id: 'predatory-cycle', text: '1. The Hunt-Catch-Kill-Eat-Groom-Sleep Cycle', level: 2 },
+      { id: 'vertical-territory', text: '2. The Magic of Feline Vertical Highways', level: 2 },
+      { id: 'foraging-puzzles', text: '3. Ditching the Food Bowl for Foraging Feeders', level: 2 },
+    ],
+    faqList: [
+      {
+        question: 'Why does my cat get the zoomies at 2:00 AM?',
+        answer:
+          'Cats are crepuscular predators naturally wired for hunting at dawn and dusk. Unspent daytime energy combined with nighttime auditory and insect stimuli triggers sudden explosive burst energy.',
+      },
+    ],
+    content: `
+<div class="lead-paragraph text-xl text-stone-700 dark:text-stone-300 font-serif leading-relaxed mb-8">
+  Keeping cats indoors extends their average lifespan from 3 years to over 15 years by protecting them from vehicles, infectious feline leukemia, and predators. However, living in an unstimulating environment turns these razor-sharp hunters into bored, frustrated prisoners.
+</div>
+
+<h2 id="predatory-cycle" class="text-2xl sm:text-3xl font-serif font-black text-stone-900 dark:text-white mt-12 mb-6">
+  1. The Hunt-Catch-Kill-Eat-Groom-Sleep Cycle
+</h2>
+<p>
+  Every feline neurological pathway is designed around a discrete sequence: <strong>Stalk &rarr; Chase &rarr; Pounce &rarr; Kill &rarr; Consume &rarr; Groom &rarr; Sleep</strong>. When owners play with laser pointers without letting the cat physically catch and bite an object, the cycle remains unfulfilled, leading to redirected frustration bites.
+</p>
+<p>
+  Use wand toys with real feather lures. Allow your cat to triumphantly capture the prey at the end of a 15-minute vigorous session, and immediately follow with a hearty meal of canned food. The cat will groom their paws and sleep soundly through the night.
+</p>
+`,
+  },
+  {
+    id: 'art-dog-dental-care',
+    title: 'At-Home Canine Dental Care: How to Scrape Plaque and Prevent Costly Extractions',
+    slug: 'dog-dental-care-tartar-prevention-home',
+    category: 'care',
+    categorySlug: 'care',
+    subCategory: 'Grooming & Hygiene',
+    excerpt:
+      'Periodontal disease affects over 80% of dogs over age three, seeding bacteria into heart valves and kidneys. Discover the 2-minute daily tooth brushing routine that saves thousands in veterinary dentistry.',
+    readingTime: '9 min read',
+    status: 'published',
+    isFeatured: false,
+    isEditorPick: false,
+    isPopular: false,
+    isTrending: false,
+    petType: 'dog',
+    createdAt: '2026-09-29T15:00:00Z',
+    updatedAt: '2026-09-29T15:00:00Z',
+    publishedAt: '2026-09-29T15:00:00Z',
+    featuredImage: '/images/pet-care.webp',
+    imageAlt: 'Veterinarian demonstrating gentle canine finger toothbrush technique',
+    imageCaption: 'Daily mechanical brushing with enzymatic poultry toothpaste halts calcified calculus formation.',
+    author: editorialTeam[0], // Dr. Clara Vance, DVM
+    tags: ['dog dental care', 'dog teeth brushing', 'periodontal disease', 'dog hygiene', 'dog health'],
+    seoTitle: 'Dog Dental Care at Home: Plaque Prevention Guide | Petzora',
+    seoDescription:
+      'Prevent canine periodontal disease and bad breath. Clinical tooth brushing guide, VOHC-approved chews, and plaque prevention by Dr. Clara Vance, DVM.',
+    canonicalPath: '/care/dog-dental-care-tartar-prevention-home',
+    canonicalUrl: 'https://petzora.shop/care/dog-dental-care-tartar-prevention-home',
+    ogImage: '/images/pet-care.webp',
+    tableOfContents: [
+      { id: 'periodontal-crisis', text: '1. The Silent Crisis of Canine Periodontal Disease', level: 2 },
+      { id: 'brushing-routine', text: '2. The 3-Step Finger-to-Brush Desensitization', level: 2 },
+      { id: 'vohc-chews', text: '3. VOHC-Approved Chews and Water Additives', level: 2 },
+    ],
+    faqList: [
+      {
+        question: 'Can I use human toothpaste on my dog?',
+        answer:
+          'Never use human toothpaste on pets. Human formulas contain foaming agents (like sodium lauryl sulfate) that cause severe stomach distress and toxic xylitol or high fluoride levels that induce poisoning when swallowed.',
+      },
+    ],
+    content: `
+<div class="lead-paragraph text-xl text-stone-700 dark:text-stone-300 font-serif leading-relaxed mb-8">
+  "Dog breath" is so culturally accepted that most owners assume foul odor from their pet’s mouth is normal. In reality, bad breath is the olfactory signature of anaerobic bacteria actively destroying periodontal ligament tissue and eroding alveolar bone.
+</div>
+
+<h2 id="periodontal-crisis" class="text-2xl sm:text-3xl font-serif font-black text-stone-900 dark:text-white mt-12 mb-6">
+  1. The Silent Crisis of Canine Periodontal Disease
+</h2>
+<p>
+  Soft plaque turns into hard, calcified dental calculus (tartar) in as little as 48 hours when calcium salts in canine saliva bind with bacteria. As tartar creeps beneath the subgingival margin, bacteria enter the bloodstream, directly seeding micro-abscesses into the mitral valve of the heart and the renal tubules of the kidneys.
+</p>
+<p>
+  Two minutes of daily mechanical brushing with enzymatic pet toothpaste will save your dog from painful tooth roots and save you thousands of dollars in emergency dental anesthesia and extractions.
+</p>
+`,
+  },
 ];
 export const petzoraPicks: ProductReview[] = [];
 

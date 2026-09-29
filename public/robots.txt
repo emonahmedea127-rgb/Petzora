@@ -1,0 +1,8 @@
+# Petzora (petzora.shop) Robots.txt
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+
+# Search engine sitemap location
+Sitemap: https://petzora.shop/sitemap.xml
