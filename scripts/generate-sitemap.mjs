@@ -2,13 +2,15 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const SITE_URL = 'https://www.petzora.shop';
+const DEFAULT_SUPABASE_URL = 'https://wrsiehvxrryqsihqirgm.supabase.co';
+const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_koPbRs1lun2YdNT5ei-OZg_3viY5Mkn';
 const outDir = path.resolve('public');
 const mainSitemapPath = path.join(outDir, 'sitemap.xml');
 const articleSitemapPath = path.join(outDir, 'sitemap-articles.xml');
 const pagesSitemapPath = path.join(outDir, 'sitemap-pages.xml');
 
-const supabaseUrl = (process.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || '';
+const supabaseUrl = (process.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL).replace(/\/$/, '');
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_ANON_KEY;
 
 const staticPaths = [
   '/', '/dogs', '/cats', '/care', '/pet-care', '/health', '/nutrition', '/training',
@@ -34,7 +36,6 @@ const urlEntry = (loc, lastmod, priority = '0.8', changefreq = 'weekly') => `  <
 const wrapUrlset = (entries) => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join('\n')}\n</urlset>\n`;
 
 async function supabaseGet(table, query) {
-  if (!supabaseUrl || !supabaseKey) return [];
   const response = await fetch(`${supabaseUrl}/rest/v1/${table}?${query}`, {
     headers: {
       apikey: supabaseKey,
@@ -46,11 +47,6 @@ async function supabaseGet(table, query) {
 }
 
 async function main() {
-  if (!supabaseUrl || !supabaseKey) {
-    console.warn('[sitemap] Supabase env vars are unavailable; keeping committed sitemap files.');
-    return;
-  }
-
   try {
     const [articles, authors] = await Promise.all([
       supabaseGet('articles', 'select=slug,category_slug,updated_at,published_at&status=eq.published&order=published_at.desc.nullslast'),

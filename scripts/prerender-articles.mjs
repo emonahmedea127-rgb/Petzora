@@ -2,8 +2,10 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const SITE_URL = 'https://www.petzora.shop';
-const supabaseUrl = (process.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || '';
+const DEFAULT_SUPABASE_URL = 'https://wrsiehvxrryqsihqirgm.supabase.co';
+const DEFAULT_SUPABASE_ANON_KEY = 'sb_publishable_koPbRs1lun2YdNT5ei-OZg_3viY5Mkn';
+const supabaseUrl = (process.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL).replace(/\/$/, '');
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_ANON_KEY;
 const distDir = path.resolve('dist');
 
 const htmlEscape = (value = '') => String(value)
@@ -84,11 +86,14 @@ function upsertHead(html, article) {
   return output;
 }
 
-function injectStaticArticle(html, article) {
+function injectStaticArticle(html, article, relatedArticles = []) {
   const canonical = `${SITE_URL}/${article.category_slug}/${article.slug}`;
   const body = sanitizeArticleHtml(article.content || '');
   const published = article.published_at || article.created_at;
   const authorName = article.authors?.name || 'Petzora Editorial Team';
+  const related = relatedArticles.length
+    ? `<aside aria-label="Related guides"><h2>Related guides</h2><ul>${relatedArticles.map((item) => `<li><a href="${SITE_URL}/${attrEscape(item.category_slug)}/${attrEscape(item.slug)}">${htmlEscape(item.title)}</a></li>`).join('')}</ul></aside>`
+    : '';
   const fallback = `
     <main data-petzora-prerendered="true" style="max-width:900px;margin:48px auto;padding:0 20px;font-family:system-ui,sans-serif;line-height:1.7">
       <article>
@@ -97,6 +102,7 @@ function injectStaticArticle(html, article) {
         <p>${htmlEscape(article.excerpt || '')}</p>
         <p><span>By ${htmlEscape(authorName)}</span>${published ? ` · <time datetime="${attrEscape(published)}">${htmlEscape(new Date(published).toISOString().slice(0, 10))}</time>` : ''}</p>
         ${body}
+        ${related}
         <p><a href="${attrEscape(canonical)}">Canonical article URL</a></p>
       </article>
     </main>`;
@@ -105,11 +111,6 @@ function injectStaticArticle(html, article) {
 }
 
 async function main() {
-  if (!supabaseUrl || !supabaseKey) {
-    console.warn('[prerender] Supabase env vars unavailable; skipping article prerender.');
-    return;
-  }
-
   try {
     const shell = await fs.readFile(path.join(distDir, 'index.html'), 'utf8');
     const articles = await supabaseGet(
@@ -121,9 +122,12 @@ async function main() {
       if (!article.slug || !article.category_slug) continue;
       const targetDir = path.join(distDir, article.category_slug, article.slug);
       const targetPath = path.join(targetDir, 'index.html');
+      const relatedArticles = articles
+        .filter((candidate) => candidate.slug !== article.slug && candidate.category_slug === article.category_slug)
+        .slice(0, 4);
       await fs.mkdir(targetDir, { recursive: true });
       const withSeo = upsertHead(shell, article);
-      const rendered = injectStaticArticle(withSeo, article);
+      const rendered = injectStaticArticle(withSeo, article, relatedArticles);
       await fs.writeFile(targetPath, rendered, 'utf8');
     }
 
