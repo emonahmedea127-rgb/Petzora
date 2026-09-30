@@ -9,7 +9,7 @@ export const TermsPage: React.FC = () => {
       <SEO
         title="Terms &amp; Conditions | Petzora (petzora.shop)"
         description="Petzora terms and conditions regarding intellectual property, pet care content, user conduct, and website usage."
-        canonicalUrl="https://petzora.shop/terms-conditions"
+        canonicalUrl="https://www.petzora.shop/terms-conditions"
         breadcrumbs={[
           { name: 'Home', url: '/' },
           { name: 'Terms & Conditions', url: '/terms-conditions' },
@@ -32,7 +32,7 @@ export const TermsPage: React.FC = () => {
 
         <article className="prose prose-stone dark:prose-invert max-w-none text-stone-700 dark:text-stone-300 space-y-6 text-sm sm:text-base leading-relaxed">
           <p>
-            Welcome to <strong>Petzora</strong>. By accessing this website (https://petzora.shop), you agree to comply with and be bound by the following terms and conditions of use.
+            Welcome to <strong>Petzora</strong>. By accessing this website (https://www.petzora.shop), you agree to comply with and be bound by the following terms and conditions of use.
           </p>
 
           <h2 className="text-xl font-serif font-bold text-stone-900 dark:text-white pt-4">
