@@ -1,0 +1,1 @@
+Petzora content refresh: 5 new SEO articles published in Supabase and reciprocal internal links updated. This file triggers a production rebuild so sitemap and prerendered article HTML include the new content.
