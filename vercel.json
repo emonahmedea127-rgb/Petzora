@@ -12,17 +12,42 @@
     },
     {
       "source": "/author/dr-clara-vance",
-      "destination": "/author/petzora-health-desk",
+      "destination": "/author/emon-ahmed",
       "permanent": true
     },
     {
       "source": "/author/marcus-hayes",
-      "destination": "/author/petzora-training-desk",
+      "destination": "/author/emon-ahmed",
       "permanent": true
     },
     {
       "source": "/author/elena-rostova",
-      "destination": "/author/petzora-care-desk",
+      "destination": "/author/emon-ahmed",
+      "permanent": true
+    },
+    {
+      "source": "/author/petzora-health-desk",
+      "destination": "/author/emon-ahmed",
+      "permanent": true
+    },
+    {
+      "source": "/author/petzora-training-desk",
+      "destination": "/author/emon-ahmed",
+      "permanent": true
+    },
+    {
+      "source": "/author/petzora-care-desk",
+      "destination": "/author/emon-ahmed",
+      "permanent": true
+    },
+    {
+      "source": "/author/petzora-editorial-team",
+      "destination": "/author/emon-ahmed",
+      "permanent": true
+    },
+    {
+      "source": "/author/petzora-cat-care-desk",
+      "destination": "/author/emon-ahmed",
       "permanent": true
     },
     {
