@@ -22,6 +22,8 @@ function petzoraTrustCopyPlugin(): Plugin {
     ['Dedicated small animal veterinarian with over twelve years of clinical emergency practice. Empowering pet parents with compassionate, fact-checked health care advice.', 'Emon Ahmed is the author and editor of Petzora, creating practical pet-care guides, training tips, stories, and research-based educational content for pet owners.'],
     ['clara.vance@petzora.shop', 'contact@petzora.shop'],
     ['/images/author-clara.webp', '/images/emon-ahmed.webp'],
+    ['featuredImage:\n      DEDICATED_ARTICLE_IMAGES[row.slug]?.image ||', 'featuredImage:\n      row.featured_image ||\n      DEDICATED_ARTICLE_IMAGES[row.slug]?.image ||'],
+    ['ogImage:\n      DEDICATED_ARTICLE_IMAGES[row.slug]?.image ||', 'ogImage:\n      row.og_image ||\n      DEDICATED_ARTICLE_IMAGES[row.slug]?.image ||'],
   ];
 
   return {
