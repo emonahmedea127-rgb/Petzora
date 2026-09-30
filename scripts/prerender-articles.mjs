@@ -47,6 +47,7 @@ function upsertHead(html, article) {
   const published = article.published_at || article.created_at || undefined;
   const modified = article.updated_at || published;
   const authorName = article.authors?.name || 'Petzora Editorial Team';
+  const authorSlug = article.authors?.slug;
 
   const schema = {
     '@context': 'https://schema.org',
@@ -54,7 +55,12 @@ function upsertHead(html, article) {
     headline: article.title,
     description,
     image: [image],
-    author: { '@type': 'Organization', name: authorName },
+    author: {
+      '@type': 'Organization',
+      name: authorName,
+      ...(authorSlug ? { url: `${SITE_URL}/author/${authorSlug}` } : {}),
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/favicon.svg` },
+    },
     publisher: {
       '@type': 'Organization',
       name: 'Petzora',
@@ -88,9 +94,15 @@ function upsertHead(html, article) {
 
 function injectStaticArticle(html, article, relatedArticles = []) {
   const canonical = `${SITE_URL}/${article.category_slug}/${article.slug}`;
+  const image = absoluteUrl(article.featured_image || article.og_image);
+  const imageAlt = article.image_alt || article.title;
   const body = sanitizeArticleHtml(article.content || '');
   const published = article.published_at || article.created_at;
   const authorName = article.authors?.name || 'Petzora Editorial Team';
+  const authorSlug = article.authors?.slug;
+  const authorMarkup = authorSlug
+    ? `<a href="${SITE_URL}/author/${attrEscape(authorSlug)}">${htmlEscape(authorName)}</a>`
+    : htmlEscape(authorName);
   const related = relatedArticles.length
     ? `<aside aria-label="Related guides"><h2>Related guides</h2><ul>${relatedArticles.map((item) => `<li><a href="${SITE_URL}/${attrEscape(item.category_slug)}/${attrEscape(item.slug)}">${htmlEscape(item.title)}</a></li>`).join('')}</ul></aside>`
     : '';
@@ -99,8 +111,9 @@ function injectStaticArticle(html, article, relatedArticles = []) {
       <article>
         <nav aria-label="Breadcrumb"><a href="${SITE_URL}/">Home</a> &rsaquo; <a href="${SITE_URL}/${attrEscape(article.category_slug)}">${htmlEscape(article.category_slug)}</a></nav>
         <h1>${htmlEscape(article.title)}</h1>
+        <figure><img src="${attrEscape(image)}" alt="${attrEscape(imageAlt)}" width="1400" height="788" loading="eager" decoding="async" style="max-width:100%;height:auto" /></figure>
         <p>${htmlEscape(article.excerpt || '')}</p>
-        <p><span>By ${htmlEscape(authorName)}</span>${published ? ` · <time datetime="${attrEscape(published)}">${htmlEscape(new Date(published).toISOString().slice(0, 10))}</time>` : ''}</p>
+        <p><span>By ${authorMarkup}</span>${published ? ` · <time datetime="${attrEscape(published)}">${htmlEscape(new Date(published).toISOString().slice(0, 10))}</time>` : ''}</p>
         ${body}
         ${related}
         <p><a href="${attrEscape(canonical)}">Canonical article URL</a></p>
@@ -115,7 +128,7 @@ async function main() {
     const shell = await fs.readFile(path.join(distDir, 'index.html'), 'utf8');
     const articles = await supabaseGet(
       'articles',
-      'select=title,slug,excerpt,content,featured_image,image_alt,category_slug,seo_title,seo_description,canonical_url,og_image,published_at,created_at,updated_at,author_id,authors(name)&status=eq.published&order=published_at.desc.nullslast',
+      'select=title,slug,excerpt,content,featured_image,image_alt,category_slug,seo_title,seo_description,canonical_url,og_image,published_at,created_at,updated_at,author_id,authors(name,slug)&status=eq.published&order=published_at.desc.nullslast',
     );
 
     for (const article of articles) {
