@@ -9,7 +9,7 @@ export const DisclaimerPage: React.FC = () => {
       <SEO
         title="Veterinary Medical &amp; Advertising Disclaimer | Petzora"
         description="Official veterinary medical disclaimer, advertising disclosure, and terms of informational use for Petzora (petzora.shop)."
-        canonicalUrl="https://petzora.shop/disclaimer"
+        canonicalUrl="https://www.petzora.shop/disclaimer"
         breadcrumbs={[
           { name: 'Home', url: '/' },
           { name: 'Disclaimer', url: '/disclaimer' },
@@ -30,7 +30,6 @@ export const DisclaimerPage: React.FC = () => {
           </p>
         </div>
 
-        {/* 1. Veterinary Medical Disclaimer */}
         <section className="space-y-4">
           <div className="p-5 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 flex items-start gap-4">
             <AlertTriangle className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
@@ -49,52 +48,34 @@ export const DisclaimerPage: React.FC = () => {
           </p>
         </section>
 
-        {/* 2. Emergency Health Situations */}
         <section className="space-y-4 border-t border-stone-200 dark:border-stone-800 pt-8">
-          <h2 className="text-xl font-serif font-bold text-stone-900 dark:text-white">
-            Emergency Health Situations
-          </h2>
+          <h2 className="text-xl font-serif font-bold text-stone-900 dark:text-white">Emergency Health Situations</h2>
           <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
             If your dog, cat, puppy, or kitten experiences acute distress—such as breathing difficulties, seizures, suspected toxin ingestion (e.g. chocolate, xylitol, rodenticide, lilies, grapes), bloating with non-productive retching, severe trauma, or sudden inability to urinate—please contact your nearest emergency animal clinic or call the <strong>ASPCA Animal Poison Control Center</strong> (888-426-4435) or <strong>Pet Poison Helpline</strong> (855-764-7661) immediately.
           </p>
         </section>
 
-        {/* 3. Advertising & Google AdSense Disclosure */}
         <section className="space-y-4 border-t border-stone-200 dark:border-stone-800 pt-8">
-          <h2 className="text-xl font-serif font-bold text-stone-900 dark:text-white">
-            Advertising &amp; Google AdSense Disclosure
-          </h2>
+          <h2 className="text-xl font-serif font-bold text-stone-900 dark:text-white">Advertising &amp; Google AdSense Disclosure</h2>
           <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
             To support our ongoing original pet care research, editorial team, and hosting costs, Petzora displays third-party contextual advertisements, including advertisements served through Google AdSense and certified digital advertising partners.
           </p>
           <ul className="space-y-2 text-sm text-stone-600 dark:text-stone-300 list-disc list-inside">
-            <li>
-              All advertising units are clearly demarcated with the label &ldquo;Advertisement&rdquo; or &ldquo;Sponsored&rdquo;.
-            </li>
-            <li>
-              Advertisers have zero control or influence over our veterinary health assessments, product reviews, or nutritional advice.
-            </li>
-            <li>
-              Third-party ad networks may use cookies and web beacons to serve ads based on prior visits to our website or other sites on the internet.
-            </li>
+            <li>All advertising units are clearly demarcated with the label &ldquo;Advertisement&rdquo; or &ldquo;Sponsored&rdquo;.</li>
+            <li>Advertisers have zero control or influence over our veterinary health assessments, product reviews, or nutritional advice.</li>
+            <li>Third-party ad networks may use cookies and web beacons to serve ads based on prior visits to our website or other sites on the internet.</li>
           </ul>
         </section>
 
-        {/* 4. Product Testing & Recommendations */}
         <section className="space-y-4 border-t border-stone-200 dark:border-stone-800 pt-8">
-          <h2 className="text-xl font-serif font-bold text-stone-900 dark:text-white">
-            Product Recommendations &amp; Affiliate Disclosure
-          </h2>
+          <h2 className="text-xl font-serif font-bold text-stone-900 dark:text-white">Product Recommendations &amp; Affiliate Disclosure</h2>
           <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
             From time to time, Petzora may participate in legitimate pet retailer affiliate programs. When you click on product links in our buyer&apos;s guides and complete a purchase, we may receive a small commission at no additional cost to you. We only recommend harnesses, toys, beds, and grooming tools that meet our strict safety and durability criteria.
           </p>
         </section>
 
-        {/* 5. Limitation of Liability */}
         <section className="space-y-4 border-t border-stone-200 dark:border-stone-800 pt-8 text-xs text-stone-500 leading-relaxed">
-          <h3 className="font-serif font-bold text-stone-800 dark:text-stone-200 text-sm">
-            Limitation of Liability
-          </h3>
+          <h3 className="font-serif font-bold text-stone-800 dark:text-stone-200 text-sm">Limitation of Liability</h3>
           <p>
             Under no circumstances shall Petzora, its founders, veterinarians, trainers, writers, or contributors be held liable for any direct, indirect, incidental, consequential, or punitive damages arising from the use or reliance upon information presented on petzora.shop. Pet owners assume full responsibility for the care, health, training, and supervision of their animals.
           </p>
