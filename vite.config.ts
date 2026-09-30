@@ -1,11 +1,44 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import {defineConfig} from 'vite';
+import {defineConfig, Plugin} from 'vite';
+
+function petzoraTrustCopyPlugin(): Plugin {
+  const replacements: Array<[string, string]> = [
+    ['https://petzora.shop', 'https://www.petzora.shop'],
+    ['Veterinary-reviewed guides', 'Practical pet care guides'],
+    ['veterinary-reviewed guides', 'practical pet care guides'],
+    ['Evidence-based veterinary insights', 'Practical pet care insights'],
+    ['High-impact veterinary guides', 'Practical pet care guides'],
+    ['45,000+ Caring Pet Parents', 'Join the Petzora Community'],
+    ['Get weekly veterinary-reviewed care checklists, training breakdowns, safe food alerts, and wholesome adoption stories directly to your inbox.', 'Get practical pet care checklists, training breakdowns, safe food alerts, and wholesome pet stories directly to your inbox.'],
+    ['Related Veterinary Guides', 'Related Petzora Guides'],
+    ['Veterinary Health Alert', 'Pet Health Alert'],
+    ['This article was drafted and reviewed to provide safe, fact-based companion animal advice. Always consult your primary veterinarian for medical emergencies.', 'This article provides general educational information based on reputable references. For medical concerns or emergencies, contact a qualified veterinarian.'],
+    ['Dr. Clara Vance, DVM', 'Emon Ahmed'],
+    ['dr-clara-vance', 'emon-ahmed'],
+    ['Veterinary Advisory & Lead Pet Health Editor', 'Author & Editor'],
+    ['DVM, 12+ Years Clinical Practice', ''],
+    ['Dedicated small animal veterinarian with over twelve years of clinical emergency practice. Empowering pet parents with compassionate, fact-checked health care advice.', 'Emon Ahmed is the author and editor of Petzora, creating practical pet-care guides, training tips, stories, and research-based educational content for pet owners.'],
+    ['clara.vance@petzora.shop', 'contact@petzora.shop'],
+    ['/images/author-clara.webp', '/images/emon-ahmed.webp'],
+  ];
+
+  return {
+    name: 'petzora-trust-copy-cleanup',
+    enforce: 'pre',
+    transform(code, id) {
+      if (!id.includes('/src/')) return null;
+      let output = code;
+      for (const [from, to] of replacements) output = output.split(from).join(to);
+      return output === code ? null : { code: output, map: null };
+    },
+  };
+}
 
 export default defineConfig(() => {
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [petzoraTrustCopyPlugin(), react(), tailwindcss()],
     resolve: {
       alias: {
         '@': path.resolve(process.cwd(), '.'),
