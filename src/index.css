@@ -128,6 +128,72 @@
   color: #d6d3d1;
 }
 
+/* Make links inside article content unmistakably visible and clickable. */
+.article-content a {
+  color: #c2410c;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: color 160ms ease;
+}
+.article-content a:hover {
+  color: #9a3412;
+}
+:is(.dark .article-content a) {
+  color: #fb923c;
+}
+:is(.dark .article-content a:hover) {
+  color: #fdba74;
+}
+
+/* Visible internal-link hub appended to every published article. */
+.article-content .petzora-related-guides {
+  margin: 2.5rem 0 1rem;
+  padding: 1.5rem 1.5rem 1.25rem;
+  border: 1px solid #fed7aa;
+  border-radius: 1.25rem;
+  background: #fff7ed;
+  box-shadow: 0 10px 28px rgba(120, 53, 15, 0.08);
+}
+.article-content .petzora-related-guides h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #9a3412;
+  font-size: 1.55rem;
+}
+.article-content .petzora-related-guides p {
+  margin-bottom: 0.85rem;
+  color: #57534e;
+  font-size: 0.98rem;
+}
+.article-content .petzora-related-guides ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+.article-content .petzora-related-guides li {
+  margin-bottom: 0.7rem;
+}
+.article-content .petzora-related-guides a {
+  display: inline;
+  color: #c2410c;
+  font-weight: 750;
+}
+:is(.dark .article-content .petzora-related-guides) {
+  border-color: #7c2d12;
+  background: rgba(67, 20, 7, 0.36);
+  box-shadow: none;
+}
+:is(.dark .article-content .petzora-related-guides h2) {
+  color: #fdba74;
+}
+:is(.dark .article-content .petzora-related-guides p) {
+  color: #d6d3d1;
+}
+:is(.dark .article-content .petzora-related-guides a) {
+  color: #fb923c;
+}
+
 /* Custom subtle scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
