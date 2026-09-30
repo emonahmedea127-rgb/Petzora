@@ -3,6 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      document.documentElement.classList.add('petzora-js', 'petzora-booting');
+      window.setTimeout(function () {
+        document.documentElement.classList.remove('petzora-booting');
+      }, 4000);
+    </script>
+    <style>
+      html.petzora-booting [data-petzora-prerendered="true"] {
+        visibility: hidden !important;
+      }
+    </style>
     <meta name="google-site-verification" content="s__gOlLJI-9ys2nxrRV4yLNd0aPeeuYI_svfS0VpJiE" />
     <meta name="google-adsense-account" content="ca-pub-8415263713133542" />
     <title>Petzora | Practical Pet Care Guides for Dogs &amp; Cats</title>
