@@ -10,7 +10,7 @@
     "dev": "vite --port=3000 --host=0.0.0.0",
     "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "vite build",
-    "postbuild": "node scripts/prerender-articles.mjs",
+    "postbuild": "node scripts/prerender-articles.mjs && node scripts/prerender-pages.mjs",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"
