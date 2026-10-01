@@ -11,6 +11,12 @@ export async function subscribeToNewsletter(
   source = 'website'
 ): Promise<NewsletterSignupResult> {
   const normalizedEmail = email.trim().toLowerCase();
+  const normalizedSource = source
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+    .slice(0, 50) || 'website';
 
   if (!normalizedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
     return { ok: false, error: 'Please enter a valid email address.' };
@@ -18,7 +24,7 @@ export async function subscribeToNewsletter(
 
   const { error } = await supabase.from('newsletter_subscribers').insert({
     email: normalizedEmail,
-    source,
+    source: normalizedSource,
     status: 'subscribed',
   });
 
