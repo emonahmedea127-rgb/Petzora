@@ -33,7 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenSaved, onOpe
     { name: 'Home', path: '/' },
     { name: 'Dogs', path: '/dogs' },
     { name: 'Cats', path: '/cats' },
-    { name: 'Care', path: '/pet-care' },
+    { name: 'Pet Care', path: '/pet-care' },
     { name: 'Health', path: '/health' },
     { name: 'Nutrition', path: '/nutrition' },
     { name: 'Training', path: '/training' },
