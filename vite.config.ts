@@ -43,6 +43,25 @@ function petzoraTrustCopyPlugin(): Plugin {
           .replace(
             "import { getPublishedArticles } from '../lib/supabase';",
             "import { getPublishedArticles } from '../lib/homeFeed';",
+          )
+          // Keep the preloaded local hero image as the LCP image. Previously the
+          // image switched to the remote featured article after the feed loaded,
+          // forcing a second high-priority image request and delaying LCP.
+          .replace(
+            "src={heroArticle?.featuredImage || '/images/hero-dog-cat.webp'}",
+            'src="/images/hero-dog-cat.webp"',
+          )
+          // Give the critical hero image stable intrinsic dimensions.
+          .replace(
+            'priority={true}\n                  fallbackSrc="/images/pet-fallback.webp"',
+            'priority={true}\n                  width={1200}\n                  height={800}\n                  fallbackSrc="/images/pet-fallback.webp"',
+          )
+          // Let the first paint and LCP image start before the homepage feed uses
+          // network/main-thread time. A short delay is enough to remove contention
+          // without making the dynamic sections feel slow to real users.
+          .replace(
+            "    load();\n    return () => {\n      mounted = false;\n    };",
+            "    const feedTimer = window.setTimeout(() => { void load(); }, 350);\n    return () => {\n      mounted = false;\n      window.clearTimeout(feedTimer);\n    };",
           );
       }
 
