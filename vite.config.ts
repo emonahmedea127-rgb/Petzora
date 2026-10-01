@@ -30,6 +30,22 @@ function petzoraTrustCopyPlugin(): Plugin {
     transform(code, id) {
       if (!id.includes('/src/')) return null;
       let output = code;
+
+      // Keep the public homepage out of the large CMS/article fallback bundle.
+      // The lightweight modules expose the same names used by HomePage.tsx,
+      // so the page source and UI stay unchanged while the initial JS shrinks.
+      if (id.includes('/src/pages/HomePage.tsx')) {
+        output = output
+          .replace(
+            "import { petCategories, foodGuideItems, editorialTeam } from '../data/mockData';",
+            "import { petCategories, foodGuideItems, editorialTeam } from '../data/homeStaticData';",
+          )
+          .replace(
+            "import { getPublishedArticles } from '../lib/supabase';",
+            "import { getPublishedArticles } from '../lib/homeFeed';",
+          );
+      }
+
       for (const [from, to] of replacements) output = output.split(from).join(to);
       return output === code ? null : { code: output, map: null };
     },
