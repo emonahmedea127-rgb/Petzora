@@ -30,6 +30,48 @@ const sanitizeArticleHtml = (html = '') => String(html)
   .replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '')
   .replace(/javascript:/gi, '');
 
+const DEDICATED_ARTICLE_IMAGES = {
+  'kitten-quiet-corner-recovery-confidence-story': '/images/kitten-quiet-corner.jpg',
+  'why-does-my-cat-meow-at-night': '/images/cat-meow-night.jpg',
+  'cat-sneezing-causes-warning-signs': '/images/cat-sneezing-health.jpg',
+  'can-cats-eat-tuna-safe-amounts': '/images/cat-eating-tuna.jpg',
+  'why-does-my-cat-sleep-so-much': '/images/cat-sleeping-hours.jpg',
+  'cat-drinking-more-water-than-usual': '/images/cat-drinking-fountain.jpg',
+  'shy-rescue-cat-learning-to-trust': '/images/shy-cat-trust.jpg',
+  'why-do-cats-knead': '/images/cat-kneading.jpg',
+  'cat-dehydration-silent-symptoms-prevention': '/images/cat-hydration.jpg',
+  'can-cats-eat-eggs': '/images/cat-cooked-egg.jpg',
+  'why-is-my-cat-not-eating': '/images/cat-not-eating.jpg',
+  'why-does-my-cat-follow-me-everywhere': '/images/cat-following-owner.jpg',
+  'puppy-potty-training-7-day-routine': '/images/puppy-potty-training.jpg',
+  'why-do-dogs-tilt-their-heads': '/images/dog-body-language.jpg',
+  'why-does-my-dog-follow-me-everywhere': '/images/dog-following-owner.jpg',
+  'why-does-my-dog-lick-me-so-much': '/images/dog-licking-owner.jpg',
+  'dog-vomiting-causes-red-flags-what-to-do': '/images/canine-emergency-first-aid.jpg',
+  'canine-first-aid-emergency-triage-handbook': '/images/canine-emergency-vet-triage.jpg',
+  'senior-dog-health-checklist-warning-signs': '/images/senior-dog-health.jpg',
+  'can-dogs-eat-eggs-safe-serving': '/images/dog-eating-eggs.jpg',
+  'dog-dental-care-tartar-prevention-home': '/images/dog-dental-care.jpg',
+  'best-orthopedic-dog-beds-veterinary-review': '/images/orthopedic-dog-beds.jpg',
+  'best-dog-harness-features-buying-guide': '/images/dog-harness-guide.jpg',
+  'from-shelter-to-service-dog-max-journey': '/images/rescue-dog-service-journey.jpg',
+  'dog-waited-by-gate-rescue-story-trust': '/images/dog-waited-gate-rescue.jpg',
+  'how-to-teach-a-dog-to-stay': '/images/dog-training-park.jpg',
+  'preventing-dog-separation-anxiety-guide': '/images/dog-separation-anxiety.jpg',
+  'how-to-stop-dog-jumping-on-people': '/images/dog-jumping-training.jpg',
+  'how-often-should-you-bathe-a-dog': '/images/dog-bath-care.jpg',
+  'how-to-trim-dog-nails-safely': '/images/dog-nail-trim-care.jpg',
+  'why-is-my-dog-shaking-trembling': '/images/dog-shaking-trembling.jpg',
+  'can-dogs-eat-bananas': '/images/dog-banana-treat.jpg',
+  'why-is-my-dog-panting-so-much': '/images/dog-panting-warning-signs.jpg',
+  'senior-dog-cat-share-second-chance-story': '/images/hero-dog-cat.webp',
+  'first-week-new-pet-home-checklist': '/images/first-week-new-pet.jpg',
+  'essential-daily-pet-care-routine-checklist': '/images/daily-pet-care-routine.jpg',
+  'toxic-foods-dogs-cats-complete-list': '/images/toxic-foods-nutrition.jpg',
+  'pet-food-allergies-elimination-diet-guide': '/images/hypoallergenic-diet.jpg',
+  'cat-dog-body-language-subtle-calming-signals': '/images/cat-dog-calming-signals.jpg',
+};
+
 async function supabaseGet(table, query) {
   const response = await fetch(`${supabaseUrl}/rest/v1/${table}?${query}`, {
     headers: { apikey: supabaseKey, Accept: 'application/json' },
@@ -43,7 +85,8 @@ function upsertHead(html, article) {
   const title = article.seo_title || article.title;
   const fullTitle = title.includes('Petzora') ? title : `${title} | Petzora`;
   const description = article.seo_description || article.excerpt || '';
-  const image = absoluteUrl(article.og_image || article.featured_image);
+  const dedicatedImg = DEDICATED_ARTICLE_IMAGES[article.slug];
+  const image = absoluteUrl(dedicatedImg || article.og_image || article.featured_image);
   const published = article.published_at || article.created_at || undefined;
   const modified = article.updated_at || published;
   const authorName = article.authors?.name || 'Petzora Editorial Team';
@@ -94,7 +137,8 @@ function upsertHead(html, article) {
 
 function injectStaticArticle(html, article, relatedArticles = []) {
   const canonical = `${SITE_URL}/${article.category_slug}/${article.slug}`;
-  const image = absoluteUrl(article.featured_image || article.og_image);
+  const dedicatedImg = DEDICATED_ARTICLE_IMAGES[article.slug];
+  const image = absoluteUrl(dedicatedImg || article.featured_image || article.og_image);
   const imageAlt = article.image_alt || article.title;
   const body = sanitizeArticleHtml(article.content || '');
   const published = article.published_at || article.created_at;

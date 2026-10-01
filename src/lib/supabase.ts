@@ -91,44 +91,50 @@ const defaultAuthor: Author = {
 };
 
 export const DEDICATED_ARTICLE_IMAGES: Record<string, { image: string; petType?: 'dog' | 'cat' | 'all' }> = {
-  // Cats (strictly cat photos only)
+  // Cats (strictly unique cat photos only)
   'kitten-quiet-corner-recovery-confidence-story': { image: '/images/kitten-quiet-corner.jpg', petType: 'cat' },
   'why-does-my-cat-meow-at-night': { image: '/images/cat-meow-night.jpg', petType: 'cat' },
   'cat-sneezing-causes-warning-signs': { image: '/images/cat-sneezing-health.jpg', petType: 'cat' },
   'can-cats-eat-tuna-safe-amounts': { image: '/images/cat-eating-tuna.jpg', petType: 'cat' },
   'why-does-my-cat-sleep-so-much': { image: '/images/cat-sleeping-hours.jpg', petType: 'cat' },
-  'cat-drinking-more-water-than-usual': { image: '/images/cat-behavior.webp', petType: 'cat' },
+  'cat-drinking-more-water-than-usual': { image: '/images/cat-drinking-fountain.jpg', petType: 'cat' },
   'shy-rescue-cat-learning-to-trust': { image: '/images/shy-cat-trust.jpg', petType: 'cat' },
   'why-do-cats-knead': { image: '/images/cat-kneading.jpg', petType: 'cat' },
   'cat-dehydration-silent-symptoms-prevention': { image: '/images/cat-hydration.jpg', petType: 'cat' },
+  'can-cats-eat-eggs': { image: '/images/cat-cooked-egg.jpg', petType: 'cat' },
+  'why-is-my-cat-not-eating': { image: '/images/cat-not-eating.jpg', petType: 'cat' },
+  'why-does-my-cat-follow-me-everywhere': { image: '/images/cat-following-owner.jpg', petType: 'cat' },
 
-  // Dogs (strictly dog photos only)
+  // Dogs (strictly unique dog photos only)
   'puppy-potty-training-7-day-routine': { image: '/images/puppy-potty-training.jpg', petType: 'dog' },
   'why-do-dogs-tilt-their-heads': { image: '/images/dog-body-language.jpg', petType: 'dog' },
-  'why-does-my-dog-follow-me-everywhere': { image: '/images/featured-dog.webp', petType: 'dog' },
-  'why-does-my-dog-lick-me-so-much': { image: '/images/dog-behavior.webp', petType: 'dog' },
+  'why-does-my-dog-follow-me-everywhere': { image: '/images/dog-following-owner.jpg', petType: 'dog' },
+  'why-does-my-dog-lick-me-so-much': { image: '/images/dog-licking-owner.jpg', petType: 'dog' },
   'dog-vomiting-causes-red-flags-what-to-do': { image: '/images/canine-emergency-first-aid.jpg', petType: 'dog' },
-  'canine-first-aid-emergency-triage-handbook': { image: '/images/pet-health.webp', petType: 'dog' },
+  'canine-first-aid-emergency-triage-handbook': { image: '/images/canine-emergency-vet-triage.jpg', petType: 'dog' },
   'senior-dog-health-checklist-warning-signs': { image: '/images/senior-dog-health.jpg', petType: 'dog' },
   'can-dogs-eat-eggs-safe-serving': { image: '/images/dog-eating-eggs.jpg', petType: 'dog' },
   'dog-dental-care-tartar-prevention-home': { image: '/images/dog-dental-care.jpg', petType: 'dog' },
   'best-orthopedic-dog-beds-veterinary-review': { image: '/images/orthopedic-dog-beds.jpg', petType: 'dog' },
   'best-dog-harness-features-buying-guide': { image: '/images/dog-harness-guide.jpg', petType: 'dog' },
   'from-shelter-to-service-dog-max-journey': { image: '/images/rescue-dog-service-journey.jpg', petType: 'dog' },
-  'dog-waited-by-gate-rescue-story-trust': { image: '/images/pet-story.webp', petType: 'dog' },
-  'how-to-teach-a-dog-to-stay': { image: '/images/dog-training.webp', petType: 'dog' },
+  'dog-waited-by-gate-rescue-story-trust': { image: '/images/dog-waited-gate-rescue.jpg', petType: 'dog' },
+  'how-to-teach-a-dog-to-stay': { image: '/images/dog-training-park.jpg', petType: 'dog' },
   'preventing-dog-separation-anxiety-guide': { image: '/images/dog-separation-anxiety.jpg', petType: 'dog' },
   'how-to-stop-dog-jumping-on-people': { image: '/images/dog-jumping-training.jpg', petType: 'dog' },
   'how-often-should-you-bathe-a-dog': { image: '/images/dog-bath-care.jpg', petType: 'dog' },
-  'how-to-trim-dog-nails-safely': { image: '/images/pet-care.webp', petType: 'dog' },
+  'how-to-trim-dog-nails-safely': { image: '/images/dog-nail-trim-care.jpg', petType: 'dog' },
+  'why-is-my-dog-shaking-trembling': { image: '/images/dog-shaking-trembling.jpg', petType: 'dog' },
+  'can-dogs-eat-bananas': { image: '/images/dog-banana-treat.jpg', petType: 'dog' },
+  'why-is-my-dog-panting-so-much': { image: '/images/dog-panting-warning-signs.jpg', petType: 'dog' },
 
-  // General / Multi-pet
+  // General / Multi-pet (strictly unique multi-pet photos only)
   'senior-dog-cat-share-second-chance-story': { image: '/images/hero-dog-cat.webp', petType: 'all' },
-  'first-week-new-pet-home-checklist': { image: '/images/pet-discovery.webp', petType: 'all' },
+  'first-week-new-pet-home-checklist': { image: '/images/first-week-new-pet.jpg', petType: 'all' },
   'essential-daily-pet-care-routine-checklist': { image: '/images/daily-pet-care-routine.jpg', petType: 'all' },
   'toxic-foods-dogs-cats-complete-list': { image: '/images/toxic-foods-nutrition.jpg', petType: 'all' },
   'pet-food-allergies-elimination-diet-guide': { image: '/images/hypoallergenic-diet.jpg', petType: 'all' },
-  'cat-dog-body-language-subtle-calming-signals': { image: '/images/pet-lifestyle.webp', petType: 'all' },
+  'cat-dog-body-language-subtle-calming-signals': { image: '/images/cat-dog-calming-signals.jpg', petType: 'all' },
 };
 
 export function mapRowToArticle(row: any): Article {
