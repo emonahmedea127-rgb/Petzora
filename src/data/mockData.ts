@@ -26,16 +26,6 @@ export const petCategories: CategoryInfo[] = [
     articleCount: 1,
   },
   {
-    id: 'care',
-    name: 'PET CARE',
-    slug: 'care',
-    description: 'Everyday hygiene, seasonal routines, gentle bathing, nail trims, and home comfort essentials.',
-    coverImage: '/images/pet-care.webp',
-    iconName: 'Sparkles',
-    subTopics: ['Grooming', 'Bathing', 'Dental Care', 'Senior Pet Care', 'Home Setup'],
-    articleCount: 2,
-  },
-  {
     id: 'pet-care',
     name: 'PET CARE',
     slug: 'pet-care',
