@@ -1,17 +1,34 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, ShieldCheck, Heart, Award, Mail } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ShieldCheck, Heart, Award, Loader2 } from 'lucide-react';
+import { subscribeToNewsletter } from '../lib/newsletter';
 
 export const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [alreadySubscribed, setAlreadySubscribed] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [subscribeError, setSubscribeError] = useState('');
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && email.includes('@')) {
-      setSubscribed(true);
-      setEmail('');
+    if (submitting) return;
+
+    setSubmitting(true);
+    setSubscribeError('');
+
+    const result = await subscribeToNewsletter(email, 'footer');
+
+    setSubmitting(false);
+
+    if (!result.ok) {
+      setSubscribeError(result.error || 'Subscription failed. Please try again.');
+      return;
     }
+
+    setAlreadySubscribed(Boolean(result.alreadySubscribed));
+    setSubscribed(true);
+    setEmail('');
   };
 
   return (
@@ -41,7 +58,8 @@ export const Footer: React.FC = () => {
                 <div className="p-4 rounded-2xl bg-emerald-950/80 border border-emerald-800 text-emerald-200 flex items-center gap-3">
                   <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
                   <p className="text-xs leading-relaxed">
-                    <strong>Welcome to the Petzora pack!</strong> Check your inbox for our <em>Essential First-Week Dog &amp; Cat Checklist</em>.
+                    <strong>{alreadySubscribed ? 'You’re already in the Petzora pack.' : 'Welcome to the Petzora pack!'}</strong>{' '}
+                    Your email has been saved for future Petzora updates.
                   </p>
                 </div>
               ) : (
@@ -53,16 +71,31 @@ export const Footer: React.FC = () => {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email address..."
                       required
-                      className="flex-1 px-4 py-3.5 rounded-xl bg-stone-950/90 border border-stone-700 text-white placeholder-stone-500 text-sm focus:outline-none focus:border-[#D95D39] focus:ring-1 focus:ring-[#D95D39]"
+                      disabled={submitting}
+                      autoComplete="email"
+                      className="flex-1 px-4 py-3.5 rounded-xl bg-stone-950/90 border border-stone-700 text-white placeholder-stone-500 text-sm focus:outline-none focus:border-[#D95D39] focus:ring-1 focus:ring-[#D95D39] disabled:opacity-60"
                     />
                     <button
                       type="submit"
-                      className="px-6 py-3.5 rounded-xl bg-[#D95D39] hover:bg-[#C24D2B] text-white font-semibold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-orange-950/40 shrink-0"
+                      disabled={submitting}
+                      className="px-6 py-3.5 rounded-xl bg-[#D95D39] hover:bg-[#C24D2B] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-orange-950/40 shrink-0"
                     >
-                      <span>Join Pack</span>
-                      <ArrowRight className="w-4 h-4" />
+                      {submitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Joining...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Join Pack</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </>
+                      )}
                     </button>
                   </div>
+                  {subscribeError && (
+                    <p className="text-xs text-red-300" role="alert">{subscribeError}</p>
+                  )}
                   <p className="text-[11px] text-stone-400">
                     By subscribing, you agree to our{' '}
                     <Link to="/privacy-policy" className="underline hover:text-white">Privacy Policy</Link>. Free unsubscription anytime.
@@ -107,41 +140,13 @@ export const Footer: React.FC = () => {
               Explore Topics
             </h4>
             <ul className="space-y-2.5 text-sm text-stone-400">
-              <li>
-                <Link to="/dogs" className="hover:text-[#D95D39] transition-colors">
-                  Dogs &amp; Puppies
-                </Link>
-              </li>
-              <li>
-                <Link to="/cats" className="hover:text-[#D95D39] transition-colors">
-                  Cats &amp; Kittens
-                </Link>
-              </li>
-              <li>
-                <Link to="/pet-care" className="hover:text-[#D95D39] transition-colors">
-                  Care &amp; Grooming
-                </Link>
-              </li>
-              <li>
-                <Link to="/health" className="hover:text-[#D95D39] transition-colors">
-                  Health &amp; Wellness
-                </Link>
-              </li>
-              <li>
-                <Link to="/nutrition" className="hover:text-[#D95D39] transition-colors">
-                  Nutrition &amp; Diets
-                </Link>
-              </li>
-              <li>
-                <Link to="/training" className="hover:text-[#D95D39] transition-colors">
-                  Training &amp; Manners
-                </Link>
-              </li>
-              <li>
-                <Link to="/behavior" className="hover:text-[#D95D39] transition-colors font-medium text-stone-300">
-                  Pet Behavior Hub &rarr;
-                </Link>
-              </li>
+              <li><Link to="/dogs" className="hover:text-[#D95D39] transition-colors">Dogs &amp; Puppies</Link></li>
+              <li><Link to="/cats" className="hover:text-[#D95D39] transition-colors">Cats &amp; Kittens</Link></li>
+              <li><Link to="/pet-care" className="hover:text-[#D95D39] transition-colors">Care &amp; Grooming</Link></li>
+              <li><Link to="/health" className="hover:text-[#D95D39] transition-colors">Health &amp; Wellness</Link></li>
+              <li><Link to="/nutrition" className="hover:text-[#D95D39] transition-colors">Nutrition &amp; Diets</Link></li>
+              <li><Link to="/training" className="hover:text-[#D95D39] transition-colors">Training &amp; Manners</Link></li>
+              <li><Link to="/behavior" className="hover:text-[#D95D39] transition-colors font-medium text-stone-300">Pet Behavior Hub &rarr;</Link></li>
             </ul>
           </div>
 
@@ -151,31 +156,10 @@ export const Footer: React.FC = () => {
               Picks &amp; Community
             </h4>
             <ul className="space-y-2.5 text-sm text-stone-400">
-              <li>
-                <Link to="/reviews" className="hover:text-[#D95D39] transition-colors">
-                  Petzora Picks (Reviews)
-                </Link>
-              </li>
-              <li>
-                <Link to="/stories" className="hover:text-[#D95D39] transition-colors">
-                  Pet Stories You’ll Love
-                </Link>
-              </li>
-              <li>
-                <Link to="/author/dr-clara-vance" className="hover:text-[#D95D39] transition-colors">
-                  Veterinary Advisory Team
-                </Link>
-              </li>
-              <li>
-                <Link to="/author/marcus-hayes" className="hover:text-[#D95D39] transition-colors">
-                  Canine Behavior Specialists
-                </Link>
-              </li>
-              <li>
-                <Link to="/sitemap" className="hover:text-[#D95D39] transition-colors">
-                  Sitemap &amp; Crawler Index
-                </Link>
-              </li>
+              <li><Link to="/reviews" className="hover:text-[#D95D39] transition-colors">Petzora Picks (Reviews)</Link></li>
+              <li><Link to="/stories" className="hover:text-[#D95D39] transition-colors">Pet Stories You’ll Love</Link></li>
+              <li><Link to="/author/emon-ahmed" className="hover:text-[#D95D39] transition-colors">About the Author</Link></li>
+              <li><Link to="/sitemap" className="hover:text-[#D95D39] transition-colors">Sitemap &amp; Crawler Index</Link></li>
             </ul>
           </div>
 
@@ -185,46 +169,14 @@ export const Footer: React.FC = () => {
               Trust &amp; Legal
             </h4>
             <ul className="space-y-2.5 text-sm text-stone-400">
-              <li>
-                <Link to="/about" className="hover:text-[#D95D39] transition-colors">
-                  About Petzora
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="hover:text-[#D95D39] transition-colors">
-                  Contact Editorial
-                </Link>
-              </li>
-              <li>
-                <Link to="/editorial-policy" className="hover:text-[#D95D39] transition-colors">
-                  Editorial Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/affiliate-disclosure" className="hover:text-[#D95D39] transition-colors">
-                  Affiliate Disclosure
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy-policy" className="hover:text-[#D95D39] transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms-conditions" className="hover:text-[#D95D39] transition-colors">
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link to="/disclaimer" className="hover:text-[#D95D39] transition-colors">
-                  Veterinary &amp; Ad Disclaimer
-                </Link>
-              </li>
-              <li>
-                <Link to="/cookie-policy" className="hover:text-[#D95D39] transition-colors">
-                  Cookie Policy
-                </Link>
-              </li>
+              <li><Link to="/about" className="hover:text-[#D95D39] transition-colors">About Petzora</Link></li>
+              <li><Link to="/contact" className="hover:text-[#D95D39] transition-colors">Contact Editorial</Link></li>
+              <li><Link to="/editorial-policy" className="hover:text-[#D95D39] transition-colors">Editorial Policy</Link></li>
+              <li><Link to="/affiliate-disclosure" className="hover:text-[#D95D39] transition-colors">Affiliate Disclosure</Link></li>
+              <li><Link to="/privacy-policy" className="hover:text-[#D95D39] transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms-conditions" className="hover:text-[#D95D39] transition-colors">Terms of Service</Link></li>
+              <li><Link to="/disclaimer" className="hover:text-[#D95D39] transition-colors">Veterinary &amp; Ad Disclaimer</Link></li>
+              <li><Link to="/cookie-policy" className="hover:text-[#D95D39] transition-colors">Cookie Policy</Link></li>
             </ul>
           </div>
         </div>
@@ -238,9 +190,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom row */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-400">
-          <p>
-            &copy; {new Date().getFullYear()} Petzora (petzora.shop). All rights reserved. Built with love for pets and their humans.
-          </p>
+          <p>&copy; {new Date().getFullYear()} Petzora (petzora.shop). All rights reserved. Built with love for pets and their humans.</p>
           <div className="flex items-center gap-6">
             <Link to="/editorial-policy" className="hover:text-white transition-colors">Editorial</Link>
             <Link to="/affiliate-disclosure" className="hover:text-white transition-colors">Affiliate</Link>
