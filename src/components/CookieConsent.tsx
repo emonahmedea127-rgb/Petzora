@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Cookie, X, Check, SlidersHorizontal } from 'lucide-react';
 
+type ConsentPreferences = {
+  necessary: true;
+  analytics: boolean;
+  advertising: boolean;
+  timestamp?: number;
+};
+
 export const CookieConsent: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [showPreferences, setShowPreferences] = useState(false);
@@ -14,35 +21,43 @@ export const CookieConsent: React.FC = () => {
   useEffect(() => {
     const consent = localStorage.getItem('petzora_cookie_consent');
     if (!consent) {
-      // Delay banner slightly so page loads gracefully without immediate popup shock
+      // Delay banner slightly so first paint is not blocked by consent UI.
       const timer = setTimeout(() => setIsVisible(true), 1500);
       return () => clearTimeout(timer);
     }
   }, []);
 
-  const handleAcceptAll = () => {
-    localStorage.setItem(
-      'petzora_cookie_consent',
-      JSON.stringify({ necessary: true, analytics: true, advertising: true, timestamp: Date.now() })
+  const persistConsent = (analytics: boolean, advertising: boolean) => {
+    const consent: ConsentPreferences = {
+      necessary: true,
+      analytics,
+      advertising,
+      timestamp: Date.now(),
+    };
+
+    localStorage.setItem('petzora_cookie_consent', JSON.stringify(consent));
+
+    // Third-party scripts are loaded lazily by index.html only after this event.
+    window.dispatchEvent(
+      new CustomEvent('petzora-consent-changed', {
+        detail: consent,
+      })
     );
+
     setIsVisible(false);
+    setShowPreferences(false);
+  };
+
+  const handleAcceptAll = () => {
+    persistConsent(true, true);
   };
 
   const handleRejectNonEssential = () => {
-    localStorage.setItem(
-      'petzora_cookie_consent',
-      JSON.stringify({ necessary: true, analytics: false, advertising: false, timestamp: Date.now() })
-    );
-    setIsVisible(false);
+    persistConsent(false, false);
   };
 
   const handleSavePreferences = () => {
-    localStorage.setItem(
-      'petzora_cookie_consent',
-      JSON.stringify({ ...preferences, timestamp: Date.now() })
-    );
-    setIsVisible(false);
-    setShowPreferences(false);
+    persistConsent(preferences.analytics, preferences.advertising);
   };
 
   if (!isVisible) return null;

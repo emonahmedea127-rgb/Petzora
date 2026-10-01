@@ -31,25 +31,94 @@
     <meta name="twitter:title" content="Petzora | Practical Pet Care Guides for Dogs &amp; Cats" />
     <meta name="twitter:description" content="Practical pet care guides for dog and cat owners, including health, nutrition, training, behavior, and everyday care advice." />
     <meta name="twitter:image" content="https://www.petzora.shop/images/hero-dog-cat.webp" />
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DKRVYNKDMK"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-DKRVYNKDMK');
-    </script>
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8415263713133542"
-      crossorigin="anonymous"></script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" as="image" href="/images/hero-dog-cat.webp" type="image/webp" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="dns-prefetch" href="https://wrsiehvxrryqsihqirgm.supabase.co" />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap"
+      />
+    </noscript>
   </head>
   <body class="bg-[#FAF7F2] text-stone-900 antialiased selection:bg-amber-500/20 selection:text-amber-900 dark:bg-stone-950 dark:text-stone-100 dark:selection:bg-amber-400/20 dark:selection:text-amber-200">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      (function () {
+        var GA_ID = 'G-DKRVYNKDMK';
+        var ADS_CLIENT = 'ca-pub-8415263713133542';
+        var analyticsLoaded = false;
+        var adsLoaded = false;
+
+        function readConsent() {
+          try {
+            var raw = localStorage.getItem('petzora_cookie_consent');
+            return raw ? JSON.parse(raw) : null;
+          } catch (e) {
+            return null;
+          }
+        }
+
+        function loadAnalytics() {
+          if (analyticsLoaded) return;
+          analyticsLoaded = true;
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+          window.gtag('js', new Date());
+          window.gtag('config', GA_ID);
+
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_ID);
+          document.head.appendChild(script);
+        }
+
+        function loadAds() {
+          if (adsLoaded) return;
+          adsLoaded = true;
+          var script = document.createElement('script');
+          script.async = true;
+          script.crossOrigin = 'anonymous';
+          script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(ADS_CLIENT);
+          document.head.appendChild(script);
+        }
+
+        function applyConsent(consent) {
+          if (!consent) return;
+          if (consent.analytics) loadAnalytics();
+          if (consent.advertising) loadAds();
+        }
+
+        function scheduleExistingConsent() {
+          var consent = readConsent();
+          if (!consent) return;
+          var run = function () { applyConsent(consent); };
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(run, { timeout: 2500 });
+          } else {
+            window.setTimeout(run, 1200);
+          }
+        }
+
+        if (document.readyState === 'complete') {
+          scheduleExistingConsent();
+        } else {
+          window.addEventListener('load', scheduleExistingConsent, { once: true });
+        }
+
+        window.addEventListener('petzora-consent-changed', function (event) {
+          applyConsent(event.detail || readConsent());
+        });
+      })();
+    </script>
   </body>
 </html>
