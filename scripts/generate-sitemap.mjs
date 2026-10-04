@@ -14,7 +14,7 @@ const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_ANON_
 
 const staticPaths = [
   '/', '/dogs', '/cats', '/care', '/pet-care', '/health', '/nutrition', '/training',
-  '/behavior', '/reviews', '/product-guides', '/stories', '/guides', '/blog', '/about',
+  '/behavior', '/reviews', '/product-guides', '/stories', '/guides', '/about',
   '/contact', '/editorial-policy', '/privacy-policy', '/terms', '/disclaimer',
   '/cookie-policy', '/affiliate-disclosure',
 ];
@@ -27,11 +27,12 @@ const xmlEscape = (value = '') => String(value)
   .replaceAll("'", '&apos;');
 
 const dateOnly = (value) => {
-  const date = value ? new Date(value) : new Date();
-  return Number.isNaN(date.getTime()) ? new Date().toISOString().slice(0, 10) : date.toISOString().slice(0, 10);
+  if (!value) return null;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date.toISOString().slice(0, 10);
 };
 
-const urlEntry = (loc, lastmod, priority = '0.8', changefreq = 'weekly') => `  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${dateOnly(lastmod)}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+const urlEntry = (loc, lastmod, priority = '0.8', changefreq = 'weekly') => `  <url>\n    <loc>${xmlEscape(loc)}</loc>\n${dateOnly(lastmod) ? `    <lastmod>${dateOnly(lastmod)}</lastmod>` : ''}\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
 
 const wrapUrlset = (entries) => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join('\n')}\n</urlset>\n`;
 
@@ -69,7 +70,7 @@ async function main() {
     const pageEntries = staticPaths.map((route, index) =>
       urlEntry(
         `${SITE_URL}${route}`,
-        new Date(),
+        null,
         route === '/' ? '1.0' : index < 14 ? '0.8' : '0.5',
         route === '/' || route === '/guides' || route === '/blog' ? 'daily' : 'weekly',
       ),
@@ -90,7 +91,7 @@ async function main() {
 
     console.log(`[sitemap] Generated ${articles.length} article URLs, ${authors.length} author URLs, and ${staticPaths.length} static URLs.`);
   } catch (error) {
-    console.warn('[sitemap] Generation failed; keeping committed sitemap files.', error instanceof Error ? error.message : error);
+    throw new Error('Sitemap generation failed; refusing to publish a stale URL list.', { cause: error });
   }
 }
 

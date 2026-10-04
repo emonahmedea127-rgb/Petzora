@@ -67,7 +67,7 @@ const siteNav = `
     <a href="${SITE_URL}/stories">Stories</a>
   </nav>`;
 
-function articleList(articles, limit = 24) {
+function articleList(articles, limit = articles.length) {
   const items = articles.slice(0, limit).map((article) =>
     `<li><a href="${SITE_URL}/${attrEscape(article.category_slug)}/${attrEscape(article.slug)}">${htmlEscape(article.title)}</a>${article.excerpt ? `<p>${htmlEscape(article.excerpt)}</p>` : ''}</li>`,
   ).join('');
@@ -115,7 +115,7 @@ async function main() {
       title: 'Petzora | Practical Pet Care Guides for Dogs & Cats',
       description: 'Practical pet care guides for dog and cat owners, including health, nutrition, training, behavior, and everyday care advice.',
       schemaType: 'WebPage',
-      content: `${siteNav}<h1>Practical Pet Care Guides for Dogs &amp; Cats</h1><p>Petzora publishes useful, easy-to-follow guides about pet health, nutrition, training, behavior and everyday care.</p><h2>Latest pet guides</h2>${articleList(articles, 16)}<p><a href="${SITE_URL}/about">About Petzora</a> · <a href="${SITE_URL}/editorial-policy">Editorial Policy</a> · <a href="${SITE_URL}/contact">Contact</a></p>`,
+      content: `${siteNav}<h1>Practical Pet Care Guides for Dogs &amp; Cats</h1><p>Petzora publishes useful, easy-to-follow guides about pet health, nutrition, training, behavior and everyday care.</p><p><a href="${SITE_URL}/guides">Browse all pet care guides</a></p><h2>Latest pet guides</h2>${articleList(articles, 16)}<p><a href="${SITE_URL}/about">About Petzora</a> · <a href="${SITE_URL}/editorial-policy">Editorial Policy</a> · <a href="${SITE_URL}/contact">Contact</a></p>`,
     });
 
     for (const category of categories) {
@@ -127,15 +127,13 @@ async function main() {
       });
     }
 
-    for (const route of ['/guides', '/blog']) {
-      const title = route === '/guides' ? 'Pet Care Guides' : 'Petzora Pet Care Blog';
-      const description = route === '/guides'
-        ? 'Browse Petzora guides covering dog and cat health, nutrition, training, behavior and daily care.'
-        : 'Browse the latest Petzora articles about dogs, cats, pet health, nutrition, training and care.';
+    for (const route of ['/guides']) {
+      const title = 'Pet Care Guides for Dogs & Cats | Petzora';
+      const description = 'Browse all Petzora guides on dog and cat care, nutrition, health, behavior and positive training.';
       await writeRoute(shell, route, {
         title,
         description,
-        content: `${siteNav}<h1>${htmlEscape(title)}</h1><p>${htmlEscape(description)}</p><h2>Latest articles</h2>${articleList(articles, 30)}`,
+        content: `${siteNav}<h1>${htmlEscape(title)}</h1><p>${htmlEscape(description)}</p><h2>Latest articles</h2>${articleList(articles)}`,
       });
     }
 
@@ -169,13 +167,13 @@ async function main() {
         title,
         description,
         schemaType: 'ProfilePage',
-        content: `${siteNav}<h1>${htmlEscape(title)}</h1>${author.role ? `<p>${htmlEscape(author.role)}</p>` : ''}<p>${htmlEscape(description)}</p><h2>Articles</h2>${articleList(authorArticles, 30)}`,
+        content: `${siteNav}<h1>${htmlEscape(title)}</h1>${author.role ? `<p>${htmlEscape(author.role)}</p>` : ''}<p>${htmlEscape(description)}</p><h2>Articles</h2>${articleList(authorArticles)}`,
       });
     }
 
-    console.log(`[prerender-pages] Generated homepage, ${categories.length + 2} content hubs, ${trustPages.length} trust pages and ${authors.length} author pages.`);
+    console.log(`[prerender-pages] Generated homepage, ${categories.length + 1} content hubs, ${trustPages.length} trust pages and ${authors.length} author pages.`);
   } catch (error) {
-    console.warn('[prerender-pages] Failed; SPA build remains available.', error instanceof Error ? error.message : error);
+    throw new Error('Content hub prerender failed; refusing an incomplete SEO deployment.', { cause: error });
   }
 }
 

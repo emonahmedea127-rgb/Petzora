@@ -51,8 +51,8 @@ export const BlogArchivePage: React.FC = () => {
   return (
     <div className="py-8 sm:py-12 space-y-12 bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 min-h-screen transition-colors">
       <SEO
-        title="All Pet Care Guides, Nutrition &amp; Training Articles | Petzora Archive"
-        description="Browse the complete catalog of Petzora puppy, kitten, dog, and cat care guides, veterinary nutrition breakdowns, and positive training tutorials."
+        title="Pet Care Guides for Dogs & Cats | Petzora"
+        description="Browse all Petzora guides on dog and cat care, nutrition, health, behavior and positive training."
         canonicalUrl="https://petzora.shop/guides"
         breadcrumbs={[
           { name: 'Home', url: '/' },
@@ -71,7 +71,7 @@ export const BlogArchivePage: React.FC = () => {
             All Pet Guides &amp; Articles
           </h1>
           <p className="text-sm sm:text-base text-stone-600 dark:text-stone-300">
-            Veterinary-reviewed health guides, positive dog training routines, kitten socialization advice, and safe nutritional schedules.
+            Practical health guides, positive dog training routines, kitten socialization advice, and food safety tips.
           </p>
         </div>
 
