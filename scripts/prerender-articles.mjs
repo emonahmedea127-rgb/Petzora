@@ -190,7 +190,7 @@ async function main() {
 
     console.log(`[prerender] Generated static HTML for ${articles.length} published article(s).`);
   } catch (error) {
-    console.warn('[prerender] Failed; SPA build remains available.', error instanceof Error ? error.message : error);
+    throw new Error('Article prerender failed; refusing an incomplete SEO deployment.', { cause: error });
   }
 }
 
