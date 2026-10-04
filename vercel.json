@@ -6,7 +6,12 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "petzora.shop" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "petzora.shop"
+        }
+      ],
       "destination": "https://www.petzora.shop/$1",
       "permanent": true
     },
@@ -53,6 +58,11 @@
     {
       "source": "/terms-of-service",
       "destination": "/terms",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/guides",
       "permanent": true
     }
   ],
