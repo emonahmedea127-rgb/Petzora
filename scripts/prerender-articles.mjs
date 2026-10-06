@@ -158,7 +158,7 @@ function injectStaticArticle(html, article, relatedArticles = []) {
         <figure><img src="${attrEscape(image)}" alt="${attrEscape(imageAlt)}" width="1400" height="788" loading="eager" decoding="async" style="max-width:100%;height:auto" /></figure>
         <p>${htmlEscape(article.excerpt || '')}</p>
         <p><span>By ${authorMarkup}</span>${published ? ` · <time datetime="${attrEscape(published)}">${htmlEscape(new Date(published).toISOString().slice(0, 10))}</time>` : ''}</p>
-        ${body}
+        <div class="article-content">${body}</div>
         ${related}
         <p><a href="${attrEscape(canonical)}">Canonical article URL</a></p>
       </article>

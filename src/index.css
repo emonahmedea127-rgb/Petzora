@@ -25,10 +25,18 @@
 
 /* Editorial Article Content Typography - High-contrast readable typography */
 .article-content {
-  color: #292524;
+  --article-text: #292524;
+  --article-heading: #1c1917;
+  --article-strong: #0c0a09;
+  color: var(--article-text);
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 :is(.dark .article-content) {
-  color: #e7e5e4;
+  --article-text: #e7e5e4;
+  --article-heading: #fafaf9;
+  --article-strong: #ffffff;
+  color: var(--article-text);
 }
 
 .article-content h1,
@@ -36,7 +44,7 @@
   font-family: var(--font-serif);
   font-size: 1.85rem;
   font-weight: 900;
-  color: #1c1917;
+  color: var(--article-heading);
   margin-top: 2.5rem;
   margin-bottom: 1.25rem;
   line-height: 1.25;
@@ -44,42 +52,42 @@
 }
 :is(.dark .article-content h1),
 :is(.dark .article-content h2) {
-  color: #fafaf9;
+  color: var(--article-heading);
 }
 
 .article-content h3 {
   font-family: var(--font-serif);
   font-size: 1.4rem;
   font-weight: 800;
-  color: #1c1917;
+  color: var(--article-heading);
   margin-top: 2rem;
   margin-bottom: 0.85rem;
   line-height: 1.35;
 }
 :is(.dark .article-content h3) {
-  color: #f5f5f4;
+  color: var(--article-heading);
 }
 
 .article-content h4 {
   font-family: var(--font-serif);
   font-size: 1.15rem;
   font-weight: 700;
-  color: #1c1917;
+  color: var(--article-heading);
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
 }
 :is(.dark .article-content h4) {
-  color: #f5f5f4;
+  color: var(--article-heading);
 }
 
 .article-content p {
   margin-bottom: 1.35rem;
   line-height: 1.85;
   font-size: 1.075rem;
-  color: #292524;
+  color: var(--article-text);
 }
 :is(.dark .article-content p) {
-  color: #e7e5e4;
+  color: var(--article-text);
 }
 
 .article-content ul {
@@ -87,10 +95,10 @@
   margin-top: 1rem;
   margin-bottom: 1.5rem;
   padding-left: 1.75rem;
-  color: #292524;
+  color: var(--article-text);
 }
 :is(.dark .article-content ul) {
-  color: #e7e5e4;
+  color: var(--article-text);
 }
 
 .article-content ol {
@@ -98,10 +106,10 @@
   margin-top: 1rem;
   margin-bottom: 1.5rem;
   padding-left: 1.75rem;
-  color: #292524;
+  color: var(--article-text);
 }
 :is(.dark .article-content ol) {
-  color: #e7e5e4;
+  color: var(--article-text);
 }
 
 .article-content li {
@@ -111,10 +119,48 @@
 
 .article-content strong {
   font-weight: 700;
-  color: #0c0a09;
+  color: var(--article-strong);
 }
 :is(.dark .article-content strong) {
-  color: #ffffff;
+  color: var(--article-strong);
+}
+
+/* Legacy callouts have dark backgrounds even when the page uses light mode.
+   Inherit their contrast through nested paragraphs, lists and bold text. */
+.article-content :is([class~="bg-stone-900"], [class~="bg-stone-950"]) {
+  --article-text: #e7e5e4;
+  --article-heading: #fafaf9;
+  --article-strong: #ffffff;
+  color: var(--article-text);
+}
+.article-content :is([class~="bg-stone-900"], [class~="bg-stone-950"]) a {
+  color: #fdba74;
+}
+.article-content :is(p, li, div)[class~="text-xs"] {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.article-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+.article-content :is(th, td) {
+  font-size: 1rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  padding: 0.875rem;
+}
+.article-content :is(pre, .overflow-x-auto) {
+  max-width: 100%;
+  overflow-x: auto;
+}
+[data-petzora-prerendered] h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 1.5rem 0;
 }
 
 .article-content blockquote {
