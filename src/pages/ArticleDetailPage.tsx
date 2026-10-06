@@ -288,7 +288,7 @@ export const ArticleDetailPage: React.FC = () => {
             fallbackSrc="/images/pet-fallback.webp"
           />
           {article.imageCaption && (
-            <figcaption className="p-3.5 sm:px-6 bg-white dark:bg-stone-900 text-xs text-stone-500 dark:text-stone-400 text-center italic border-t border-stone-200 dark:border-stone-800">
+            <figcaption className="p-3.5 sm:px-6 bg-white dark:bg-stone-900 text-sm text-stone-600 dark:text-stone-300 text-center italic break-words border-t border-stone-200 dark:border-stone-800">
               {article.imageCaption}
             </figcaption>
           )}
