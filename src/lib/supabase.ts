@@ -296,7 +296,10 @@ export async function getPublishedArticles(options: GetArticlesOptions = {}): Pr
       .order('published_at', { ascending: false });
 
     if (options.category && options.category !== 'all') {
-      query = query.eq('category_slug', options.category.toLowerCase());
+      const category = options.category.toLowerCase();
+      query = category === 'care' || category === 'pet-care'
+        ? query.in('category_slug', ['care', 'pet-care'])
+        : query.eq('category_slug', category);
     }
 
     if (options.isFeatured) {
@@ -310,21 +313,7 @@ export async function getPublishedArticles(options: GetArticlesOptions = {}): Pr
     const { data, error } = await query;
     if (error) {
       console.warn('Supabase getPublishedArticles error:', error.message);
-      let fallback = allArticles.filter((a) => a.status === 'published');
-      if (options.category && options.category !== 'all') {
-        fallback = fallback.filter(
-          (a) =>
-            a.category === options.category?.toLowerCase() ||
-            a.categorySlug === options.category?.toLowerCase()
-        );
-      }
-      if (options.isFeatured) {
-        fallback = fallback.filter((a) => a.isFeatured);
-      }
-      if (options.limit && options.limit > 0) {
-        fallback = fallback.slice(0, options.limit);
-      }
-      return fallback;
+      return getFallback();
     }
 
     const mapped = (data || []).map(mapRowToArticle);
