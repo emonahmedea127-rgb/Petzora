@@ -159,6 +159,7 @@ export const Footer: React.FC = () => {
               <li><Link to="/reviews" className="hover:text-[#D95D39] transition-colors">Petzora Picks (Reviews)</Link></li>
               <li><Link to="/stories" className="hover:text-[#D95D39] transition-colors">Pet Stories You’ll Love</Link></li>
               <li><Link to="/author/emon-ahmed" className="hover:text-[#D95D39] transition-colors">About the Author</Link></li>
+              <li><Link to="/guides" className="hover:text-[#D95D39] transition-colors">All Pet Care Guides</Link></li>
               <li><Link to="/sitemap" className="hover:text-[#D95D39] transition-colors">Sitemap &amp; Crawler Index</Link></li>
             </ul>
           </div>
