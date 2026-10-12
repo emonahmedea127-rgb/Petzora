@@ -1,6 +1,6 @@
 import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { Article, Author, CategoryInfo, MediaFile, SiteSettings } from '../types';
-import { allArticles } from '../data/mockData';
+import { allArticles, editorialTeam } from '../data/mockData';
 
 export { allArticles };
 
@@ -76,19 +76,7 @@ export function isSupabaseConfigured(): boolean {
 // DATA MAPPERS
 // ----------------------------------------------------------------------
 
-const defaultAuthor: Author = {
-  id: 'author-clara',
-  name: 'Dr. Clara Vance, DVM',
-  slug: 'dr-clara-vance',
-  role: 'Veterinary Advisory & Lead Pet Health Editor',
-  credentials: 'DVM, 12+ Years Clinical Practice',
-  bio: 'Dedicated small animal veterinarian with over twelve years of clinical emergency practice. Empowering pet parents with compassionate, fact-checked health care advice.',
-  avatar: '/images/author-clara.webp',
-  socialLinks: {
-    email: 'clara.vance@petzora.shop',
-    website: 'https://petzora.shop',
-  },
-};
+const defaultAuthor: Author = editorialTeam[0];
 
 export const DEDICATED_ARTICLE_IMAGES: Record<string, { image: string; petType?: 'dog' | 'cat' | 'all' }> = {
   // Cats (strictly unique cat photos only)
@@ -146,7 +134,7 @@ export function mapRowToArticle(row: any): Article {
         role: row.authors.role || 'Editorial Contributor',
         credentials: row.authors.credentials || '',
         bio: row.authors.bio || '',
-        avatar: row.authors.avatar_url || '/images/author-clara.webp',
+        avatar: row.authors.avatar_url || '/images/emon-ahmed.webp',
         socialLinks: {
           email: row.authors.email,
           website: row.authors.website,
@@ -195,10 +183,8 @@ export function mapRowToArticle(row: any): Article {
   const resolvedTOC =
     headings.length > 0 ? headings : fallbackArticle?.tableOfContents || [];
 
-  const resolvedFAQs =
-    fallbackArticle?.faqList && fallbackArticle.faqList.length > 0
-      ? fallbackArticle.faqList
-      : [];
+  // Do not publish obsolete seed FAQ answers or medical claims as structured data.
+  const resolvedFAQs: Article['faqList'] = [];
 
   return {
     id: row.id,

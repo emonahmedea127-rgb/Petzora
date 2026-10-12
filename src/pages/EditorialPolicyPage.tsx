@@ -22,7 +22,7 @@ export const EditorialPolicyPage: React.FC = () => {
             <span>EDITORIAL INTEGRITY &amp; STANDARDS</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-serif font-black tracking-tight text-stone-900 dark:text-white">Petzora Editorial Policy</h1>
-          <p className="text-xs font-mono text-stone-500">Last Updated: September 2026 &bull; Domain: petzora.shop &bull; Committed to Clear, Responsible Pet Education</p>
+          <p className="text-xs font-mono text-stone-500">Last Updated: October 12, 2026 &bull; Domain: petzora.shop &bull; Committed to Clear, Responsible Pet Education</p>
         </header>
 
         <article className="prose prose-stone dark:prose-invert max-w-none text-stone-700 dark:text-stone-300 space-y-6 text-sm sm:text-base leading-relaxed">
@@ -48,8 +48,10 @@ export const EditorialPolicyPage: React.FC = () => {
             <li>We do not claim professional credentials, product testing, or medical review that did not actually occur.</li>
           </ul>
 
-          <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 dark:text-white pt-4">4. Corrections and Updates</h2>
-          <p>Pet-care guidance changes over time. We may update articles when better information becomes available, when a recommendation changes, or when a reader identifies a factual error. Correction suggestions can be sent to <a href="mailto:editorial@petzora.shop" className="text-[#D95D39] font-medium underline">editorial@petzora.shop</a>.</p>
+          <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 dark:text-white pt-4">4. Authorship, AI Assistance and Fiction</h2>
+          <p>Emon Ahmed is the author and editor of Petzora. AI tools assist with drafting, editing and site development. Articles are general educational guides; Petzora does not claim that they have been reviewed by a veterinarian. Original pet stories are fiction and are labeled accordingly. Product guides compare features and do not claim hands-on tests unless a documented test is expressly described.</p>
+          <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 dark:text-white pt-4">5. Corrections and Updates</h2>
+          <p>Pet-care guidance changes over time. We may update articles when better information becomes available, when a recommendation changes, or when a reader identifies a factual error. Correction suggestions can be sent to <a href="mailto:contact@petzora.shop" className="text-[#D95D39] font-medium underline">contact@petzora.shop</a>.</p>
         </article>
       </div>
     </div>

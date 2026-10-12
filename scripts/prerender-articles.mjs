@@ -99,10 +99,9 @@ function upsertHead(html, article) {
     description,
     image: [image],
     author: {
-      '@type': 'Organization',
+      '@type': 'Person',
       name: authorName,
       ...(authorSlug ? { url: `${SITE_URL}/author/${authorSlug}` } : {}),
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/favicon.svg` },
     },
     publisher: {
       '@type': 'Organization',

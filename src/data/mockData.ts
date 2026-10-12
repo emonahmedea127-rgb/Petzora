@@ -1,6 +1,7 @@
 import { CategoryInfo, Article, ProductReview, FoodGuideItem } from '../types';
 import { editorialTeam } from './authors';
 import { allPillarArticles } from './articles';
+import { articleCorrections } from './articleCorrections';
 
 export { editorialTeam };
 
@@ -109,5 +110,13 @@ export const foodGuideItems: FoodGuideItem[] = [
   { name: 'Xylitol (Birch Sweetener)', petType: 'both', safety: 'toxic', notes: 'Can cause severe hypoglycemia and liver injury in dogs. Seek urgent veterinary help after exposure.', icon: '🍬' },
 ];
 
-export const allArticles: Article[] = allPillarArticles;
+// Offline fallbacks use only the curated corrections, never obsolete seed claims.
+export const allArticles: Article[] = allPillarArticles.filter((article) => articleCorrections[article.slug]).map((article) => {
+  const corrected = articleCorrections[article.slug];
+  return { ...article, title: corrected.title || article.title, excerpt: corrected.excerpt || article.excerpt,
+    content: corrected.content || article.content, seoTitle: corrected.seo_title || article.seoTitle,
+    seoDescription: corrected.seo_description || article.seoDescription, readingTime: corrected.reading_time || article.readingTime,
+    imageCaption: corrected.image_caption || '', author: editorialTeam[0], faqList: [], tableOfContents: [],
+    updatedAt: '2026-10-12T00:00:00Z' };
+});
 export const petzoraPicks: ProductReview[] = [];

@@ -23,22 +23,22 @@ export const AffiliateDisclosurePage: React.FC = () => {
             <span>TRANSPARENCY &amp; FTC DISCLOSURE</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-serif font-black tracking-tight text-stone-900 dark:text-white">Petzora Affiliate Disclosure</h1>
-          <p className="text-xs font-mono text-stone-500">Last Updated: March 2026 &bull; Domain: petzora.shop &bull; Committed to Ethical Review Standards</p>
+          <p className="text-xs font-mono text-stone-500">Last Updated: October 12, 2026 &bull; Domain: petzora.shop &bull; Committed to Ethical Review Standards</p>
         </header>
 
         <article className="prose prose-stone dark:prose-invert max-w-none text-stone-700 dark:text-stone-300 space-y-6 text-sm sm:text-base leading-relaxed">
-          <p>In compliance with Federal Trade Commission (FTC) guidelines, this page outlines Petzora&apos;s participation in affiliate marketing programs and our commitment to truthful, unbiased pet product recommendations.</p>
+          <p>This page explains Petzora&apos;s participation in affiliate marketing programs and our commitment to truthful, unbiased pet product recommendations.</p>
           <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 dark:text-white pt-4">1. How Affiliate Links Work on Petzora</h2>
-          <p>Some links on <strong>Petzora</strong> (in our &ldquo;Petzora Picks&rdquo;, reviews, and buyer&apos;s guides) are affiliate links. This means that if you click through an external link and make a purchase from a certified pet retailer, Petzora may earn a small referral commission at <strong>absolutely no additional cost to you</strong>.</p>
+          <p>If a guide includes affiliate links, it will disclose that relationship. This means that if you click through an external link and make a purchase from a retailer, Petzora may earn a small referral commission at <strong>absolutely no additional cost to you</strong>.</p>
           <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 dark:text-white pt-4">2. Our Ethical Product Selection Standards</h2>
           <ul className="list-disc pl-5 space-y-2">
             <li><strong>No Pay-for-Play:</strong> Brands cannot pay us for guaranteed inclusion or positive ratings in our &ldquo;Petzora Picks&rdquo; roundups.</li>
-            <li><strong>Safety First:</strong> We evaluate pet gear (harnesses, beds, water fountains, and puzzle feeders) against animal safety, non-toxic materials, and anatomical comfort.</li>
-            <li><strong>Clear Pros &amp; Cons:</strong> Every recommendation highlights both strengths and realistic drawbacks so owners can make informed purchases.</li>
+            <li><strong>Safety First:</strong> Our feature-based buying guides highlight fit, access, cleaning and relevant questions to ask. We do not certify products or claim laboratory or hands-on tests that did not occur.</li>
+            <li><strong>Clear Pros &amp; Cons:</strong> Buying guides should explain practical trade-offs so owners can make informed purchases.</li>
             <li><strong>Zero Fake Ratings:</strong> We do not fabricate star ratings or claim tests that were not performed.</li>
           </ul>
           <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 dark:text-white pt-4">3. Contact Us with Product Feedback</h2>
-          <p>If you purchased a pet item through one of our guides and had a different experience, or if a product quality changed, please let our editorial team know at{' '}<a href="mailto:reviews@petzora.shop" className="text-[#D95D39] font-medium underline">reviews@petzora.shop</a>.</p>
+          <p>If you purchased a pet item through one of our guides and had a different experience, or if a product quality changed, please let our editorial team know at{' '}<a href="mailto:contact@petzora.shop" className="text-[#D95D39] font-medium underline">contact@petzora.shop</a>.</p>
         </article>
       </div>
     </div>

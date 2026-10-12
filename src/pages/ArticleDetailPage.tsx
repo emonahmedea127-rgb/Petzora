@@ -343,7 +343,7 @@ export const ArticleDetailPage: React.FC = () => {
                       <div key={idx} className="my-6 p-5 sm:p-6 rounded-2xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-red-950 dark:text-red-100 space-y-2">
                         <div className="flex items-center gap-2 text-red-800 dark:text-red-300 font-bold text-sm">
                           <AlertTriangle className="w-5 h-5 text-red-600" />
-                          <span>{section.warningTitle || 'Veterinary Health Alert'}</span>
+                          <span>{section.warningTitle || 'Pet Health Information'}</span>
                         </div>
                         <p className="text-sm leading-relaxed text-red-900 dark:text-red-200">{section.warningText}</p>
                       </div>
@@ -392,10 +392,10 @@ export const ArticleDetailPage: React.FC = () => {
             <div className="p-6 rounded-3xl bg-amber-50/60 dark:bg-stone-900 border border-amber-900/10 dark:border-stone-800 space-y-3">
               <div className="flex items-center gap-2 text-xs font-mono uppercase font-bold text-[#D95D39]">
                 <ShieldCheck className="w-4 h-4" />
-                <span>Petzora Integrity Guarantee</span>
+                <span>About This Guide</span>
               </div>
               <p className="text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
-                This article was drafted and reviewed to provide safe, fact-based companion animal advice. Always consult your primary veterinarian for medical emergencies.
+                This guide is general educational information and has not been reviewed by a veterinarian. Contact a qualified veterinarian about medical concerns or emergencies.
               </p>
             </div>
           </aside>
@@ -409,7 +409,7 @@ export const ArticleDetailPage: React.FC = () => {
                 MORE IN {article.category.toUpperCase()}
               </span>
               <h2 className="text-2xl sm:text-3xl font-serif font-black tracking-tight text-stone-900 dark:text-white mt-1">
-                Related Veterinary Guides
+                Related Petzora Guides
               </h2>
             </div>
 

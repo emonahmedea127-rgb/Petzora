@@ -149,12 +149,31 @@ async function main() {
       ['/affiliate-disclosure', 'Affiliate Disclosure', 'Read Petzora’s disclosure about affiliate links and commercial relationships.', 'This page explains how Petzora discloses affiliate relationships and how they relate to editorial content.'],
     ];
 
+    const trustSources = {
+      '/editorial-policy': 'EditorialPolicyPage', '/privacy-policy': 'PrivacyPolicyPage',
+      '/terms': 'TermsPage', '/disclaimer': 'DisclaimerPage',
+      '/cookie-policy': 'CookiePolicyPage', '/affiliate-disclosure': 'AffiliateDisclosurePage',
+    };
+    async function trustContent(route, paragraph) {
+      if (route === '/contact') return '<p>Contact Emon Ahmed, Petzora’s author and editor, with editorial corrections, article questions or business enquiries.</p><p><a href="mailto:contact@petzora.shop">contact@petzora.shop</a></p><p>The online form prepares a draft in your email app. It does not send or receive messages by itself. For a pet emergency, contact a local veterinary service immediately.</p>';
+      if (route === '/about') return '<p>Petzora is an independent educational website for dog and cat owners, written and edited by Emon Ahmed.</p><p>We publish practical care checklists, training explainers, food safety information and feature-based buying guides. AI tools assist with drafting, editing and site development. Our articles do not claim veterinary review or professional credentials.</p><p>Original pet stories are fiction and are labeled as such. Product guides do not claim hands-on testing unless a documented test is expressly described.</p><p><a href="/author/emon-ahmed">About the author</a> · <a href="/editorial-policy">Editorial policy</a> · <a href="/contact">Corrections and contact</a></p>';
+      const file = trustSources[route];
+      if (!file) return `<p>${htmlEscape(paragraph)}</p>`;
+      const source = await fs.readFile(path.resolve('src/pages', `${file}.tsx`), 'utf8');
+      const article = source.match(/<article[^>]*>([\s\S]*?)<\/article>/)?.[1];
+      if (!article) throw new Error(`Missing policy body for ${route}`);
+      // These policy bodies are static JSX; interactive controls stay in React.
+      return article.replace(/<button[\s\S]*?<\/button>/g, '')
+        .replace(/className=/g, 'class=').replace(/<Link\s+to=/g, '<a href=').replace(/<\/Link>/g, '</a>')
+        .replace(/\{['"] ['"]\}/g, ' ').replace(/\{\/\*[\s\S]*?\*\/\}/g, '')
+        .replace(/<br\s*\/>/g, '<br>');
+    }
     for (const [route, title, description, paragraph] of trustPages) {
       await writeRoute(shell, route, {
         title,
         description,
         schemaType: 'WebPage',
-        content: `${siteNav}<h1>${htmlEscape(title)}</h1><p>${htmlEscape(paragraph)}</p><p><a href="${SITE_URL}/">Return to Petzora home</a></p>`,
+        content: `${siteNav}<h1>${htmlEscape(title)}</h1>${await trustContent(route, paragraph)}<p><a href="${SITE_URL}/">Return to Petzora home</a></p>`,
       });
     }
 

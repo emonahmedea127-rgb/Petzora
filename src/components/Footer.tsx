@@ -120,12 +120,12 @@ export const Footer: React.FC = () => {
               </span>
             </Link>
             <p className="text-sm text-stone-400 max-w-sm leading-relaxed">
-              Petzora (petzora.shop) is a premium pet media publication and care knowledge hub. We provide expert-inspired guides, real pet stories, training tips, nutrition advice, and trusted recommendations for happier dogs, cats, and pet parents.
+              Petzora (petzora.shop) is a premium pet media publication and care knowledge hub. We provide educational guides, clearly labeled fictional pet stories, training tips, nutrition information, and feature-based buying guides for happier dogs, cats, and pet parents.
             </p>
             <div className="flex items-center gap-4 text-xs text-stone-400 pt-2">
               <span className="flex items-center gap-1.5 text-stone-300">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                Vet Reviewed
+                Educational Guides
               </span>
               <span className="flex items-center gap-1.5 text-stone-300">
                 <Award className="w-4 h-4 text-[#D95D39]" />
@@ -175,7 +175,7 @@ export const Footer: React.FC = () => {
               <li><Link to="/editorial-policy" className="hover:text-[#D95D39] transition-colors">Editorial Policy</Link></li>
               <li><Link to="/affiliate-disclosure" className="hover:text-[#D95D39] transition-colors">Affiliate Disclosure</Link></li>
               <li><Link to="/privacy-policy" className="hover:text-[#D95D39] transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms-conditions" className="hover:text-[#D95D39] transition-colors">Terms of Service</Link></li>
+              <li><Link to="/terms" className="hover:text-[#D95D39] transition-colors">Terms of Service</Link></li>
               <li><Link to="/disclaimer" className="hover:text-[#D95D39] transition-colors">Veterinary &amp; Ad Disclaimer</Link></li>
               <li><Link to="/cookie-policy" className="hover:text-[#D95D39] transition-colors">Cookie Policy</Link></li>
             </ul>
@@ -196,7 +196,7 @@ export const Footer: React.FC = () => {
             <Link to="/editorial-policy" className="hover:text-white transition-colors">Editorial</Link>
             <Link to="/affiliate-disclosure" className="hover:text-white transition-colors">Affiliate</Link>
             <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy</Link>
-            <Link to="/terms-conditions" className="hover:text-white transition-colors">Terms</Link>
+            <Link to="/terms" className="hover:text-white transition-colors">Terms</Link>
             <Link to="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
             <Link to="/admin/login" className="hover:text-orange-400 transition-colors text-stone-400">Staff Login</Link>
           </div>

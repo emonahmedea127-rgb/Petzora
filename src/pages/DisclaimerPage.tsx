@@ -26,10 +26,11 @@ export const DisclaimerPage: React.FC = () => {
             Veterinary &amp; Advertising Disclaimer
           </h1>
           <p className="text-xs font-mono text-stone-500">
-            Last Updated: March 2026 &bull; Domain: petzora.shop
+            Last Updated: October 12, 2026 &bull; Domain: petzora.shop
           </p>
         </div>
 
+        <article>
         <section className="space-y-4">
           <div className="p-5 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 flex items-start gap-4">
             <AlertTriangle className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
@@ -58,11 +59,11 @@ export const DisclaimerPage: React.FC = () => {
         <section className="space-y-4 border-t border-stone-200 dark:border-stone-800 pt-8">
           <h2 className="text-xl font-serif font-bold text-stone-900 dark:text-white">Advertising &amp; Google AdSense Disclosure</h2>
           <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
-            To support our ongoing original pet care research, editorial team, and hosting costs, Petzora displays third-party contextual advertisements, including advertisements served through Google AdSense and certified digital advertising partners.
+            To support our ongoing original pet care research, editorial team, and hosting costs, Petzora may display advertisements if its advertising services are approved and enabled. An advertising application or embedded code does not mean ads are currently serving.
           </p>
           <ul className="space-y-2 text-sm text-stone-600 dark:text-stone-300 list-disc list-inside">
             <li>All advertising units are clearly demarcated with the label &ldquo;Advertisement&rdquo; or &ldquo;Sponsored&rdquo;.</li>
-            <li>Advertisers have zero control or influence over our veterinary health assessments, product reviews, or nutritional advice.</li>
+            <li>Advertisers have zero control or influence over our educational content or feature-based product guides.</li>
             <li>Third-party ad networks may use cookies and web beacons to serve ads based on prior visits to our website or other sites on the internet.</li>
           </ul>
         </section>
@@ -70,16 +71,17 @@ export const DisclaimerPage: React.FC = () => {
         <section className="space-y-4 border-t border-stone-200 dark:border-stone-800 pt-8">
           <h2 className="text-xl font-serif font-bold text-stone-900 dark:text-white">Product Recommendations &amp; Affiliate Disclosure</h2>
           <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
-            From time to time, Petzora may participate in legitimate pet retailer affiliate programs. When you click on product links in our buyer&apos;s guides and complete a purchase, we may receive a small commission at no additional cost to you. We only recommend harnesses, toys, beds, and grooming tools that meet our strict safety and durability criteria.
+            From time to time, Petzora may participate in legitimate pet retailer affiliate programs. When you click on product links in our buyer&apos;s guides and complete a purchase, we may receive a small commission at no additional cost to you. Our buying guides explain features and limitations; they do not certify a product’s safety or durability.
           </p>
         </section>
 
         <section className="space-y-4 border-t border-stone-200 dark:border-stone-800 pt-8 text-xs text-stone-500 leading-relaxed">
           <h3 className="font-serif font-bold text-stone-800 dark:text-stone-200 text-sm">Limitation of Liability</h3>
           <p>
-            Under no circumstances shall Petzora, its founders, veterinarians, trainers, writers, or contributors be held liable for any direct, indirect, incidental, consequential, or punitive damages arising from the use or reliance upon information presented on petzora.shop. Pet owners assume full responsibility for the care, health, training, and supervision of their animals.
+            Under no circumstances shall Petzora, its editor or contributors be held liable for any direct, indirect, incidental, consequential, or punitive damages arising from the use or reliance upon information presented on petzora.shop. Pet owners assume full responsibility for the care, health, training, and supervision of their animals.
           </p>
         </section>
+        </article>
       </div>
     </div>
   );
