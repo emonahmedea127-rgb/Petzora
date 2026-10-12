@@ -8,6 +8,7 @@ const outDir = path.resolve('public');
 const mainSitemapPath = path.join(outDir, 'sitemap.xml');
 const articleSitemapPath = path.join(outDir, 'sitemap-articles.xml');
 const pagesSitemapPath = path.join(outDir, 'sitemap-pages.xml');
+const indexSitemapPath = path.join(outDir, 'sitemap_index.xml');
 
 const supabaseUrl = (process.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL).replace(/\/$/, '');
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_ANON_KEY;
@@ -82,11 +83,21 @@ async function main() {
       if (loc) unique.set(loc, entry);
     });
 
+    // Keep previously submitted sitemap addresses fresh without redirect URLs
+    // or a duplicate full sitemap inside the index.
+    const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${SITE_URL}/sitemap-articles.xml</loc></sitemap>\n  <sitemap><loc>${SITE_URL}/sitemap-pages.xml</loc></sitemap>\n</sitemapindex>\n`;
+    const reviewEntries = articles
+      .filter((article) => ['reviews', 'product-guides'].includes(article.category_slug))
+      .map((article) => urlEntry(`${SITE_URL}/${article.category_slug}/${article.slug}`, article.updated_at || article.published_at, '0.9', 'monthly'));
+
     await fs.mkdir(outDir, { recursive: true });
     await Promise.all([
       fs.writeFile(mainSitemapPath, wrapUrlset([...unique.values()]), 'utf8'),
       fs.writeFile(articleSitemapPath, wrapUrlset(articleEntries), 'utf8'),
       fs.writeFile(pagesSitemapPath, wrapUrlset([...pageEntries, ...authorEntries]), 'utf8'),
+      fs.writeFile(indexSitemapPath, sitemapIndex, 'utf8'),
+      fs.writeFile(path.join(outDir, 'sitemap_pages_1.xml'), wrapUrlset([...pageEntries, ...authorEntries]), 'utf8'),
+      fs.writeFile(path.join(outDir, 'sitemap_products_1.xml'), wrapUrlset(reviewEntries), 'utf8'),
     ]);
 
     console.log(`[sitemap] Generated ${articles.length} article URLs, ${authors.length} author URLs, and ${staticPaths.length} static URLs.`);

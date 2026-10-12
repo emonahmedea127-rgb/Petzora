@@ -58,6 +58,7 @@ function upsertHead(html, { route, title, description, schemaType = 'CollectionP
 const siteNav = `
   <nav aria-label="Primary">
     <a href="${SITE_URL}/">Home</a> ·
+    <a href="${SITE_URL}/guides">All Guides</a> ·
     <a href="${SITE_URL}/dogs">Dogs</a> ·
     <a href="${SITE_URL}/cats">Cats</a> ·
     <a href="${SITE_URL}/health">Health</a> ·
