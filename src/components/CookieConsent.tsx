@@ -14,17 +14,23 @@ export const CookieConsent: React.FC = () => {
   const [showPreferences, setShowPreferences] = useState(false);
   const [preferences, setPreferences] = useState({
     necessary: true,
-    analytics: true,
-    advertising: true,
+    analytics: false,
+    advertising: false,
   });
 
   useEffect(() => {
     const consent = localStorage.getItem('petzora_cookie_consent');
-    if (!consent) {
-      // Delay banner slightly so first paint is not blocked by consent UI.
-      const timer = setTimeout(() => setIsVisible(true), 1500);
-      return () => clearTimeout(timer);
-    }
+    const timer = !consent ? setTimeout(() => setIsVisible(true), 1500) : undefined;
+    const reopen = () => {
+      try {
+        const saved = JSON.parse(localStorage.getItem('petzora_cookie_consent') || '{}');
+        setPreferences({ necessary: true, analytics: saved.analytics === true, advertising: saved.advertising === true });
+      } catch { setPreferences({ necessary: true, analytics: false, advertising: false }); }
+      setShowPreferences(true);
+      setIsVisible(true);
+    };
+    window.addEventListener('petzora-open-cookie-preferences', reopen);
+    return () => { if (timer) clearTimeout(timer); window.removeEventListener('petzora-open-cookie-preferences', reopen); };
   }, []);
 
   const persistConsent = (analytics: boolean, advertising: boolean) => {
@@ -90,7 +96,7 @@ export const CookieConsent: React.FC = () => {
         {!showPreferences ? (
           <>
             <p className="text-xs leading-relaxed text-stone-600 dark:text-stone-300 mb-4">
-              Petzora uses cookies to ensure security, understand audience travel interests, and deliver non-intrusive relevant stories. You can manage preferences anytime.{' '}
+              Petzora uses cookies to ensure security, understand readership, and deliver non-intrusive relevant stories. You can manage preferences anytime.{' '}
               <Link
                 to="/cookie-policy"
                 className="underline hover:text-orange-600 dark:hover:text-orange-400 font-medium"

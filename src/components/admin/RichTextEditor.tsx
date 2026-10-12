@@ -30,7 +30,7 @@ interface RichTextEditorProps {
 export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   value,
   onChange,
-  placeholder = 'Write your veterinary-reviewed article here...',
+  placeholder = 'Write your educational article here...',
   onImageRequest,
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);

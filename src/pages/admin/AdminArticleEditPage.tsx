@@ -273,7 +273,7 @@ export const AdminArticleEditPage: React.FC = () => {
   return (
     <AdminLayout
       title={isEditing ? 'Edit Article' : 'New Article'}
-      subtitle={isEditing ? `Editing: ${title || slug}` : 'Draft or publish a veterinary-reviewed pet guide'}
+      subtitle={isEditing ? `Editing: ${title || slug}` : 'Draft or publish a educational pet guide'}
       action={
         <div className="flex items-center gap-2">
           <button

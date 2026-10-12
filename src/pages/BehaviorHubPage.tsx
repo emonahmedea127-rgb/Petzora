@@ -63,7 +63,7 @@ export const BehaviorHubPage: React.FC = () => {
             </h1>
 
             <p className="text-base sm:text-lg text-stone-300 font-sans leading-relaxed">
-              From pack bonding and nocturnal hunting instincts to head tilts and kneading paws—decode your dog or cat&apos;s fascinating communication signals through certified positive animal behavior research.
+              From pack bonding and nocturnal hunting instincts to head tilts and kneading paws—decode your dog or cat&apos;s fascinating communication signals through educational behavior guides and reputable animal-welfare references.
             </p>
 
             <div className="pt-2 max-w-md">

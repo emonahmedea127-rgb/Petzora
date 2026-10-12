@@ -24,12 +24,15 @@ import { SafeImage } from '../components/SafeImage';
 import { useSavedArticles } from '../context/SavedArticlesContext';
 import { getPublishedArticles } from '../lib/supabase';
 import { Article } from '../types';
+import { subscribeToNewsletter } from '../lib/newsletter';
 
 export const HomePage: React.FC = () => {
   const { toggleSaveArticle, isArticleSaved } = useSavedArticles();
   const [foodFilter, setFoodFilter] = useState<'all' | 'safe' | 'toxic'>('all');
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
+  const [newsletterPending, setNewsletterPending] = useState(false);
+  const [newsletterError, setNewsletterError] = useState('');
 
   // Dynamic Supabase articles state
   const [articles, setArticles] = useState<Article[]>([]);
@@ -114,12 +117,15 @@ export const HomePage: React.FC = () => {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newsletterEmail && newsletterEmail.includes('@')) {
-      setNewsletterSuccess(true);
-      setNewsletterEmail('');
-    }
+    if (newsletterPending) return;
+    setNewsletterPending(true);
+    setNewsletterError('');
+    const result = await subscribeToNewsletter(newsletterEmail, 'homepage');
+    setNewsletterPending(false);
+    if (result.ok) { setNewsletterSuccess(true); setNewsletterEmail(''); }
+    else setNewsletterError(result.error || 'Subscription failed. Please try again.');
   };
 
   return (
@@ -155,7 +161,7 @@ export const HomePage: React.FC = () => {
               </p>
 
               <p className="text-base sm:text-lg text-stone-600 dark:text-stone-300 leading-relaxed font-normal max-w-xl">
-                Expert-inspired guides, real pet stories, training tips, nutrition advice and trusted product recommendations for happier dogs, cats and pet parents.
+                Practical educational guides, clearly labeled fictional stories, training ideas and feature-based buying checklists for dog and cat owners.
               </p>
 
               {/* Primary & Secondary CTAs */}
@@ -750,13 +756,13 @@ export const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
             <span className="text-xs font-mono uppercase tracking-widest text-[#D95D39] font-bold">
-              TRUST &bull; INTEGRITY &bull; EXPERTISE
+              AUTHORSHIP &bull; SOURCES &bull; TRANSPARENCY
             </span>
             <h2 className="text-3xl sm:text-4xl font-serif font-black tracking-tight text-stone-900 dark:text-white">
-              Reviewed by Veterinary Professionals
+              Meet the Author & Editor
             </h2>
             <p className="text-sm text-stone-600 dark:text-stone-300">
-              Every guide on Petzora is created with input from licensed veterinarians, certified animal behaviorists, and experienced rescue caregivers.
+              Emon Ahmed writes and edits Petzora with AI assistance. Our educational guides use referenced information and do not claim veterinary review or professional credentials.
             </p>
           </div>
 
@@ -810,10 +816,10 @@ export const HomePage: React.FC = () => {
           </div>
           <div className="space-y-2 max-w-xl mx-auto">
             <h2 className="text-3xl sm:text-4xl font-serif font-black tracking-tight">
-              Join 45,000+ Caring Pet Parents
+              Join the Petzora Community
             </h2>
             <p className="text-sm text-orange-100 leading-relaxed">
-              Get weekly veterinary-reviewed care checklists, training breakdowns, safe food alerts, and wholesome adoption stories directly to your inbox.
+              Sign up for practical care checklists, training guides, food safety information and Petzora stories.
             </p>
           </div>
 
@@ -833,13 +839,15 @@ export const HomePage: React.FC = () => {
               />
               <button
                 type="submit"
+                disabled={newsletterPending}
                 className="px-6 py-3 rounded-full bg-stone-900 hover:bg-stone-800 text-white font-semibold text-xs uppercase tracking-wider transition shadow-sm"
               >
-                Subscribe
+                {newsletterPending ? 'Saving...' : 'Subscribe'}
               </button>
             </form>
           )}
 
+          {newsletterError && <p className="text-sm text-white" role="alert">{newsletterError}</p>}
           <p className="text-[11px] text-orange-200">
             Zero spam. Unsubscribe anytime. View our <Link to="/privacy-policy" className="underline">Privacy Policy</Link>.
           </p>
